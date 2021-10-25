@@ -22,9 +22,8 @@ public class MapFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentMapBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
-        return root;
+        return binding.getRoot();
     }
 
     @Override

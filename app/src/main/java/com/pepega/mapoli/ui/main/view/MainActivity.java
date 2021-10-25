@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_map)
                 .setOpenableLayout(drawer)
                 .build();
-        getSupportFragmentManager().findFragmentById(binding.appBarMain.contentMain.navHostMain.id);
+        getSupportFragmentManager().findFragmentById(binding.appBarMain.contentMain.navHostFragmentContentMain.getId());
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
