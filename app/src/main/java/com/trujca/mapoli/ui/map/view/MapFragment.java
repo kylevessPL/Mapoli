@@ -1,4 +1,4 @@
-package com.pepega.mapoli.ui.map.view;
+package com.trujca.mapoli.ui.map.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.pepega.mapoli.databinding.FragmentMapBinding;
+import com.trujca.mapoli.databinding.FragmentMapBinding;
 
 public class MapFragment extends Fragment {
 

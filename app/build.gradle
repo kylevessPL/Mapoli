@@ -1,5 +1,6 @@
 plugins {
     id "com.android.application"
+    id "com.google.gms.google-services"
     id "dagger.hilt.android.plugin"
 }
 
@@ -7,7 +8,7 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "com.pepega.mapoli"
+        applicationId "com.trujca.mapoli"
         minSdk 26
         targetSdk 30
         versionCode 1
@@ -39,10 +40,12 @@ dependencies {
     def constraintLayoutVersion = "2.1.1"
     def lifecycleVersion = "2.3.1"
     def navigationVersion = "2.3.5"
+    def firebaseVersion = "28.4.2"
     def osmdroidVersion = "6.1.11"
     def retrofitVersion = "2.9.0"
     def hiltVersion = "2.39.1"
 
+    implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
@@ -50,6 +53,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
     implementation "androidx.navigation:navigation-fragment:$navigationVersion"
     implementation "androidx.navigation:navigation-ui:$navigationVersion"
+    implementation "com.google.firebase:firebase-analytics"
+    implementation "com.google.firebase:firebase-firestore"
+    implementation "com.google.firebase:firebase-auth"
     implementation "org.osmdroid:osmdroid-android:$osmdroidVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"

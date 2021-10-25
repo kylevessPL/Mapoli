@@ -1,14 +1,14 @@
-package com.pepega.mapoli.ui.main.viewmodel;
+package com.trujca.mapoli.ui.map.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class MainViewModel extends ViewModel {
+public class MapViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public MainViewModel() {
+    public MapViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is gallery fragment");
     }

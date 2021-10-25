@@ -1,4 +1,4 @@
-package com.pepega.mapoli.ui.main.view;
+package com.trujca.mapoli.ui.main.view;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +15,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.pepega.mapoli.R;
-import com.pepega.mapoli.databinding.ActivityMainBinding;
+import com.trujca.mapoli.R;
+import com.trujca.mapoli.databinding.ActivityMainBinding;
 
 import java.util.Arrays;
 import java.util.HashSet;

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "700127274116",
+    "project_id": "mapoli-f61e6",
+    "storage_bucket": "mapoli-f61e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700127274116:android:39b35612b8f9b70cc20ed1",
+        "android_client_info": {
+          "package_name": "com.trujca.mapoli"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700127274116-koda3f4ld63gjv27k0mpjj4gfnkh4v0r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIraQiNVhDaUgJAVvznuYzpeNM6yUm0zo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700127274116-koda3f4ld63gjv27k0mpjj4gfnkh4v0r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
