@@ -9,4 +9,7 @@
     <string name="map">Map</string>
     <string name="favourites">Favourites</string>
     <string name="search">Search</string>
+    <string name="permissions_required">Permissions required</string>
+    <string name="permissions_message">Permissions are required in order to run this app</string>
+    <string name="permissions_message_warning">Application won\'t work unless you allow external storage write permission in settings</string>
 </resources>
