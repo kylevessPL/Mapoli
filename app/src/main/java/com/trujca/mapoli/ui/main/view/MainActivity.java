@@ -1,65 +1,47 @@
 package com.trujca.mapoli.ui.main.view;
 
-import static android.content.DialogInterface.*;
-
 import android.Manifest;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
 import android.view.Menu;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.navigation.NavigationView;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivityMainBinding;
 
 import org.osmdroid.config.Configuration;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    return;
+                }
+                if (shouldShowRequestPermissionRationale(permission)) {
+                    showPermissionsInfoDialog();
+                } else {
+                    Toast.makeText(this, getString(R.string.permissions_message_warning), Toast.LENGTH_LONG).show();
+                }
+            });
     private ActivityMainBinding binding;
-
     private NavController navController;
     private NavigationView navView;
     private AppBarConfiguration appBarConfiguration;
-
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (!isGranted) {
-                    showPermissionsWarningDialog();
-                }
-            });
-
-    private void showPermissionsWarningDialog() {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(getString(R.string.permissions_required))
-                .setMessage(getString(R.string.permissions_message_warning))
-                .setPositiveButton(android.R.string.ok, (dialog, i) -> {
-                    dialog.dismiss();
-                })
-                .create().show();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestMapPermissions() {
-        final String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        if (
-                ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED ||
-                shouldShowRequestPermissionRationale(permission)
-        ) {
+        if (shouldShowRequestPermissionRationale(permission)) {
             showPermissionsInfoDialog();
         } else {
             requestPermissionLauncher.launch(permission);
