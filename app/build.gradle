@@ -43,7 +43,7 @@ dependencies {
     def firebaseVersion = "28.4.2"
     def osmdroidVersion = "6.1.11"
     def retrofitVersion = "2.9.0"
-    def hiltVersion = "2.39.1"
+    def hiltVersion = "2.40"
 
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
