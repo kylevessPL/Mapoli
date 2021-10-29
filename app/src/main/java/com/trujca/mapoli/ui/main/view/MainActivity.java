@@ -1,13 +1,8 @@
 package com.trujca.mapoli.ui.main.view;
 
-import android.Manifest;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -15,29 +10,14 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivityMainBinding;
-
-import org.osmdroid.config.Configuration;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    return;
-                }
-                if (shouldShowRequestPermissionRationale(permission)) {
-                    showPermissionsInfoDialog();
-                } else {
-                    Toast.makeText(this, getString(R.string.permissions_message_warning), Toast.LENGTH_LONG).show();
-                }
-            });
     private ActivityMainBinding binding;
     private NavController navController;
     private NavigationView navView;
@@ -51,24 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.appBarMain.toolbar);
         setupNavController();
         setupNavDrawer();
-        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-        requestMapPermissions();
-    }
-
-    private void requestMapPermissions() {
-        if (shouldShowRequestPermissionRationale(permission)) {
-            showPermissionsInfoDialog();
-        } else {
-            requestPermissionLauncher.launch(permission);
-        }
-    }
-
-    private void showPermissionsInfoDialog() {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(getString(R.string.permissions_required))
-                .setMessage(getString(R.string.permissions_message))
-                .setPositiveButton(android.R.string.ok, (dialog, i) -> dialog.dismiss())
-                .create().show();
     }
 
     @Override
