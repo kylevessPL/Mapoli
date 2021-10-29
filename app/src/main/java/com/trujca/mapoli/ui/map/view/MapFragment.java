@@ -23,6 +23,7 @@ import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.FragmentMapBinding;
 
 import org.osmdroid.config.Configuration;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 public class MapFragment extends Fragment {
@@ -43,6 +44,10 @@ public class MapFragment extends Fragment {
         binding = FragmentMapBinding.inflate(inflater, container, false);
         Configuration.getInstance().load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()));
         map = binding.map;
+        //setting start view on Lodz University of Technology
+        map.getController().setZoom(16.0);
+        map.getController().setCenter(new GeoPoint(51.750790, 19.453));
+        map.setTilesScaledToDpi(true);
         return binding.getRoot();
     }
 
