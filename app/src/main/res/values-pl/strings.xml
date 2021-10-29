@@ -1,0 +1,12 @@
+<resources>
+    <string name="navigation_drawer_open">Otwórz panel nawigacji</string>
+    <string name="navigation_drawer_close">Zamknij panel nawigacji</string>
+    <string name="action_settings">Ustawienia</string>
+
+    <string name="map">Mapa</string>
+    <string name="favourites">Ulubione</string>
+    <string name="search">Szukaj</string>
+    <string name="permissions_required">Wymagane pozwolenie</string>
+    <string name="permissions_message">Pozwolenia są wymagane do poprawnego uruchomienia aplikacji</string>
+    <string name="permissions_message_warning">Powinieneś ręcznie zezwolić na zapisywanie pamięci zewnętrznej w ustawieniach telefonu</string>
+</resources>
