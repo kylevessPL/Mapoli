@@ -44,6 +44,7 @@ dependencies {
     def osmdroidVersion = "6.1.11"
     def retrofitVersion = "2.9.0"
     def hiltVersion = "2.40"
+    def lombokVersion = "1.18.22"
 
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
@@ -59,5 +60,8 @@ dependencies {
     implementation "org.osmdroid:osmdroid-android:$osmdroidVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
+    //noinspection AnnotationProcessorOnCompilePath
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "com.google.dagger:hilt-compiler:$hiltVersion"
 }
