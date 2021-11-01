@@ -18,6 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mapoli">
         <activity
+            android:name=".ui.settings.view.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
+        <activity
             android:name=".ui.main.view.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
