@@ -11,6 +11,8 @@
     <string name="permissions_message_warning">Powinieneś ręcznie zezwolić na zapisywanie pamięci zewnętrznej w ustawieniach telefonu</string>
 
     <!-- Settings -->
+    <string name="settings">Ustawienia</string>
+
     <string name="other">Wsparcie</string>
     <string name="appearance">Wygląd</string>
 
