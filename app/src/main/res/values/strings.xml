@@ -12,4 +12,26 @@
     <string name="permissions_required">Permissions required</string>
     <string name="permissions_message">Permissions are required in order to run this app</string>
     <string name="permissions_message_warning">You should manually allow external storage write permission in settings</string>
+    <string name="title_activity_settings" translatable="false">SettingsActivity</string>
+
+    <!-- Settings -->
+    <string name="other">Support</string>
+    <string name="appearance">Appearance</string>
+
+    <string name="about">About app</string>
+    <string name="report_a_bug">Report a bug</string>
+    <string name="language">Language</string>
+    <string name="units"> Unit</string>
+    <string name="dark_mode">Dark mode</string>
+
+    <!-- language_values -->
+    <string name="language_value_1">Polish</string>
+    <string name="language_value_2">English</string>
+
+    <!-- units_values -->
+    <string name="units_value_1">Meters</string>
+    <string name="units_value_2">Feet</string>
+    <string name="units_value_3">Yards</string>
+    <string name="units_value_4">Miles</string>
+
 </resources>
