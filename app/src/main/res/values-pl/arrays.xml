@@ -1,0 +1,27 @@
+<resources>
+    <string-array name="language_entries">
+        <item>Angielski</item>
+        <item>Polski</item>
+        <item>Domyślny systemowy</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>english</item>
+        <item>polish</item>
+        <item>system_default</item>
+    </string-array>
+
+    <string-array name="units_entries">
+        <item>Metry</item>
+        <item>Stopy</item>
+        <item>Jardy</item>
+        <item>Mile</item>
+    </string-array>
+
+    <string-array name="units_values">
+        <item>meters</item>
+        <item>feet</item>
+        <item>yards</item>
+        <item>miles</item>
+    </string-array>
+</resources>
