@@ -1,10 +1,14 @@
 package com.trujca.mapoli.ui.main.view;
 
 import static java.util.Objects.requireNonNull;
-
 import android.view.Menu;
 
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -13,16 +17,32 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivityMainBinding;
+
 import com.trujca.mapoli.ui.base.BaseActivity;
+
+import com.trujca.mapoli.databinding.ContentMainBinding;
+import com.trujca.mapoli.ui.category.view.AddCategoryDialog;
+import com.trujca.mapoli.ui.category.view.CategoryFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MainActivity extends BaseActivity<ActivityMainBinding> {
+public class MainActivity extends BaseActivity implements AddCategoryDialog.NoticeDialogListener {
+
 
     private NavController navController;
     private NavigationView navView;
     private AppBarConfiguration appBarConfiguration;
+    private ActivityMainBinding binding;
+
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog)
+    {
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.appBarMain.contentMain.navHostFragmentContentMain.getId());
+        CategoryFragment fragment = (CategoryFragment)navHostFragment.getChildFragmentManager().getFragments().get(0); //get fragment currently displayed in navhost
+        fragment.refreshData();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,4 +79,5 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
+
 }

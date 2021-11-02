@@ -1,25 +1,56 @@
 package com.trujca.mapoli.ui.category.view;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.trujca.mapoli.R;
 
-private class MyAdapter extends BaseAdapter
+import java.util.ArrayList;
+
+public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder>
 {
+    private ArrayList<String> localDataSet;
 
-    // override other abstract methods here
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textView;
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup container) {
-        if (convertView == null) {
-            convertView = getLayoutInflater().inflate(R.layout.list_item, container, false);
+        public ViewHolder(View view) {
+            super(view);
+
+            // override other abstract methods here
+            textView = (TextView) view.findViewById(R.id.listItem);
         }
 
-        ((TextView) convertView.findViewById(android.R.id.text1))
-                .setText(getItem(position));
-        return convertView;
+        public TextView getTextView() {
+            return textView;
+        }
+    }
+
+    public CategoryListAdapter(ArrayList<String> dataSet) {
+        localDataSet = dataSet;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.category_text_row_item, viewGroup, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        viewHolder.getTextView().setText(localDataSet.get(position));
+    }
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return localDataSet.size();
     }
 }
+
