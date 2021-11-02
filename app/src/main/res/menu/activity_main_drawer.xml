@@ -12,6 +12,11 @@
             android:title="@string/map" />
 
         <item
+            android:id="@+id/nav_categories"
+            android:icon="@drawable/ic_baseline_local_offer_24"
+            android:title="@string/categories" />
+
+        <item
             android:id="@+id/nav_places"
             android:icon="@drawable/ic_baseline_place_24"
             android:title="@string/places" />

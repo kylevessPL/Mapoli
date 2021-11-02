@@ -27,20 +27,17 @@ import com.trujca.mapoli.ui.category.view.CategoryFragment;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MainActivity extends BaseActivity implements AddCategoryDialog.NoticeDialogListener {
-
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements AddCategoryDialog.NoticeDialogListener {
 
     private NavController navController;
     private NavigationView navView;
     private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
-
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog)
     {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.appBarMain.contentMain.navHostFragmentContentMain.getId());
-        CategoryFragment fragment = (CategoryFragment)navHostFragment.getChildFragmentManager().getFragments().get(0); //get fragment currently displayed in navhost
+        CategoryFragment fragment = (CategoryFragment) requireNonNull(navHostFragment).getChildFragmentManager().getFragments().get(0); //get fragment currently displayed in navhost
         fragment.refreshData();
     }
 
@@ -79,5 +76,4 @@ public class MainActivity extends BaseActivity implements AddCategoryDialog.Noti
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
-
 }
