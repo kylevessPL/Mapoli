@@ -9,4 +9,5 @@
     <string name="permissions_required">Wymagane pozwolenie</string>
     <string name="permissions_message">Pozwolenia są wymagane do poprawnego uruchomienia aplikacji</string>
     <string name="permissions_message_warning">Powinieneś ręcznie zezwolić na zapisywanie pamięci zewnętrznej w ustawieniach telefonu</string>
+    <string name="places">Miejsca</string>
 </resources>
