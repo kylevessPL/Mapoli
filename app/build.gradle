@@ -34,13 +34,11 @@ android {
 }
 
 dependencies {
-
-    implementation 'androidx.preference:preference:1.1.1'
     def appCompatVersion = "1.3.1"
     def materialVersion = "1.4.0"
     def preferenceVersion = "1.1.1"
     def constraintLayoutVersion = "2.1.1"
-    def lifecycleVersion = "2.3.1"
+    def lifecycleVersion = "2.4.0"
     def navigationVersion = "2.3.5"
     def firebaseVersion = "28.4.2"
     def osmdroidVersion = "6.1.11"
