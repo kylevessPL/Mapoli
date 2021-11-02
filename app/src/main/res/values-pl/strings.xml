@@ -23,17 +23,6 @@
     <string name="units">Jednostki miary</string>
 
     <string name="dark_mode">Ciemny motyw</string>
-
-    <!-- language_values -->
-    <string name="language_value_1">Polski</string>
-    <string name="language_value_2">Angielski</string>
-
-    <!-- units_values -->
-    <string name="units_value_1">Metry</string>
-    <string name="units_value_2">Stopy</string>
-    <string name="units_value_3">Jardy</string>
-    <string name="units_value_4">Mile</string>
-
     <string name="places">Miejsca</string>
 
     <string name="add_category">Dodaj kategorię</string>

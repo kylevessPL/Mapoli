@@ -1,8 +1,8 @@
 <resources>
     <string-array name="language_entries">
-        <item>English</item>
-        <item>Polish</item>
-        <item>System default</item>
+        <item>Angielski</item>
+        <item>Polski</item>
+        <item>Domyślny systemowy</item>
     </string-array>
 
     <string-array name="language_values">
@@ -12,10 +12,10 @@
     </string-array>
 
     <string-array name="units_entries">
-        <item>Meters</item>
-        <item>Feet</item>
-        <item>Yards</item>
-        <item>Miles</item>
+        <item>Metry</item>
+        <item>Stopy</item>
+        <item>Jardy</item>
+        <item>Mile</item>
     </string-array>
 
     <string-array name="units_values">
