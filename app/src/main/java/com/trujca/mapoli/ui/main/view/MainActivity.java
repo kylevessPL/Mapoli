@@ -1,14 +1,11 @@
 package com.trujca.mapoli.ui.main.view;
 
 import static java.util.Objects.requireNonNull;
+
 import android.view.Menu;
 
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,10 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivityMainBinding;
-
 import com.trujca.mapoli.ui.base.BaseActivity;
-
-import com.trujca.mapoli.databinding.ContentMainBinding;
 import com.trujca.mapoli.ui.category.view.AddCategoryDialog;
 import com.trujca.mapoli.ui.category.view.CategoryFragment;
 
@@ -34,8 +28,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements A
     private AppBarConfiguration appBarConfiguration;
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog)
-    {
+    public void onDialogPositiveClick(DialogFragment dialog) {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.appBarMain.contentMain.navHostFragmentContentMain.getId());
         CategoryFragment fragment = (CategoryFragment) requireNonNull(navHostFragment).getChildFragmentManager().getFragments().get(0); //get fragment currently displayed in navhost
         fragment.refreshData();
