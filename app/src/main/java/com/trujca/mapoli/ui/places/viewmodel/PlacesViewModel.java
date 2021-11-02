@@ -33,7 +33,7 @@ public class PlacesViewModel extends ViewModel {
     public void doOnPlaceCategoryClicked(PlaceCategory placeCategory) {
     }
 
-    public void fetchPlaceCategoryData() {
+    private void fetchPlaceCategoryData() {
         // List<PlaceCategory> data = repository.getPlaceCategoryData();
         // _placeCategoryData.postValue(data);
 
