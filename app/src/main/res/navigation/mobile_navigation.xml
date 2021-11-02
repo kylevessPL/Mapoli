@@ -16,4 +16,10 @@
         android:name="com.trujca.mapoli.ui.places.view.PlacesFragment"
         android:label="@string/places"
         tools:layout="@layout/fragment_places" />
+
+    <activity
+        android:id="@+id/nav_settings"
+        android:name="com.trujca.mapoli.ui.settings.view.SettingsActivity"
+        android:label="@string/settings"
+        tools:layout="@layout/activity_settings" />
 </navigation>
