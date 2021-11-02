@@ -1,6 +1,7 @@
 package com.trujca.mapoli.ui.category.view;
 
 import static android.content.ContentValues.TAG;
+import static java.util.Objects.requireNonNull;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,48 +17,39 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.trujca.mapoli.R;
+
 import java.util.ArrayList;
-public class CategoryFragment extends Fragment
-{
+
+public class CategoryFragment extends Fragment {
     CategoryListAdapter itemsAdapter;
     ArrayList<String> categories;
 
-    public CategoryFragment()
-    {
+    public CategoryFragment() {
         // Required empty public constructor
     }
 
-    public void refreshData()
-    {
+    public void refreshData() {
 
         getCategories();
         itemsAdapter.notifyDataSetChanged();
     }
 
-    public void getCategories()
-    {
+    public void getCategories() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         categories.clear();
         db.collection("categories")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult())
-                            {
-                                categories.add(document.getData().get("name").toString());
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
+                            categories.add(document.getData().get("name").toString());
+                            Log.d(TAG, document.getId() + " => " + document.getData());
                         }
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
     }
@@ -65,25 +57,22 @@ public class CategoryFragment extends Fragment
     public void showNoticeDialog() {
         // Create an instance of the dialog fragment and show it
         AddCategoryDialog dialog = new AddCategoryDialog();
-        dialog.show(getChildFragmentManager(),"categoryDialog");
+        dialog.show(getChildFragmentManager(), "categoryDialog");
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_add_category:
-                showNoticeDialog();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_add_category) {
+            showNoticeDialog();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -97,8 +86,7 @@ public class CategoryFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         categories = new ArrayList<>();
         getCategories();
         return inflater.inflate(R.layout.fragment_category, container, false);
@@ -106,8 +94,7 @@ public class CategoryFragment extends Fragment
 
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
-    {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView categoryListView = view.findViewById(R.id.categoryList);
         itemsAdapter = new CategoryListAdapter(categories);
