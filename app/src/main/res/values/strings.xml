@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Mapoli</string>
-    <string name="title_activity_main" translatable="false">MainActivity</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -12,8 +11,6 @@
     <string name="permissions_required">Permissions required</string>
     <string name="permissions_message">Permissions are required in order to run this app</string>
     <string name="permissions_message_warning">You should manually allow external storage write permission in settings</string>
-  
-    <string name="title_activity_settings" translatable="false">SettingsActivity</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
