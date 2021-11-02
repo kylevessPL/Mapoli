@@ -1,26 +1,27 @@
 <resources>
-    <!-- Reply Preference -->
     <string-array name="language_entries">
-        <item>@string/language_value_1</item>
-        <item>@string/language_value_2</item>
+        <item>English</item>
+        <item>Polish</item>
+        <item>System default</item>
     </string-array>
 
     <string-array name="language_values">
-        <item>@string/language_value_1</item>
-        <item>@string/language_value_2</item>
+        <item>english</item>
+        <item>polish</item>
+        <item>system_default</item>
     </string-array>
 
     <string-array name="units_entries">
-        <item>@string/units_value_1</item>
-        <item>@string/units_value_2</item>
-        <item>@string/units_value_3</item>
-        <item>@string/units_value_4</item>
+        <item>Meters</item>
+        <item>Feet</item>
+        <item>Yards</item>
+        <item>Miles</item>
     </string-array>
 
     <string-array name="units_values">
-        <item>@string/units_value_1</item>
-        <item>@string/units_value_2</item>
-        <item>@string/units_value_3</item>
-        <item>@string/units_value_4</item>
+        <item>meters</item>
+        <item>feet</item>
+        <item>yards</item>
+        <item>miles</item>
     </string-array>
 </resources>

@@ -9,7 +9,7 @@
             app:title="@string/dark_mode" />
 
         <ListPreference
-            app:defaultValue="English"
+            app:defaultValue="english"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
             app:key="language"
@@ -18,7 +18,7 @@
             app:useSimpleSummaryProvider="true"/>
 
         <ListPreference
-            app:defaultValue="Meters"
+            app:defaultValue="meters"
             app:entries="@array/units_entries"
             app:entryValues="@array/units_values"
             app:key="units"
