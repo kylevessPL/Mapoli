@@ -1,9 +1,9 @@
 package com.trujca.mapoli.ui.main.view;
 
-import android.os.Bundle;
+import static java.util.Objects.requireNonNull;
+
 import android.view.Menu;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -13,30 +13,33 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivityMainBinding;
+import com.trujca.mapoli.ui.base.BaseActivity;
 
-import java.util.Objects;
+import dagger.hilt.android.AndroidEntryPoint;
 
-public class MainActivity extends AppCompatActivity {
+@AndroidEntryPoint
+public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
-    private ActivityMainBinding binding;
     private NavController navController;
     private NavigationView navView;
     private AppBarConfiguration appBarConfiguration;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    protected void setupView() {
         setSupportActionBar(binding.appBarMain.toolbar);
         setupNavController();
         setupNavDrawer();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public int getLayoutRes() {
+        return R.layout.activity_main;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupNavController() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.appBarMain.contentMain.navHostFragmentContentMain.getId());
-        navController = Objects.requireNonNull(navHostFragment).getNavController();
+        navController = requireNonNull(navHostFragment).getNavController();
     }
 
     private void setupNavDrawer() {

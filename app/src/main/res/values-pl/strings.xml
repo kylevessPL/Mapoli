@@ -32,5 +32,6 @@
     <string name="units_value_2">Stopy</string>
     <string name="units_value_3">Jardy</string>
     <string name="units_value_4">Mile</string>
-
+  
+    <string name="places">Miejsca</string>
 </resources>

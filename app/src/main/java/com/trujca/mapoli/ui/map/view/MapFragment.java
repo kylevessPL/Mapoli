@@ -8,7 +8,6 @@ import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,13 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.FragmentMapBinding;
+import com.trujca.mapoli.ui.base.BaseFragment;
+import com.trujca.mapoli.ui.map.viewmodel.MapViewModel;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
@@ -31,39 +32,33 @@ import org.osmdroid.views.MapView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapFragment extends Fragment {
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
+public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> {
 
     public static final String STORAGE_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE;
     public static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
-    private FragmentMapBinding binding;
     private MapView map;
     private boolean storagePermissionGranted = false;
     private boolean locationPermissionGranted = false;
 
     private final ActivityResultLauncher<String[]> requestPermissionsLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), permissions ->
-        permissions.forEach((permission, granted) -> {
-            if (permission.equals(STORAGE_PERMISSION)) {
-                storagePermissionGranted = granted;
-            }
-            if (permission.equals(LOCATION_PERMISSION)) {
-                locationPermissionGranted = granted;
-            }
-        })
+            permissions.forEach((permission, granted) -> {
+                if (permission.equals(STORAGE_PERMISSION)) {
+                    storagePermissionGranted = granted;
+                }
+                if (permission.equals(LOCATION_PERMISSION)) {
+                    locationPermissionGranted = granted;
+                }
+            })
     );
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMapBinding.inflate(inflater, container, false);
-        Configuration.getInstance().load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()));
-        map = binding.map;
-        return binding.getRoot();
-    }
-
     @Override
-    public void onViewCreated(@NonNull final View view, @Nullable final Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        updateUI();
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+        Configuration.getInstance().load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()));
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -85,16 +80,22 @@ public class MapFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public Class<MapViewModel> getViewModelClass() {
+        return MapViewModel.class;
     }
 
-    private void updateUI() {
-        mapSetup();
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_map;
     }
 
-    private void mapSetup() {
+    @Override
+    protected void updateUI() {
+        setupMap();
+    }
+
+    private void setupMap() {
+        map = binding.map;
         map.setTileSource(MAPNIK);
         map.getController().setZoom(16.0);
 
