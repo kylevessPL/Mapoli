@@ -8,7 +8,10 @@ import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,7 +20,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trujca.mapoli.R;
@@ -56,9 +58,23 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     );
 
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_search).setVisible(true);
+        menu.findItem(R.id.action_favourites).setVisible(true);
+        menu.findItem(R.id.action_add_category).setVisible(false);
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         Configuration.getInstance().load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()));
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return super.onCreateView(inflater,container,savedInstanceState);
     }
 
     @Override

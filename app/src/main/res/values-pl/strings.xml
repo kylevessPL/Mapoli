@@ -5,6 +5,7 @@
 
     <string name="map">Mapa</string>
     <string name="favourites">Ulubione</string>
+    <string name="categories">Kategorie</string>
     <string name="search">Szukaj</string>
     <string name="permissions_required">Wymagane pozwolenie</string>
     <string name="permissions_message">Pozwolenia są wymagane do poprawnego uruchomienia aplikacji</string>
@@ -34,4 +35,9 @@
     <string name="units_value_4">Mile</string>
   
     <string name="places">Miejsca</string>
+
+    <string name="add_category">Dodaj kategorię</string>
+    <string name="add">Dodaj</string>
+    <string name="cancel">Anuluj</string>
+
 </resources>
