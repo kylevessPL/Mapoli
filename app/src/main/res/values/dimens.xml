@@ -10,4 +10,5 @@
     <dimen name="list_textview_padding_start">0dp</dimen>
     <dimen name="list_textview_padding_end">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_input_height">56dp</dimen>
 </resources>

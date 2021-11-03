@@ -9,8 +9,8 @@
             app:title="@string/dark_mode" />
 
         <ListPreference
-            app:defaultValue="english"
             android:icon="@drawable/ic_baseline_translate_24"
+            app:defaultValue="english"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
             app:key="language"
