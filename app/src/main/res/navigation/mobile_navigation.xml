@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_categories"
-        android:name="com.trujca.mapoli.ui.category.view.CategoryFragment"
+        android:name="com.trujca.mapoli.ui.categories.view.CategoriesFragment"
         android:label="@string/categories"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_categories" />
 
     <fragment
         android:id="@+id/nav_places"
