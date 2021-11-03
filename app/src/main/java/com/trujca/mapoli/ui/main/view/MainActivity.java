@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import android.view.Menu;
 
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,24 +14,15 @@ import com.google.android.material.navigation.NavigationView;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivityMainBinding;
 import com.trujca.mapoli.ui.base.BaseActivity;
-import com.trujca.mapoli.ui.category.view.AddCategoryDialog;
-import com.trujca.mapoli.ui.category.view.CategoryFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements AddCategoryDialog.NoticeDialogListener {
+public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private NavController navController;
     private NavigationView navView;
     private AppBarConfiguration appBarConfiguration;
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.appBarMain.contentMain.navHostFragmentContentMain.getId());
-        CategoryFragment fragment = (CategoryFragment) requireNonNull(navHostFragment).getChildFragmentManager().getFragments().get(0); //get fragment currently displayed in navhost
-        fragment.refreshData();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
