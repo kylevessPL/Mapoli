@@ -9,6 +9,6 @@
     <color name="tussock_500">#D99F5B</color>
     <color name="tussock_700">#CB884F</color>
     <color name="tussock_900">#B16C47</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#66000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>
