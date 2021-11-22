@@ -33,6 +33,7 @@ public class AboutDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
     }
 
@@ -41,6 +42,5 @@ public class AboutDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = AboutDialogBinding.inflate(inflater, container, false);
         return binding.getRoot();
-        //return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
