@@ -36,13 +36,14 @@ android {
 
 dependencies {
 
-    def appCompatVersion = "1.3.1"
+    def appCompatVersion = "1.4.0"
     def materialVersion = "1.4.0"
     def preferenceVersion = "1.1.1"
-    def constraintLayoutVersion = "2.1.1"
+    def constraintLayoutVersion = "2.1.2"
     def lifecycleVersion = "2.4.0"
     def navigationVersion = "2.3.5"
     def firebaseVersion = "28.4.2"
+    def playServicesAuthVersion = "19.2.0"
     def osmdroidVersion = "6.1.11"
     def retrofitVersion = "2.9.0"
     def hiltVersion = "2.40.1"
@@ -60,6 +61,7 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics"
     implementation "com.google.firebase:firebase-firestore"
     implementation "com.google.firebase:firebase-auth"
+    implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "org.osmdroid:osmdroid-android:$osmdroidVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
