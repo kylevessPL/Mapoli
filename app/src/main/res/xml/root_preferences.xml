@@ -35,7 +35,7 @@
             app:key="report_a_bug"
             app:title="@string/report_a_bug" />
 
-        <EditTextPreference
+        <Preference
             android:icon="@drawable/ic_baseline_info_24"
             android:singleLine="true"
             app:key="about"

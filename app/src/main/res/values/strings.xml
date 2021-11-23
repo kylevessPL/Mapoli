@@ -21,6 +21,7 @@
     <string name="appearance">Appearance</string>
 
     <string name="about">About app</string>
+    <string name="version">Version:</string>
     <string name="report_a_bug">Report a bug</string>
     <string name="language">Language</string>
     <string name="units"> Unit</string>
