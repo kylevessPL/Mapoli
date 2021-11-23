@@ -2,13 +2,17 @@ package com.trujca.mapoli.ui.places.view;
 
 import static java.util.Objects.requireNonNull;
 
-import android.widget.Toast;
+
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.FragmentPlacesBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
 import com.trujca.mapoli.ui.places.adapter.PlacesAdapter;
 import com.trujca.mapoli.ui.places.model.PlaceCategory;
+import com.trujca.mapoli.ui.places.viewmodel.PlacesCategoryViewModel;
 import com.trujca.mapoli.ui.places.viewmodel.PlacesViewModel;
 
 import java.util.List;
@@ -36,13 +40,19 @@ public class PlacesFragment extends BaseFragment<FragmentPlacesBinding, PlacesVi
     @Override
     protected void updateUI() {
         viewModel.getPlaceCategoryData().observe(getViewLifecycleOwner(), this::updateAdapterData);
+        viewModel.getNavigateToNewFragment().observe(getViewLifecycleOwner(), this::changeFragment);
     }
+
+    private void changeFragment(Boolean b)
+    {
+        Navigation.findNavController(getView()).navigate(R.id.chosen_place);
+    }
+
 
     private void setupAdapter() {
         binding.placeCategoriesView.setAdapter(new PlacesAdapter((view, item) -> {
             PlaceCategory category = (PlaceCategory) item;
             viewModel.doOnPlaceCategoryClicked(category);
-            Toast.makeText(getContext(), String.format("Item %s clicked!", category.getId()), Toast.LENGTH_SHORT).show();
         }));
     }
 

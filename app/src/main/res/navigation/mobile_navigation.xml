@@ -21,11 +21,21 @@
         android:id="@+id/nav_places"
         android:name="com.trujca.mapoli.ui.places.view.PlacesFragment"
         android:label="@string/places"
-        tools:layout="@layout/fragment_places" />
+        tools:layout="@layout/fragment_places" >
+        <action
+            android:id="@+id/action_nav_places_to_chosen_place2"
+            app:destination="@id/chosen_place" />
+    </fragment>
 
     <activity
         android:id="@+id/nav_settings"
         android:name="com.trujca.mapoli.ui.settings.view.SettingsActivity"
         android:label="@string/settings"
         tools:layout="@layout/activity_settings" />
+
+    <fragment
+        android:id="@+id/chosen_place"
+        android:name="com.trujca.mapoli.ui.places.view.PlacesCategoryFragment"
+        android:label="@string/places"
+        tools:layout="@layout/fragment_places_category" />
 </navigation>

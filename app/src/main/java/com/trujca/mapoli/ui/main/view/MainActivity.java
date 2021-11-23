@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import android.view.Menu;
 
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -14,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivityMainBinding;
 import com.trujca.mapoli.ui.base.BaseActivity;
+import com.trujca.mapoli.ui.places.model.PlaceCategory;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -23,7 +25,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private NavController navController;
     private NavigationView navView;
     private AppBarConfiguration appBarConfiguration;
-
+    private final MutableLiveData<PlaceCategory> chosenPlaceCategory = new MutableLiveData<PlaceCategory>();
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);

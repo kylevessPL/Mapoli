@@ -20,6 +20,8 @@ public class FoursquarePlacesRepository implements PlacesRepository {
 
     @Override
     public List<PlaceCategoryResponse> getAllPlaceCategories() {
+
+
         throw new UnsupportedOperationException(); // TODO implement
     }
 }

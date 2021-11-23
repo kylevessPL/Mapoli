@@ -11,4 +11,14 @@ public class PlaceCategory {
     String name;
     @IntegerRes
     int iconResource;
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
 }

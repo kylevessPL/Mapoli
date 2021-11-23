@@ -63,6 +63,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "org.osmdroid:osmdroid-android:$osmdroidVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     //noinspection AnnotationProcessorOnCompilePath
     compileOnly "org.projectlombok:lombok:$lombokVersion"
