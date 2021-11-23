@@ -4,5 +4,5 @@ public interface RepositoryCallback<T> {
 
     void onSuccess(T model);
 
-    void onError(String msg);
+    void onError(Throwable ex);
 }

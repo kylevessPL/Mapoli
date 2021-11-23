@@ -45,7 +45,7 @@ public class CategoriesViewModel extends ViewModel {
             }
 
             @Override
-            public void onError(final String msg) {
+            public void onError(final Throwable ex) {
                 // do sth with error, ex. show dialog with error msg
             }
         }));
@@ -63,7 +63,7 @@ public class CategoriesViewModel extends ViewModel {
             }
 
             @Override
-            public void onError(final String msg) {
+            public void onError(final Throwable ex) {
                 // do sth with error, ex. show dialog with error msg
             }
         }));

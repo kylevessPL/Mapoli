@@ -12,6 +12,7 @@
     <string name="permissions_required">Permissions required</string>
     <string name="permissions_message">Permissions are required in order to run this app</string>
     <string name="permissions_message_warning">You should manually allow external storage write permission in settings</string>
+    <string name="google_web_client_id" translatable="false">700127274116-koda3f4ld63gjv27k0mpjj4gfnkh4v0r.apps.googleusercontent.com</string>
 
 
     <!-- Settings -->

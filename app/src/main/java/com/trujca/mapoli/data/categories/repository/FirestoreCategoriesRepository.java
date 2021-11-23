@@ -16,14 +16,14 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-public class FirebaseCategoriesRepository implements CategoriesRepository {
+public class FirestoreCategoriesRepository implements CategoriesRepository {
 
-    private static final String TAG = FirebaseCategoriesRepository.class.getSimpleName();
+    private static final String TAG = FirestoreCategoriesRepository.class.getSimpleName();
 
     private final FirebaseFirestore firestore;
 
     @Inject
-    public FirebaseCategoriesRepository(FirebaseFirestore firestore) {
+    public FirestoreCategoriesRepository(FirebaseFirestore firestore) {
         this.firestore = firestore;
     }
 
@@ -42,7 +42,7 @@ public class FirebaseCategoriesRepository implements CategoriesRepository {
                         Log.w(TAG, "getAllCategories:success");
                     } else {
                         Exception ex = requireNonNull(task.getException());
-                        callback.onError(ex.getMessage());
+                        callback.onError(ex);
                         Log.w(TAG, "getAllCategories:failure", ex);
                     }
                 });
