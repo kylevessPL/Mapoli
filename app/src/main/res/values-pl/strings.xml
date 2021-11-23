@@ -18,6 +18,7 @@
     <string name="appearance">Wygląd</string>
 
     <string name="about">O aplikacji</string>
+    <string name="version">Wersja:</string>
     <string name="report_a_bug">Zgłoś błąd</string>
     <string name="language">Język</string>
     <string name="units">Jednostki miary</string>
