@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.trujca.mapoli.ui.login.viewmodel.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        tools:context=".ui.login.view.LoginFragment">
+
+        <ImageView
+            android:id="@+id/login_fragment_header_icon"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/app_icon"
+            app:layout_constraintBottom_toTopOf="@+id/login_fragment_header_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_app"
+            tools:ignore="ImageContrastCheck" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/login_fragment_header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/signin"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/login_fragment_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_header_icon" />
+
+        <LinearLayout
+            android:id="@+id/login_fragment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_fragment_header_title">
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_email_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:errorText="@{viewModel.form.error.email}"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/email"
+                app:errorEnabled="true"
+                app:startIconContentDescription="@string/email_icon"
+                app:startIconDrawable="@drawable/ic_baseline_email_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_email_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="emailAddress"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:nextFocusForward="@id/login_password_input_edit"
+                    android:text="@={viewModel.form.input.email}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validateEmail()}"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_password_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:errorText="@{viewModel.form.error.password}"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/password"
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true"
+                app:startIconContentDescription="@string/password_icon"
+                app:startIconDrawable="@drawable/ic_baseline_lock_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_password_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:loseFocusOnDone="@{true}"
+                    android:text="@={viewModel.form.input.password}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validatePassword()}"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signin_button"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:enabled="@{viewModel.form.loginFormValid}"
+                android:onClick="@{() -> viewModel.signInWithEmail()}"
+                android:text="@string/signin"
+                android:textAllCaps="true"
+                app:icon="@drawable/ic_baseline_login_24"
+                app:iconGravity="textStart"
+                tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:text="@string/register_link_question"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/register_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewModel.signUpAction()}"
+                    android:text="@string/signup"
+                    android:textColor="@color/text_link_color_state"
+                    android:textStyle="bold"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.isLoading.booleanValue}"
+            app:hideAnimationBehavior="outward"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showAnimationBehavior="inward" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,8 +1,10 @@
 package com.trujca.mapoli.data.util;
 
-public interface RepositoryCallback<T> {
+public interface RepositoryCallback<Model, Error> {
 
-    void onSuccess(T model);
+    void onLoading(Boolean loading);
 
-    void onError(Throwable ex);
+    void onSuccess(Model model);
+
+    void onError(Error error);
 }

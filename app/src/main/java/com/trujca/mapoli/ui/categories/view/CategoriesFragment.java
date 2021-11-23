@@ -73,7 +73,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
     }
 
     private void showAddCategoryDialog() {
-        AddCategoryDialog dialog = new AddCategoryDialog();
-        dialog.show(getChildFragmentManager(), AddCategoryDialog.TAG);
+        AddCategoryDialogFragment dialog = new AddCategoryDialogFragment();
+        dialog.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);
     }
 }

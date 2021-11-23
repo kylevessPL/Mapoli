@@ -10,9 +10,12 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.trujca.mapoli.data.auth.exception.UserNotLoggedInException;
+import com.trujca.mapoli.data.auth.model.LoginError;
+import com.trujca.mapoli.data.auth.model.RegisterError;
 import com.trujca.mapoli.data.auth.model.UserDetails;
 import com.trujca.mapoli.data.util.RepositoryCallback;
 
@@ -32,7 +35,7 @@ public class FirebaseAuthRespository implements AuthRepository {
     }
 
     @Override
-    public void loginWithEmail(final String email, final String password, final RepositoryCallback<UserDetails> callback) {
+    public void loginWithEmail(final String email, final String password, final RepositoryCallback<UserDetails, LoginError> callback) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -40,15 +43,19 @@ public class FirebaseAuthRespository implements AuthRepository {
                         callback.onSuccess(extractUserDetails(requireNonNull(user)));
                         Log.w(TAG, "loginWithEmail:success");
                     } else {
-                        Exception ex = requireNonNull(task.getException());
-                        callback.onError(ex);
+                        Exception ex = task.getException();
+                        if (ex instanceof FirebaseAuthException) {
+                            callback.onError(LoginError.INVALID_CREDENTIALS);
+                        } else {
+                            callback.onError(LoginError.INTERNAL_ERROR);
+                        }
                         Log.w(TAG, "loginWithEmail:failure", ex);
                     }
                 });
     }
 
     @Override
-    public void loginWithGoogle(final String token, final RepositoryCallback<UserDetails> callback) {
+    public void loginWithGoogle(final String token, final RepositoryCallback<UserDetails, LoginError> callback) {
         AuthCredential credential = GoogleAuthProvider.getCredential(token, null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
@@ -57,15 +64,19 @@ public class FirebaseAuthRespository implements AuthRepository {
                         callback.onSuccess(extractUserDetails(requireNonNull(user)));
                         Log.w(TAG, "loginWithGoogle:success");
                     } else {
-                        Exception ex = requireNonNull(task.getException());
-                        callback.onError(ex);
+                        Exception ex = task.getException();
+                        if (ex instanceof FirebaseAuthException) {
+                            callback.onError(LoginError.INVALID_CREDENTIALS);
+                        } else {
+                            callback.onError(LoginError.INTERNAL_ERROR);
+                        }
                         Log.w(TAG, "loginWithGoogle:failure", ex);
                     }
                 });
     }
 
     @Override
-    public void register(final String email, final String password, final RepositoryCallback<UserDetails> callback) {
+    public void register(final String email, final String password, final RepositoryCallback<UserDetails, RegisterError> callback) {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -73,25 +84,28 @@ public class FirebaseAuthRespository implements AuthRepository {
                         callback.onSuccess(extractUserDetails(requireNonNull(user)));
                         Log.w(TAG, "register:success");
                     } else {
-                        Exception ex = requireNonNull(task.getException());
-                        callback.onError(ex);
+                        Exception ex = task.getException();
+                        if (ex instanceof FirebaseAuthException) {
+                            callback.onError(RegisterError.EMAIL_IN_USE);
+                        } else {
+                            callback.onError(RegisterError.INTERNAL_ERROR);
+                        }
                         Log.w(TAG, "register:failure", ex);
                     }
                 });
     }
 
     @Override
-    public void logout(final RepositoryCallback<Void> callback) {
+    public void logout(final RepositoryCallback<Void, Void> callback) {
         auth.signOut();
         googleSignInClient.signOut()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = auth.getCurrentUser();
                         callback.onSuccess(null);
                         Log.w(TAG, "logout:success");
                     } else {
                         Exception ex = requireNonNull(task.getException());
-                        callback.onError(ex);
+                        callback.onError(null);
                         Log.w(TAG, "logout:failure", ex);
                     }
                 });

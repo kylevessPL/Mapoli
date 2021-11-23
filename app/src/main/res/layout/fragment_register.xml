@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.trujca.mapoli.ui.register.viewmodel.RegisterViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        tools:context=".ui.register.view.RegisterFragment">
+
+        <ImageView
+            android:id="@+id/register_fragment_header_icon"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/app_icon"
+            app:layout_constraintBottom_toTopOf="@+id/register_fragment_header_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_app" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/register_fragment_header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/signup"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/register_fragment_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_fragment_header_icon" />
+
+        <LinearLayout
+            android:id="@+id/register_fragment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_fragment_header_title">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_email_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:errorText="@{viewModel.form.error.email}"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/email"
+                app:errorEnabled="true"
+                app:startIconContentDescription="@string/email_icon"
+                app:startIconDrawable="@drawable/ic_baseline_email_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_email_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="emailAddress"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:nextFocusForward="@id/register_password_input_edit"
+                    android:text="@={viewModel.form.input.email}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validateEmail()}"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_password_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:errorText="@{viewModel.form.error.password}"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/password"
+                app:counterEnabled="true"
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true"
+                app:helperText="@string/min_six_chars_allowed"
+                app:helperTextEnabled="true"
+                app:startIconContentDescription="@string/password_icon"
+                app:startIconDrawable="@drawable/ic_baseline_lock_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_password_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="password"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:nextFocusForward="@id/register_password_confirm_input_edit"
+                    android:text="@={viewModel.form.input.password}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validatePassword()}"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_password_confirm_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:errorText="@{viewModel.form.error.passwordConfirm}"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/password_confirm"
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true"
+                app:startIconContentDescription="@string/password_icon"
+                app:startIconDrawable="@drawable/ic_baseline_lock_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_password_confirm_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:loseFocusOnDone="@{true}"
+                    android:text="@={viewModel.form.input.passwordConfirm}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validatePasswordConfirm()}"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signup_button"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:enabled="@{viewModel.form.registerFormValid}"
+                android:onClick="@{() -> viewModel.signUp()}"
+                android:text="@string/signup"
+                android:textAllCaps="true"
+                tools:ignore="TextContrastCheck" />
+
+            <LinearLayout
+                android:id="@+id/login_link_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:text="@string/login_link_question"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/login_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewModel.signInAction()}"
+                    android:text="@string/signin"
+                    android:textColor="@color/text_link_color_state"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.isLoading.booleanValue}"
+            app:hideAnimationBehavior="outward"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showAnimationBehavior="inward" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

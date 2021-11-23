@@ -28,7 +28,7 @@ public class FirestoreCategoriesRepository implements CategoriesRepository {
     }
 
     @Override
-    public void getAllCategories(RepositoryCallback<List<Category>> callback) {
+    public void getAllCategories(RepositoryCallback<List<Category>, Void> callback) {
         List<Category> categories = new ArrayList<>();
         firestore.collection("categories")
                 .get()
@@ -42,14 +42,14 @@ public class FirestoreCategoriesRepository implements CategoriesRepository {
                         Log.w(TAG, "getAllCategories:success");
                     } else {
                         Exception ex = requireNonNull(task.getException());
-                        callback.onError(ex);
+                        callback.onError(null);
                         Log.w(TAG, "getAllCategories:failure", ex);
                     }
                 });
     }
 
     @Override
-    public void addCategory(final Category category, RepositoryCallback<Void> callback) {
+    public void addCategory(final Category category, RepositoryCallback<Void, Void> callback) {
         firestore.collection("categories").document("NAME")
                 .set(Collections.singletonMap("name", category.getName()))
                 .addOnSuccessListener(nothing -> {

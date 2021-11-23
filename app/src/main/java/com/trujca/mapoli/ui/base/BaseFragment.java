@@ -32,6 +32,7 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends ViewMo
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(getViewModelClass());
+        setup();
     }
 
     @Override
@@ -51,9 +52,21 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends ViewMo
         updateUI();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cleanup();
+    }
+
+    protected void setup() {
+    }
+
     protected void setupView() {
     }
 
     protected void updateUI() {
+    }
+
+    protected void cleanup() {
     }
 }

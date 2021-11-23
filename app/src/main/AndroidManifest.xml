@@ -13,7 +13,8 @@
 
     <application
         android:name=".MapoliApp"
-        android:allowBackup="false"
+        android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"

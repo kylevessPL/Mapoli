@@ -14,11 +14,12 @@ import com.google.android.material.navigation.NavigationView;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivityMainBinding;
 import com.trujca.mapoli.ui.base.BaseActivity;
+import com.trujca.mapoli.ui.main.viewmodel.MainViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MainActivity extends BaseActivity<ActivityMainBinding> {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
 
     private NavController navController;
     private NavigationView navView;
@@ -31,10 +32,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     @Override
-    protected void setupView() {
+    protected void setup() {
         setSupportActionBar(binding.appBarMain.toolbar);
         setupNavController();
         setupNavDrawer();
+    }
+
+    @Override
+    public Class<MainViewModel> getViewModelClass() {
+        return MainViewModel.class;
     }
 
     @Override
