@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,17 +18,26 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.FragmentMapBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
+import com.trujca.mapoli.ui.map.MapMarkerPopup;
 import com.trujca.mapoli.ui.map.viewmodel.MapViewModel;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +51,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     public static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
     private MapView map;
+    private CompassOverlay compass;
     private boolean storagePermissionGranted = false;
     private boolean locationPermissionGranted = false;
 
@@ -84,12 +95,14 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     public void onResume() {
         super.onResume();
         map.onResume();
+        compass.enableCompass();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         map.onPause();
+        compass.disableCompass();
     }
 
     @Override
@@ -112,9 +125,51 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.setTileSource(MAPNIK);
         map.getController().setZoom(16.0);
 
-        // setting start view on Lodz University of Technology
+        // Setting zoom by pinching and map rotation
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+        RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(map);
+        mRotationGestureOverlay.setEnabled(true);
+        map.setMultiTouchControls(true);
+        map.getOverlays().add(mRotationGestureOverlay);
+
+        // Scale bar
+        ScaleBarOverlay scaleBar = new ScaleBarOverlay(map);
+        scaleBar.setAlignBottom(true);
+        //scaleBar.setUnitsOfMeasure();                                                                 // TODO: Change value if other units of measure selected
+        map.getOverlays().add(scaleBar);
+
+        // Compass
+        compass = new CompassOverlay(getContext(), map);
+        map.getOverlays().add(compass);
+
+        // Setting start view on Lodz University of Technology
         map.getController().setCenter(new GeoPoint(LATITUDE_INITIAL, LONGTITUDE_INITIAL));
         map.setTilesScaledToDpi(true);
+
+        // Markers created by touch
+        Overlay touchOverlay = new Overlay(){
+            Marker markerPresent = null;
+            public boolean onSingleTapConfirmed(final MotionEvent e, final MapView mapView) {
+                Projection projection = mapView.getProjection();
+                GeoPoint location = (GeoPoint) projection.fromPixels((int)e.getX(), (int)e.getY());
+                Marker marker = new Marker(mapView);
+                marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_favorite_24, null));
+                MapMarkerPopup popupWindow = new MapMarkerPopup(R.layout.map_pin_popup, mapView);
+                marker.setInfoWindow(popupWindow);
+                marker.setPosition(location);
+                marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_map_pin, null));
+                if(markerPresent != null){
+                    //if(markerPresent.isInfoWindowShown())
+                        markerPresent.closeInfoWindow();
+                    mapView.getOverlays().remove(markerPresent);
+                }
+                markerPresent = marker;
+                mapView.getOverlays().add(markerPresent);       // Marker will overlap other overlays and when put behind, tap function doesn't work
+                mapView.invalidate();
+                return true;
+            }
+        };
+        map.getOverlays().add(touchOverlay);
     }
 
     private void checkPermissions() {
