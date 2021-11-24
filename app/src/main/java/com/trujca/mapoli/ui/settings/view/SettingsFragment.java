@@ -41,5 +41,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             }
         });
+        findPreference("report_a_bug").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ReportBugDialog reportBugDialog = new ReportBugDialog();
+                reportBugDialog.show(getParentFragmentManager(), ReportBugDialog.TAG);
+
+                return true;
+            }
+        });
     }
 }

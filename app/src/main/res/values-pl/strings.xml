@@ -19,6 +19,8 @@
 
     <string name="about">O aplikacji</string>
     <string name="version">Wersja:</string>
+    <string name="send">Wyślij</string>
+    <string name="report_bug_hint">Pisz tutaj (maksymalnie 500 znaków)</string>
     <string name="report_a_bug">Zgłoś błąd</string>
     <string name="language">Język</string>
     <string name="units">Jednostki miary</string>

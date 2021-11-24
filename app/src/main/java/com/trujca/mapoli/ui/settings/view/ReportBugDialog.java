@@ -9,27 +9,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.trujca.mapoli.databinding.AboutDialogBinding;
-import com.trujca.mapoli.ui.settings.viewmodel.AboutDialogViewModel;
+import com.trujca.mapoli.databinding.ReportBugDialogBinding;
+import com.trujca.mapoli.ui.settings.viewmodel.ReportBugViewModel;
 
-public class AboutDialog extends DialogFragment {
+public class ReportBugDialog extends DialogFragment {
 
-    public static final String TAG = AboutDialog.class.getSimpleName();
+    public static final String TAG = ReportBugDialog.class.getSimpleName();
 
-    private AboutDialogViewModel viewModel;
-    private AboutDialogBinding binding;
+    private ReportBugViewModel viewModel;
+    private ReportBugDialogBinding binding;
 
     @Override
     public void onStart() {
         super.onStart();
         binding.setLifecycleOwner(this);
-        binding.setViewModel(viewModel);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = AboutDialogBinding.inflate(inflater, container, false);
+        binding = ReportBugDialogBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 }

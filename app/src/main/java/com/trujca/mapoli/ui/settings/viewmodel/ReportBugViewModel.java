@@ -5,9 +5,9 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 
 @HiltViewModel
-public class AboutDialogViewModel extends ViewModel {
+public class ReportBugViewModel extends ViewModel {
 
     @Inject
-    public AboutDialogViewModel() {
+    public ReportBugViewModel(){
     }
 }
