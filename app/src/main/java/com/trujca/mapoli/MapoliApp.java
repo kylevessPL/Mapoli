@@ -20,7 +20,7 @@ public class MapoliApp extends Application {
 
         //checking theme from settings and set proper mode
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean dark_mode_enabled = sharedPreferences.getBoolean("dark_mode", true);
+        boolean dark_mode_enabled = sharedPreferences.getBoolean("dark_mode", false);
         if (dark_mode_enabled){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }else{
