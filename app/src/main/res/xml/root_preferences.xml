@@ -29,7 +29,7 @@
 
     <PreferenceCategory app:title="@string/other">
 
-        <EditTextPreference
+        <Preference
             android:icon="@drawable/ic_baseline_bug_report_24"
             android:singleLine="true"
             app:key="report_a_bug"
