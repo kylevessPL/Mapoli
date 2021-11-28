@@ -4,9 +4,13 @@ import static com.mikepenz.materialdrawer.util.DrawerImageLoader.Tags.PROFILE;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
@@ -14,14 +18,6 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
 import dagger.hilt.android.HiltAndroidApp;
-
-import android.content.SharedPreferences;
-
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceManager;
-import androidx.preference.SwitchPreference;
-import androidx.preference.SwitchPreferenceCompat;
 
 @HiltAndroidApp
 public class MapoliApp extends Application {
@@ -61,10 +57,10 @@ public class MapoliApp extends Application {
             }
         });
     }
-  
+
     private void setTheme() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
+        boolean darkModeEnabled = sharedPreferences.getBoolean(getString(R.string.dark_mode_key), false);
         if (darkModeEnabled) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
