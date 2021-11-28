@@ -47,6 +47,11 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.categories;
+    }
+
+    @Override
     protected void setupView() {
         setHasOptionsMenu(true);
         setupAdapter();

@@ -2,6 +2,7 @@ package com.trujca.mapoli.ui.main.viewmodel;
 
 import androidx.lifecycle.LiveData;
 
+import com.trujca.mapoli.data.auth.model.UserDetails;
 import com.trujca.mapoli.ui.base.BaseViewModel;
 import com.trujca.mapoli.ui.common.CurrentUserLiveData;
 
@@ -14,7 +15,7 @@ import lombok.Getter;
 public class MainViewModel extends BaseViewModel {
 
     @Getter
-    private final LiveData<Boolean> currentUser = new CurrentUserLiveData();
+    private final LiveData<UserDetails> currentUser = new CurrentUserLiveData();
 
     @Inject
     public MainViewModel() {

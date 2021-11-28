@@ -37,6 +37,7 @@ android {
 dependencies {
 
     def appCompatVersion = "1.4.0"
+    def annotationVersion = "1.3.0"
     def materialVersion = "1.4.0"
     def preferenceVersion = "1.1.1"
     def constraintLayoutVersion = "2.1.2"
@@ -44,16 +45,18 @@ dependencies {
     def navigationVersion = "2.3.5"
     def firebaseVersion = "28.4.2"
     def playServicesAuthVersion = "19.2.0"
+    def materialDrawerVersion = "6.1.2"
     def osmdroidVersion = "6.1.11"
     def retrofitVersion = "2.9.0"
     def liveEventVersion = "1.3.0"
-    def hiltVersion = "2.40.1"
+    def hiltVersion = "2.40.2"
     def avatarViewVersion = "0.0.2"
     def glideVersion = "4.12.0"
     def lombokVersion = "1.18.22"
 
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.annotation:annotation:$annotationVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.preference:preference:$preferenceVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
@@ -66,6 +69,8 @@ dependencies {
     implementation "com.google.firebase:firebase-auth"
     implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
+    //noinspection GradleDependency
+    implementation "com.mikepenz:materialdrawer:$materialDrawerVersion"
     implementation "org.osmdroid:osmdroid-android:$osmdroidVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.github.hadilq:live-event:$liveEventVersion"

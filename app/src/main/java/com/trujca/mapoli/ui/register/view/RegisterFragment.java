@@ -35,6 +35,11 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, Regi
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.signup;
+    }
+
+    @Override
     protected void setup() {
         activityViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
     }
@@ -48,14 +53,14 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding, Regi
     }
 
     private void navigateToLoginFragment(final Boolean result) {
-        if (result == null) {
+        if (result != null) {
             NavDirections action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment();
             Navigation.findNavController(requireView()).navigate(action);
         }
     }
 
-    private void navigateToAccountFragment(final Boolean result) {
-        if (result != null) {
+    private void navigateToAccountFragment(final UserDetails userDetails) {
+        if (userDetails != null) {
             NavDirections action = RegisterFragmentDirections.actionRegisterFragmentToAccountFragment();
             Navigation.findNavController(requireView()).navigate(action);
         }

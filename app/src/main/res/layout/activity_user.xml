@@ -31,8 +31,7 @@
 
         <include
             android:id="@+id/content_user"
-            layout="@layout/content_user"
-            app:viewModel="@{viewModel}" />
+            layout="@layout/content_user" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -27,7 +27,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_app" />
+            app:srcCompat="@drawable/ic_app"
+            tools:ignore="ImageContrastCheck" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/register_fragment_header_title"
@@ -147,7 +148,7 @@
                 android:onClick="@{() -> viewModel.signUp()}"
                 android:text="@string/signup"
                 android:textAllCaps="true"
-                tools:ignore="TextContrastCheck" />
+                tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
             <LinearLayout
                 android:id="@+id/login_link_layout"
@@ -171,7 +172,8 @@
                     android:onClick="@{() -> viewModel.signInAction()}"
                     android:text="@string/signin"
                     android:textColor="@color/text_link_color_state"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
             </LinearLayout>
         </LinearLayout>
 

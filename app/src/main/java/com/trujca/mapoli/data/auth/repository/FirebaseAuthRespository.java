@@ -36,6 +36,7 @@ public class FirebaseAuthRespository implements AuthRepository {
 
     @Override
     public void loginWithEmail(final String email, final String password, final RepositoryCallback<UserDetails, LoginError> callback) {
+        callback.onLoading(true);
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -51,11 +52,13 @@ public class FirebaseAuthRespository implements AuthRepository {
                         }
                         Log.w(TAG, "loginWithEmail:failure", ex);
                     }
+                    callback.onLoading(false);
                 });
     }
 
     @Override
     public void loginWithGoogle(final String token, final RepositoryCallback<UserDetails, LoginError> callback) {
+        callback.onLoading(true);
         AuthCredential credential = GoogleAuthProvider.getCredential(token, null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
@@ -72,11 +75,13 @@ public class FirebaseAuthRespository implements AuthRepository {
                         }
                         Log.w(TAG, "loginWithGoogle:failure", ex);
                     }
+                    callback.onLoading(false);
                 });
     }
 
     @Override
     public void register(final String email, final String password, final RepositoryCallback<UserDetails, RegisterError> callback) {
+        callback.onLoading(true);
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -92,11 +97,13 @@ public class FirebaseAuthRespository implements AuthRepository {
                         }
                         Log.w(TAG, "register:failure", ex);
                     }
+                    callback.onLoading(false);
                 });
     }
 
     @Override
     public void logout(final RepositoryCallback<Void, Void> callback) {
+        callback.onLoading(true);
         auth.signOut();
         googleSignInClient.signOut()
                 .addOnCompleteListener(task -> {
@@ -108,6 +115,7 @@ public class FirebaseAuthRespository implements AuthRepository {
                         callback.onError(null);
                         Log.w(TAG, "logout:failure", ex);
                     }
+                    callback.onLoading(false);
                 });
     }
 
@@ -124,7 +132,10 @@ public class FirebaseAuthRespository implements AuthRepository {
     private UserDetails extractUserDetails(FirebaseUser user) {
         String displayName = user.getDisplayName() != null ? user.getDisplayName() : ("user_" + auth.getUid());
         String email = user.getEmail();
-        Uri photoUri = user.getPhotoUrl();
+        Uri photoUri = Uri.parse(
+                requireNonNull(user.getPhotoUrl())
+                        .toString().replace("s96-c", "s300-c")
+        );
         return new UserDetails(displayName, email, photoUri);
     }
 }

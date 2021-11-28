@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.text.InputType" />
+
         <variable
             name="viewModel"
             type="com.trujca.mapoli.ui.account.viewmodel.AccountViewModel" />
@@ -32,8 +34,8 @@
 
         <agency.tango.android.avatarview.views.AvatarView
             android:id="@+id/account_fragment_avatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:userAvatar="@{viewModel.userDetails.avatarUri}"
             android:userName="@{viewModel.userDetails.displayName}"
             app:av_border_color="@color/white"
@@ -72,7 +74,9 @@
                     android:id="@+id/account_display_name_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="@{InputType.TYPE_NULL}"
                     android:text="@{viewModel.userDetails.displayName}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,6 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:hint="@string/email"
                 app:expandedHintEnabled="false"
                 app:startIconContentDescription="@string/email_icon"
@@ -91,8 +97,11 @@
                     android:id="@+id/account_email_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="@{viewModel.userDetails.email}" />
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:text="@{viewModel.userDetails.email}"
+                    tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -108,7 +117,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/account_fragment_content" />
+            app:layout_constraintTop_toBottomOf="@+id/account_fragment_content"
+            tools:ignore="TextContrastCheck" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"

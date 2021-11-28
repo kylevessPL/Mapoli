@@ -25,6 +25,8 @@ public class LoginViewModel extends BaseViewModel {
     @Getter
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     @Getter
+    private final MutableLiveData<Boolean> signInAction = new LiveEvent<>();
+    @Getter
     private final MutableLiveData<Boolean> signUpAction = new LiveEvent<>();
     @Getter
     private final MutableLiveData<LoginError> signInError = new LiveEvent<>();
@@ -32,6 +34,10 @@ public class LoginViewModel extends BaseViewModel {
     @Inject
     public LoginViewModel(AuthRepository authRepository) {
         this.authRepository = authRepository;
+    }
+
+    public void signInAction() {
+        signInAction.setValue(true);
     }
 
     public void signUpAction() {

@@ -3,7 +3,6 @@ package com.trujca.mapoli.ui.account.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.hadilq.liveevent.LiveEvent;
-import com.trujca.mapoli.data.auth.exception.UserNotLoggedInException;
 import com.trujca.mapoli.data.auth.model.UserDetails;
 import com.trujca.mapoli.data.auth.repository.AuthRepository;
 import com.trujca.mapoli.data.util.RepositoryCallback;

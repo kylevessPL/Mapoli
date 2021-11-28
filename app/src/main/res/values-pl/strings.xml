@@ -29,8 +29,8 @@
     <string name="add">Dodaj</string>
     <string name="category_name">Nazwa kategorii</string>
     <string name="my_account">Moje konto</string>
-    <string name="signin">Zarejestruj się</string>
-    <string name="signup">Zaloguj się</string>
+    <string name="signin">Zaloguj się</string>
+    <string name="signup">Zarejestruj się</string>
     <string name="signout">Wyloguj się</string>
     <string name="display_name">Nazwa wyświetlana</string>
     <string name="general_error_message">Nie udało się przetworzyć żądania, spróbuj ponownie później</string>
@@ -46,4 +46,5 @@
     <string name="email_in_use">Użytkownik o tym adresie email juz istnieje</string>
     <string name="signup_success">Zostałeś pomyślnie zarejestrowany</string>
     <string name="invalid_credentials">Dane logowania są nieprawidłowe, sprawdź adres email oraz hasło i spróbuj ponownie</string>
+    <string name="not_logged_in">Nie zalogowany</string>
 </resources>

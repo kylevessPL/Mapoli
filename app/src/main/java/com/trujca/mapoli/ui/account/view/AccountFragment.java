@@ -9,6 +9,7 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.auth.model.UserDetails;
 import com.trujca.mapoli.databinding.FragmentAccountBinding;
 import com.trujca.mapoli.ui.account.viewmodel.AccountViewModel;
 import com.trujca.mapoli.ui.base.BaseFragment;
@@ -32,6 +33,11 @@ public class AccountFragment extends BaseFragment<FragmentAccountBinding, Accoun
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.my_account;
+    }
+
+    @Override
     protected void setup() {
         activityViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
     }
@@ -43,8 +49,8 @@ public class AccountFragment extends BaseFragment<FragmentAccountBinding, Accoun
         viewModel.getSignOutResult().observe(getViewLifecycleOwner(), this::displaySignOutResult);
     }
 
-    private void navigateToLoginFragment(final Boolean result) {
-        if (result == null) {
+    private void navigateToLoginFragment(final UserDetails userDetails) {
+        if (userDetails == null) {
             NavDirections action = AccountFragmentDirections.actionAccountFragmentToLoginFragment();
             Navigation.findNavController(requireView()).navigate(action);
         }
