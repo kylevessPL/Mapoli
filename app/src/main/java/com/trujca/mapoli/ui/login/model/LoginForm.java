@@ -30,26 +30,18 @@ public class LoginForm extends BaseObservable {
 
     public Boolean validateEmail(Boolean showError) {
         Integer message = ValidationUtils.emailValidationMessage(input.email.get());
-        if (message != null && !showError) {
+        if (message == null || showError) {
             error.email.set(message);
         }
         return message == null;
     }
 
-    public Boolean validateEmail() {
-        return ValidationUtils.emailValidationMessage(input.email.get()) == null;
-    }
-
     public Boolean validatePassword(Boolean showError) {
         Integer message = ValidationUtils.passwordValidationMessage(input.password.get(), false);
-        if (message != null && !showError) {
+        if (message == null || showError) {
             error.password.set(message);
         }
         return message == null;
-    }
-
-    public Boolean validatePassword() {
-        return ValidationUtils.passwordValidationMessage(input.password.get(), false) == null;
     }
 
     @Getter
@@ -60,7 +52,7 @@ public class LoginForm extends BaseObservable {
             @Override
             public void set(final String value) {
                 super.set(value);
-                notifyPropertyChanged(BR.loginFormValid);
+                LoginForm.this.notifyPropertyChanged(BR.loginFormValid);
             }
         };
 
@@ -69,7 +61,7 @@ public class LoginForm extends BaseObservable {
             @Override
             public void set(final String value) {
                 super.set(value);
-                notifyPropertyChanged(BR.loginFormValid);
+                LoginForm.this.notifyPropertyChanged(BR.loginFormValid);
             }
         };
     }

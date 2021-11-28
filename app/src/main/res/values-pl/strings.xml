@@ -38,7 +38,7 @@
     <string name="password">Hasło</string>
     <string name="password_confirm">Powtórz hasło</string>
     <string name="min_six_chars_allowed">Minimum 6 znaków</string>
-    <string name="empty_not_allowed">Pole nie może byc puste</string>
+    <string name="empty_not_allowed">Pole nie może być puste</string>
     <string name="email_not_valid">Nieprawidłowy email</string>
     <string name="passwords_not_match">Hasła nie są zgodne</string>
     <string name="login_link_question">Masz już konto?</string>

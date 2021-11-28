@@ -57,8 +57,9 @@
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_in_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:layout_marginBottom="30dp"
+                app:buttonSize="wide"
                 app:onClickListener="@{(view) -> viewModel.signInAction()}" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -84,7 +85,7 @@
                     android:inputType="textEmailAddress"
                     android:nextFocusForward="@id/login_password_input_edit"
                     android:text="@={viewModel.form.input.email}"
-                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validateEmail()}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> !hasFocus ? viewModel.form.validateEmail(true): null}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,7 +113,7 @@
                     android:inputType="textPassword"
                     android:loseFocusOnDone="@{true}"
                     android:text="@={viewModel.form.input.password}"
-                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validatePassword()}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> !hasFocus ? viewModel.form.validatePassword(true): null}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -26,9 +26,11 @@ public class BindingUtils {
 
     @BindingAdapter("android:errorText")
     public static void errorText(TextInputLayout input, @Nullable @StringRes Integer errorText) {
+        String message = null;
         if (errorText != null) {
-            input.setError(input.getContext().getString(errorText));
+            message = input.getContext().getString(errorText);
         }
+        input.setError(message);
     }
 
     @BindingAdapter("android:loseFocusOnDone")

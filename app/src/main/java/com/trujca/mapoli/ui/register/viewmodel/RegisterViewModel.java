@@ -49,6 +49,7 @@ public class RegisterViewModel extends BaseViewModel {
                     @Override
                     public void onLoading(final Boolean loading) {
                         isLoading.postValue(loading);
+                        form.setIsProcessing(loading);
                     }
 
                     @Override

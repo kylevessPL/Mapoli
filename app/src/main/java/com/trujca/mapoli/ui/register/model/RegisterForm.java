@@ -29,46 +29,33 @@ public class RegisterForm extends BaseObservable {
 
     public Boolean validateEmail(Boolean showError) {
         Integer message = ValidationUtils.emailValidationMessage(input.email.get());
-        if (message != null && !showError) {
+        if (message == null || showError) {
             error.email.set(message);
         }
         return message == null;
     }
 
-    public Boolean validateEmail() {
-        return ValidationUtils.emailValidationMessage(input.email.get()) == null;
-    }
-
     public Boolean validatePassword(Boolean showError) {
         initValidatePassword();
         Integer message = ValidationUtils.passwordValidationMessage(input.password.get(), true);
-        if (message != null && !showError) {
+        if (message == null || showError) {
             error.password.set(message);
         }
         return message == null;
     }
 
-    public Boolean validatePassword() {
-        initValidatePassword();
-        return ValidationUtils.passwordValidationMessage(input.password.get(), true) == null;
-    }
-
     public Boolean validatePasswordConfirm(Boolean showError) {
         Integer message = ValidationUtils.passwordConfirmValidationMessage(input.password.get(), input.passwordConfirm.get());
-        if (message != null && !showError) {
+        if (message == null || showError) {
             error.passwordConfirm.set(message);
         }
         return message == null;
     }
 
-    public Boolean validatePasswordConfirm() {
-        return ValidationUtils.passwordConfirmValidationMessage(input.password.get(), input.passwordConfirm.get()) == null;
-    }
-
     private void initValidatePassword() {
         String passwordConfirm = input.passwordConfirm.get();
         if (passwordConfirm != null && !passwordConfirm.trim().isEmpty()) {
-            validatePasswordConfirm();
+            validatePasswordConfirm(true);
         }
     }
 
@@ -80,7 +67,7 @@ public class RegisterForm extends BaseObservable {
             @Override
             public void set(final String value) {
                 super.set(value);
-                notifyPropertyChanged(BR.registerFormValid);
+                RegisterForm.this.notifyPropertyChanged(BR.registerFormValid);
             }
         };
 
@@ -89,7 +76,7 @@ public class RegisterForm extends BaseObservable {
             @Override
             public void set(final String value) {
                 super.set(value);
-                notifyPropertyChanged(BR.registerFormValid);
+                RegisterForm.this.notifyPropertyChanged(BR.registerFormValid);
             }
         };
 
@@ -98,7 +85,7 @@ public class RegisterForm extends BaseObservable {
             @Override
             public void set(final String value) {
                 super.set(value);
-                notifyPropertyChanged(BR.registerFormValid);
+                RegisterForm.this.notifyPropertyChanged(BR.registerFormValid);
             }
         };
     }

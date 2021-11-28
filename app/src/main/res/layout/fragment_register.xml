@@ -77,7 +77,7 @@
                     android:inputType="textEmailAddress"
                     android:nextFocusForward="@id/register_password_input_edit"
                     android:text="@={viewModel.form.input.email}"
-                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validateEmail()}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> !hasFocus ? viewModel.form.validateEmail(true): null}"
                     tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +108,7 @@
                     android:inputType="textPassword"
                     android:nextFocusForward="@id/register_password_confirm_input_edit"
                     android:text="@={viewModel.form.input.password}"
-                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validatePassword()}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> !hasFocus ? viewModel.form.validatePassword(true) : null}"
                     tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,7 +136,7 @@
                     android:inputType="textPassword"
                     android:loseFocusOnDone="@{true}"
                     android:text="@={viewModel.form.input.passwordConfirm}"
-                    app:onFocusChangeListener="@{(v, hasFocus) -> viewModel.form.validatePasswordConfirm()}"
+                    app:onFocusChangeListener="@{(v, hasFocus) -> !hasFocus ? viewModel.form.validatePasswordConfirm(true) : null}"
                     tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
