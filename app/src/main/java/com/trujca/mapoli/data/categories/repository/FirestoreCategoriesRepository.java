@@ -16,19 +16,19 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-public class FirebaseCategoriesRepository implements CategoriesRepository {
+public class FirestoreCategoriesRepository implements CategoriesRepository {
 
-    private static final String TAG = FirebaseCategoriesRepository.class.getSimpleName();
+    private static final String TAG = FirestoreCategoriesRepository.class.getSimpleName();
 
     private final FirebaseFirestore firestore;
 
     @Inject
-    public FirebaseCategoriesRepository(FirebaseFirestore firestore) {
+    public FirestoreCategoriesRepository(FirebaseFirestore firestore) {
         this.firestore = firestore;
     }
 
     @Override
-    public void getAllCategories(RepositoryCallback<List<Category>> callback) {
+    public void getAllCategories(RepositoryCallback<List<Category>, Void> callback) {
         List<Category> categories = new ArrayList<>();
         firestore.collection("categories")
                 .get()
@@ -42,14 +42,14 @@ public class FirebaseCategoriesRepository implements CategoriesRepository {
                         Log.w(TAG, "getAllCategories:success");
                     } else {
                         Exception ex = requireNonNull(task.getException());
-                        callback.onError(ex.getMessage());
+                        callback.onError(null);
                         Log.w(TAG, "getAllCategories:failure", ex);
                     }
                 });
     }
 
     @Override
-    public void addCategory(final Category category, RepositoryCallback<Void> callback) {
+    public void addCategory(final Category category, RepositoryCallback<Void, Void> callback) {
         firestore.collection("categories").document("NAME")
                 .set(Collections.singletonMap("name", category.getName()))
                 .addOnSuccessListener(nothing -> {

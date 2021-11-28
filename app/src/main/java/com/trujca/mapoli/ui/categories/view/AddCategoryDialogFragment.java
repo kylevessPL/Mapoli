@@ -19,9 +19,9 @@ import com.trujca.mapoli.ui.categories.viewmodel.CategoriesViewModel;
 
 import java.util.UUID;
 
-public class AddCategoryDialog extends DialogFragment {
+public class AddCategoryDialogFragment extends DialogFragment {
 
-    public static final String TAG = AddCategoryDialog.class.getSimpleName();
+    public static final String TAG = AddCategoryDialogFragment.class.getSimpleName();
 
     private DialogAddCategoryBinding binding;
     private AddCategoryDialogViewModel viewModel;

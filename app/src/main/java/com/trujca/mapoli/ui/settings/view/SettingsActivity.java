@@ -9,6 +9,9 @@ import androidx.preference.PreferenceManager;
 
 import com.trujca.mapoli.R;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class SettingsActivity extends AppCompatActivity {
 
     @Override

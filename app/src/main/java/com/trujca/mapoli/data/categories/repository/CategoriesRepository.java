@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CategoriesRepository {
 
-    void getAllCategories(RepositoryCallback<List<Category>> callback);
+    void getAllCategories(RepositoryCallback<List<Category>, Void> callback);
 
-    void addCategory(Category category, RepositoryCallback<Void> callback);
+    void addCategory(Category category, RepositoryCallback<Void, Void> callback);
 }

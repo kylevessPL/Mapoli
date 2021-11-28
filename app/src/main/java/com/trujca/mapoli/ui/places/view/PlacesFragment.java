@@ -29,6 +29,11 @@ public class PlacesFragment extends BaseFragment<FragmentPlacesBinding, PlacesVi
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.places;
+    }
+
+    @Override
     protected void setupView() {
         setupAdapter();
     }

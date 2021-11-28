@@ -1,10 +1,10 @@
 package com.trujca.mapoli.ui.places.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.data.places.repository.PlacesRepository;
+import com.trujca.mapoli.ui.base.BaseViewModel;
 import com.trujca.mapoli.ui.places.model.PlaceCategory;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 import lombok.Getter;
 
 @HiltViewModel
-public class PlacesViewModel extends ViewModel {
+public class PlacesViewModel extends BaseViewModel {
 
     private final PlacesRepository placesRepository;
 

@@ -103,6 +103,11 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.app_name;
+    }
+
+    @Override
     protected void updateUI() {
         setupMap();
     }

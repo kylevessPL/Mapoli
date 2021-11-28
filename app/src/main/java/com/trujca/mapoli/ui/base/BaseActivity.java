@@ -8,10 +8,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
-public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompatActivity {
+public abstract class BaseActivity<DB extends ViewDataBinding, VM extends ViewModel> extends AppCompatActivity {
 
+    protected VM viewModel;
     protected DB binding;
+
+    protected abstract Class<VM> getViewModelClass();
 
     @LayoutRes
     protected abstract int getLayoutRes();
@@ -21,13 +26,23 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, getLayoutRes());
-        setupView();
+        viewModel = new ViewModelProvider(this).get(getViewModelClass());
+        setup();
         updateUI();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cleanup();
+    }
+
+    protected void setup() {
     }
 
     protected void updateUI() {
     }
 
-    protected void setupView() {
+    protected void cleanup() {
     }
 }
