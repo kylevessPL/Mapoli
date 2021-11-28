@@ -29,13 +29,13 @@
 
     <PreferenceCategory app:title="@string/other">
 
-        <EditTextPreference
+        <Preference
             android:icon="@drawable/ic_baseline_bug_report_24"
             android:singleLine="true"
             app:key="report_a_bug"
             app:title="@string/report_a_bug" />
 
-        <EditTextPreference
+        <Preference
             android:icon="@drawable/ic_baseline_info_24"
             android:singleLine="true"
             app:key="about"

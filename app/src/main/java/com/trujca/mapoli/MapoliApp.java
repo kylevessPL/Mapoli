@@ -15,6 +15,14 @@ import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
 import dagger.hilt.android.HiltAndroidApp;
 
+import android.content.SharedPreferences;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
+
 @HiltAndroidApp
 public class MapoliApp extends Application {
 
@@ -22,6 +30,7 @@ public class MapoliApp extends Application {
     public void onCreate() {
         super.onCreate();
         initDrawer();
+        setTheme();
     }
 
     private void initDrawer() {
@@ -51,5 +60,15 @@ public class MapoliApp extends Application {
                 return super.placeholder(ctx, tag);
             }
         });
+    }
+  
+    private void setTheme() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
+        if (darkModeEnabled) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 }

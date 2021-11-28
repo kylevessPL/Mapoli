@@ -168,4 +168,22 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         }
         return profileItem;
     }
+
+    public void favouritesPopup(MenuItem item) {
+        View favouritesButton = findViewById(R.id.action_favourites);
+        PopupMenu popup = new PopupMenu(this, favouritesButton);
+        popup.getMenu().add("Weeia");                                                                   // TODO: Fill with binded data
+        popup.getMenu().add("Mordor");
+        popup.getMenu().add("Lodex");
+        popup.getMenu().add("Akwarium");
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                item.getTitle();                                                                        // TODO: Make action depending on items details (id + name)
+                return true;
+            }
+        });
+        popup.inflate(R.menu.favourites_list);
+        popup.show();
+    }
 }

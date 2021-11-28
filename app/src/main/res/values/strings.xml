@@ -22,6 +22,9 @@
     <string name="appearance">Appearance</string>
 
     <string name="about">About app</string>
+    <string name="version">Version:</string>
+    <string name="send">Send</string>
+    <string name="report_bug_hint">Type here (max 500 characters)</string>
     <string name="report_a_bug">Report a bug</string>
     <string name="language">Language</string>
     <string name="units"> Unit</string>
