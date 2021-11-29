@@ -1,5 +1,7 @@
 package com.trujca.mapoli;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.mikepenz.materialdrawer.util.DrawerImageLoader.Tags.PROFILE;
 
 import android.app.Application;
@@ -62,9 +64,9 @@ public class MapoliApp extends Application {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean darkModeEnabled = sharedPreferences.getBoolean(getString(R.string.dark_mode_key), false);
         if (darkModeEnabled) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
         }
     }
 }
