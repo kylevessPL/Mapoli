@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="chateau_green_200">#9DD4B0</color>
-    <color name="chateau_green_500">#34AC64</color>
-    <color name="chateau_green_700">#248B4E</color>
+    <color name="chateau_green_200">#4E8F64</color>
+    <color name="chateau_green_500">#196036</color>
+    <color name="chateau_green_700">#14502C</color>
     <color name="sundance_200">#FBEEB1</color>
     <color name="sundance_500">#F2DC72</color>
     <color name="sundance_700">#CCB564</color>
