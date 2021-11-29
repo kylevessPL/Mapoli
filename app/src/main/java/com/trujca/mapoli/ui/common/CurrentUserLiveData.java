@@ -1,13 +1,12 @@
 package com.trujca.mapoli.ui.common;
 
-import android.net.Uri;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.trujca.mapoli.data.auth.model.UserDetails;
+import com.trujca.mapoli.util.AppUtils;
 
 public class CurrentUserLiveData extends LiveData<UserDetails> implements FirebaseAuth.IdTokenListener {
 
@@ -35,16 +34,8 @@ public class CurrentUserLiveData extends LiveData<UserDetails> implements Fireba
         UserDetails userDetails = null;
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
-            userDetails = extractUserDetails(user);
+            userDetails = AppUtils.toUserDetails(user);
         }
         setValue(userDetails);
     }
-
-    private UserDetails extractUserDetails(FirebaseUser user) {
-        String displayName = user.getDisplayName() != null ? user.getDisplayName() : ("user_" + auth.getUid());
-        String email = user.getEmail();
-        Uri photoUri = user.getPhotoUrl();
-        return new UserDetails(displayName, email, photoUri);
-    }
-
 }

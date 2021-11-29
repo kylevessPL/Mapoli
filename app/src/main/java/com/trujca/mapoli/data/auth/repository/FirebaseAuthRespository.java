@@ -2,7 +2,6 @@ package com.trujca.mapoli.data.auth.repository;
 
 import static java.util.Objects.requireNonNull;
 
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,6 +17,7 @@ import com.trujca.mapoli.data.auth.model.LoginError;
 import com.trujca.mapoli.data.auth.model.RegisterError;
 import com.trujca.mapoli.data.auth.model.UserDetails;
 import com.trujca.mapoli.data.util.RepositoryCallback;
+import com.trujca.mapoli.util.AppUtils;
 
 import javax.inject.Inject;
 
@@ -41,7 +41,7 @@ public class FirebaseAuthRespository implements AuthRepository {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
-                        callback.onSuccess(extractUserDetails(requireNonNull(user)));
+                        callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
                         Log.w(TAG, "loginWithEmail:success");
                     } else {
                         Exception ex = task.getException();
@@ -64,7 +64,7 @@ public class FirebaseAuthRespository implements AuthRepository {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
-                        callback.onSuccess(extractUserDetails(requireNonNull(user)));
+                        callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
                         Log.w(TAG, "loginWithGoogle:success");
                     } else {
                         Exception ex = task.getException();
@@ -86,7 +86,7 @@ public class FirebaseAuthRespository implements AuthRepository {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
-                        callback.onSuccess(extractUserDetails(requireNonNull(user)));
+                        callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
                         Log.w(TAG, "register:success");
                     } else {
                         Exception ex = task.getException();
@@ -124,18 +124,8 @@ public class FirebaseAuthRespository implements AuthRepository {
     public UserDetails getCurrentUserDetails() throws UserNotLoggedInException {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
-            return extractUserDetails(user);
+            return AppUtils.toUserDetails(user);
         }
         throw new UserNotLoggedInException();
-    }
-
-    private UserDetails extractUserDetails(FirebaseUser user) {
-        String displayName = user.getDisplayName() != null ? user.getDisplayName() : ("user_" + auth.getUid());
-        String email = user.getEmail();
-        Uri photoUri = Uri.parse(
-                requireNonNull(user.getPhotoUrl())
-                        .toString().replace("s96-c", "s300-c")
-        );
-        return new UserDetails(displayName, email, photoUri);
     }
 }

@@ -52,7 +52,8 @@ public class BindingUtils {
     @BindingAdapter({"android:userAvatar", "android:userName"})
     public static void userAvatarData(AvatarView avatarView, Uri userAvatar, String userName) {
         ImageLoaderBase imageLoader = new GlideLoader();
-        imageLoader.loadImage(avatarView, userAvatar.toString(), userName);
+        String uri = userAvatar != null ? userAvatar.toString() : null;
+        imageLoader.loadImage(avatarView, uri, userName);
     }
 
     @BindingConversion
