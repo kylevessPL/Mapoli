@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         def gradlePluginVersion = "7.0.3"
         def gmsPluginVersion = "4.3.10"
-        def hiltPluginVersion = "2.40.3"
+        def hiltPluginVersion = "2.40.4"
         def safeArgsPluginVersion = "2.3.5"
 
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
