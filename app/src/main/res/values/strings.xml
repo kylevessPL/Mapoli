@@ -36,12 +36,12 @@
     <string name="add_category">Add category</string>
     <string name="add">Add</string>
     <string name="category_name">Category name</string>
-    <string name="my_account">Moje konto</string>
-    <string name="signin">Zaloguj się</string>
-    <string name="signup">Zarejestruj się</string>
+    <string name="my_account">My account</string>
+    <string name="signin">Sign in</string>
+    <string name="signup">Sign up</string>
+    <string name="signout">Sign out</string>
     <string name="email_icon" translatable="false">Email icon</string>
     <string name="email" translatable="false">Email</string>
-    <string name="signout">Sign out</string>
     <string name="display_name_icon" translatable="false">Display name icon</string>
     <string name="display_name">Display name</string>
     <string name="general_error_message">Request couldn\'t be processed, try again later</string>
