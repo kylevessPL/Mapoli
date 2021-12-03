@@ -49,7 +49,7 @@ dependencies {
     def osmdroidVersion = "6.1.11"
     def retrofitVersion = "2.9.0"
     def liveEventVersion = "1.3.0"
-    def hiltVersion = "2.40.3"
+    def hiltVersion = "2.40.4"
     def avatarViewVersion = "0.0.2"
     def glideVersion = "4.12.0"
     def lombokVersion = "1.18.22"
