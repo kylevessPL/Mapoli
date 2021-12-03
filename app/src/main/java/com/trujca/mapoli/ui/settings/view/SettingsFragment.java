@@ -9,7 +9,10 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.akexorcist.localizationactivity.core.LanguageSetting;
 import com.trujca.mapoli.R;
+
+import java.util.Locale;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -28,6 +31,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             }));
         }
+        findPreference("language").setOnPreferenceChangeListener(((preference, newValue) -> {
+            System.out.println(newValue);
+            Locale newLocale;
+            SettingsActivity settingsActivity = (SettingsActivity) requireActivity();
+            if (!newValue.toString().equals("system_default")){
+                newLocale = Locale.forLanguageTag(newValue.toString());
+            }else{
+                newLocale = LanguageSetting.getDefaultLanguage(requireContext());
+            }
+            settingsActivity.setLanguage(newLocale);
+
+            return true;
+        }));
     }
 
     @Override
