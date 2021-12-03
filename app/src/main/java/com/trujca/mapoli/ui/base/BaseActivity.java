@@ -27,9 +27,9 @@ public abstract class BaseActivity<DB extends ViewDataBinding, VM extends ViewMo
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, getLayoutRes());
-        Class<VM> viewModelCLass = getViewModelClass();
-        if (viewModelCLass != null) {
-            viewModel = new ViewModelProvider(this).get(viewModelCLass);
+        Class<VM> viewModelClass = getViewModelClass();
+        if (viewModelClass != null) {
+            viewModel = new ViewModelProvider(this).get(viewModelClass);
         }
         setup();
         updateUI();
