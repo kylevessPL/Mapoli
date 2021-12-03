@@ -4,25 +4,29 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import static com.mikepenz.materialdrawer.util.DrawerImageLoader.Tags.PROFILE;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.ConfigurationCompat;
 import androidx.preference.PreferenceManager;
-
+import com.akexorcist.localizationactivity.ui.LocalizationApplication;
 import com.bumptech.glide.Glide;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import java.util.Locale;
+
 import dagger.hilt.android.HiltAndroidApp;
 
 @HiltAndroidApp
-public class MapoliApp extends Application {
+public class MapoliApp extends LocalizationApplication {
 
     @Override
     public void onCreate() {
@@ -68,5 +72,15 @@ public class MapoliApp extends Application {
         } else {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
         }
+    }
+
+    @NonNull
+    @Override
+    public Locale getDefaultLanguage(@NonNull Context context) {
+        String language = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage();
+        if (language.equals("pl") || language.equals("en")){
+            return Locale.forLanguageTag(language);
+        }
+        return Locale.ENGLISH;
     }
 }
