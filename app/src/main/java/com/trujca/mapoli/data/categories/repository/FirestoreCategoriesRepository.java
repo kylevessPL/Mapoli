@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.trujca.mapoli.data.util.RepositoryCallback;
@@ -30,13 +31,19 @@ public class FirestoreCategoriesRepository implements CategoriesRepository {
     @Override
     public void getAllCategories(RepositoryCallback<List<Category>, Void> callback) {
         List<Category> categories = new ArrayList<>();
-        firestore.collection("categories")
+
+
+
+        firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("categories")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
-                            categories.add(new Category(UUID.randomUUID(), requireNonNull(document.getData().get("name")).toString()));
-                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            if(!document.getData().get("name").toString().equals(""))
+                            {
+                                categories.add(new Category(UUID.randomUUID(), requireNonNull(document.getData().get("name")).toString()));
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
                         }
                         callback.onSuccess(categories);
                         Log.w(TAG, "getAllCategories:success");
@@ -50,7 +57,7 @@ public class FirestoreCategoriesRepository implements CategoriesRepository {
 
     @Override
     public void addCategory(final Category category, RepositoryCallback<Void, Void> callback) {
-        firestore.collection("categories").document("NAME")
+        firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("categories").document(category.getName())
                 .set(Collections.singletonMap("name", category.getName()))
                 .addOnSuccessListener(nothing -> {
                     callback.onSuccess(null);

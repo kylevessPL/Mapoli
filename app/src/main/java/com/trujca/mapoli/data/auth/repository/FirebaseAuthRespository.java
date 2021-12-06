@@ -7,17 +7,23 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.trujca.mapoli.data.auth.exception.UserNotLoggedInException;
 import com.trujca.mapoli.data.auth.model.LoginError;
 import com.trujca.mapoli.data.auth.model.RegisterError;
 import com.trujca.mapoli.data.auth.model.UserDetails;
 import com.trujca.mapoli.data.util.RepositoryCallback;
 import com.trujca.mapoli.util.AppUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -27,11 +33,13 @@ public class FirebaseAuthRespository implements AuthRepository {
 
     private final FirebaseAuth auth;
     private final GoogleSignInClient googleSignInClient;
+    private final FirebaseFirestore firebase;
 
     @Inject
     public FirebaseAuthRespository(FirebaseAuth auth, GoogleSignInClient googleSignInClient) {
         this.auth = auth;
         this.googleSignInClient = googleSignInClient;
+        this.firebase = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -42,6 +50,7 @@ public class FirebaseAuthRespository implements AuthRepository {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
+
                         Log.w(TAG, "loginWithEmail:success");
                     } else {
                         Exception ex = task.getException();
@@ -65,6 +74,27 @@ public class FirebaseAuthRespository implements AuthRepository {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
+
+                        /*
+                        Map<String,String> newUser = new HashMap<>();
+                        newUser.put("category1","");
+                        firebase.collection("users").document(user.getUid())
+                                .set(newUser)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                                //TODO: google login mi nie działa to wole tego nie próbować
+                         */
                         Log.w(TAG, "loginWithGoogle:success");
                     } else {
                         Exception ex = task.getException();
@@ -87,6 +117,24 @@ public class FirebaseAuthRespository implements AuthRepository {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
+
+                        Map<String,String> newUser = new HashMap<>();
+                        newUser.put("name",""); //dummy cause document has to have any data
+                        firebase.collection("users").document(user.getUid()).collection("categories").document("category1")
+                                .set(newUser)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
                         Log.w(TAG, "register:success");
                     } else {
                         Exception ex = task.getException();

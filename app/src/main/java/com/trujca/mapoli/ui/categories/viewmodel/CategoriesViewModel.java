@@ -1,5 +1,7 @@
 package com.trujca.mapoli.ui.categories.viewmodel;
 
+import static java.util.Objects.requireNonNull;
+
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
 
@@ -63,8 +65,7 @@ public class CategoriesViewModel extends BaseViewModel {
 
             @Override
             public void onSuccess(final Void model) {
-                // List<Category> categories = requireNonNull(categoriesData.getValue()); TODO jak juz bedzie dzialalo dodawanie wielu kategorii do firestore
-                List<Category> categories = new ArrayList<>(); // for now, change later
+                List<Category> categories = requireNonNull(categoriesData.getValue());
                 categories.add(category);
                 categoriesData.postValue(new ArrayList<>(categories));
             }
