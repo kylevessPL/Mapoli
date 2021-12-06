@@ -6,6 +6,7 @@ import static com.trujca.mapoli.util.Constants.LONGTITUDE_INITIAL;
 import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
@@ -28,6 +30,7 @@ import com.trujca.mapoli.ui.map.viewmodel.MapViewModel;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.TilesOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +123,12 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         // setting start view on Lodz University of Technology
         map.getController().setCenter(new GeoPoint(LATITUDE_INITIAL, LONGTITUDE_INITIAL));
         map.setTilesScaledToDpi(true);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
+        if (darkModeEnabled){
+            map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
+        }
     }
 
     private void checkPermissions() {
