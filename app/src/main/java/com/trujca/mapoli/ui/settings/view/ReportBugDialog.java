@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.trujca.mapoli.databinding.ReportBugDialogBinding;
 import com.trujca.mapoli.ui.settings.viewmodel.ReportBugViewModel;
@@ -20,9 +21,16 @@ public class ReportBugDialog extends DialogFragment {
     private ReportBugDialogBinding binding;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(ReportBugViewModel.class);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
-        binding.setLifecycleOwner(this);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+        binding.setViewModel(viewModel);
     }
 
     @Nullable
