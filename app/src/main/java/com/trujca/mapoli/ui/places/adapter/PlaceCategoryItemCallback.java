@@ -11,11 +11,11 @@ public class PlaceCategoryItemCallback extends DiffUtil.ItemCallback<PlaceCatego
 
     @Override
     public boolean areItemsTheSame(@NonNull final PlaceCategory oldItem, @NonNull final PlaceCategory newItem) {
-        return oldItem.getId() == newItem.getId();
+        return Objects.equals(oldItem.getId(), newItem.getId());
     }
 
     @Override
     public boolean areContentsTheSame(@NonNull final PlaceCategory oldItem, @NonNull final PlaceCategory newItem) {
-        return Objects.equals(oldItem.getName(), newItem.getName()) && Objects.equals(oldItem.getIconResource(), newItem.getIconResource());
+        return Objects.equals(oldItem, newItem);
     }
 }

@@ -7,23 +7,17 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.trujca.mapoli.data.auth.exception.UserNotLoggedInException;
 import com.trujca.mapoli.data.auth.model.LoginError;
 import com.trujca.mapoli.data.auth.model.RegisterError;
 import com.trujca.mapoli.data.auth.model.UserDetails;
 import com.trujca.mapoli.data.util.RepositoryCallback;
 import com.trujca.mapoli.util.AppUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -48,7 +42,6 @@ public class FirebaseAuthRespository implements AuthRepository {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
-
                         Log.w(TAG, "loginWithEmail:success");
                     } else {
                         Exception ex = task.getException();
