@@ -33,13 +33,11 @@ public class FirebaseAuthRespository implements AuthRepository {
 
     private final FirebaseAuth auth;
     private final GoogleSignInClient googleSignInClient;
-    private final FirebaseFirestore firebase;
 
     @Inject
     public FirebaseAuthRespository(FirebaseAuth auth, GoogleSignInClient googleSignInClient) {
         this.auth = auth;
         this.googleSignInClient = googleSignInClient;
-        this.firebase = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -74,27 +72,6 @@ public class FirebaseAuthRespository implements AuthRepository {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
-
-                        /*
-                        Map<String,String> newUser = new HashMap<>();
-                        newUser.put("category1","");
-                        firebase.collection("users").document(user.getUid())
-                                .set(newUser)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error writing document", e);
-                                    }
-                                });
-
-                                //TODO: google login mi nie działa to wole tego nie próbować
-                         */
                         Log.w(TAG, "loginWithGoogle:success");
                     } else {
                         Exception ex = task.getException();
@@ -117,24 +94,6 @@ public class FirebaseAuthRespository implements AuthRepository {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
-
-                        Map<String,String> newUser = new HashMap<>();
-                        newUser.put("name",""); //dummy cause document has to have any data
-                        firebase.collection("users").document(user.getUid()).collection("categories").document("category1")
-                                .set(newUser)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error writing document", e);
-                                    }
-                                });
-
                         Log.w(TAG, "register:success");
                     } else {
                         Exception ex = task.getException();

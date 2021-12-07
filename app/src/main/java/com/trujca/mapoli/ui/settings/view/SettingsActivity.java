@@ -15,7 +15,7 @@ import com.trujca.mapoli.databinding.ActivitySettingsBinding;
 public class SettingsActivity extends BaseActivity<ActivitySettingsBinding, ViewModel>{
 
     @Override
-    protected Class getViewModelClass() {
+    protected Class<ViewModel> getViewModelClass() {
         return null;
     }
 
