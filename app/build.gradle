@@ -31,6 +31,11 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/NOTICE.md")
+        resources.excludes.add("META-INF/LICENSE.md")
+    }
 }
 
 dependencies {
@@ -54,6 +59,7 @@ dependencies {
     def glideVersion = "4.12.0"
     def lombokVersion = "1.18.22"
     def localization = "1.2.10"
+    def mailDroid = "v0.0.9-release"
 
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
@@ -85,4 +91,5 @@ dependencies {
     annotationProcessor "com.google.dagger:hilt-compiler:$hiltVersion"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation "com.akexorcist:localization:$localization"
+    implementation "com.github.nedimf:maildroid:$mailDroid"
 }
