@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        def gradlePluginVersion = "7.0.3"
+        def gradlePluginVersion = "7.0.4"
         def gmsPluginVersion = "4.3.10"
         def hiltPluginVersion = "2.40.5"
         def safeArgsPluginVersion = "2.3.5"
