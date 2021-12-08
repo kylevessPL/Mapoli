@@ -1,21 +1,14 @@
 package com.trujca.mapoli.ui.places.view;
 
-import static java.util.Objects.requireNonNull;
-
-
-
-import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.places.model.PlaceCategory;
 import com.trujca.mapoli.databinding.FragmentPlacesBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
 import com.trujca.mapoli.ui.places.adapter.PlacesAdapter;
-import com.trujca.mapoli.ui.places.model.PlaceCategory;
-import com.trujca.mapoli.ui.places.viewmodel.PlacesCategoryViewModel;
+import com.trujca.mapoli.ui.places.view.PlacesFragmentDirections.ActionPlacesFragmentToPlacesCategoryFragment;
 import com.trujca.mapoli.ui.places.viewmodel.PlacesViewModel;
-
-import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -39,27 +32,23 @@ public class PlacesFragment extends BaseFragment<FragmentPlacesBinding, PlacesVi
 
     @Override
     protected void updateUI() {
-        viewModel.getPlaceCategoryData().observe(getViewLifecycleOwner(), this::updateAdapterData);
-        viewModel.getNavigateToNewFragment().observe(getViewLifecycleOwner(), this::changeFragment);
+        viewModel.getNavigateToPlacesCategoryFragment().observe(getViewLifecycleOwner(), this::navigateToPlacesCategoryFragment);
     }
-
-    private void changeFragment(Boolean b)
-    {
-        Navigation.findNavController(getView()).navigate(R.id.chosen_place);
-    }
-
 
     private void setupAdapter() {
-        binding.placeCategoriesView.setAdapter(new PlacesAdapter((view, item) -> {
+        PlacesAdapter adapter = new PlacesAdapter((view, item) -> {
             PlaceCategory category = (PlaceCategory) item;
-            viewModel.doOnPlaceCategoryClicked(category);
-        }));
+            viewModel.navigateToPlacesCategoryFragment(category);
+        });
+        adapter.submitList(viewModel.getPlaceCategories());
+        binding.recyclerView.setAdapter(adapter);
     }
 
-    private void updateAdapterData(final List<PlaceCategory> data) {
-        if (data == null) {
-            return;
+    private void navigateToPlacesCategoryFragment(Integer categoryId) {
+        if (categoryId != null) {
+            ActionPlacesFragmentToPlacesCategoryFragment action = PlacesFragmentDirections
+                    .actionPlacesFragmentToPlacesCategoryFragment(categoryId);
+            Navigation.findNavController(requireView()).navigate(action);
         }
-        requireNonNull((PlacesAdapter) binding.placeCategoriesView.getAdapter()).submitList(data);
     }
 }

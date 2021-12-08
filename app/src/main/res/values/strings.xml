@@ -1,5 +1,4 @@
 <resources>
-    <string name="foursquare_api_key" translatable="false">fsq3WVAkdVbEb1oGSEedwSRBZmsHsD0NUyhuTIQuGb2V1Y4=</string>
 
     <string name="app_name" translatable="false">Mapoli</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>
@@ -34,6 +33,16 @@
     <string name="add_category">Add category</string>
     <string name="add">Add</string>
     <string name="category_name">Category name</string>
+    <string name="arts_and_entertainment">Arts and Entertainment</string>
+    <string name="business_and_professional_services">Business and Professional Services</string>
+    <string name="community_and_government">Community and Government</string>
+    <string name="dining_and_drinking">Dining and Drinking</string>
+    <string name="event">Event</string>
+    <string name="health_and_medicine">Health and Medicine</string>
+    <string name="landmarks_and_outdoors">Landmarks and Outdoors</string>
+    <string name="retail">Retail</string>
+    <string name="sports_and_recreation">Sports and Recreation</string>
+    <string name="travel_and_transportation">Travel and Transportation</string>
 
 
 </resources>

@@ -4,12 +4,12 @@
     <PreferenceCategory app:title="@string/appearance">
 
         <SwitchPreferenceCompat
-            android:icon="@drawable/ic_baseline_dark_mode_24"
+            android:icon="@drawable/ic_dark_mode_24"
             app:key="dark_mode"
             app:title="@string/dark_mode" />
 
         <ListPreference
-            android:icon="@drawable/ic_baseline_translate_24"
+            android:icon="@drawable/ic_translate_24"
             app:defaultValue="english"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
@@ -30,13 +30,13 @@
     <PreferenceCategory app:title="@string/other">
 
         <EditTextPreference
-            android:icon="@drawable/ic_baseline_bug_report_24"
+            android:icon="@drawable/ic_bug_report_24"
             android:singleLine="true"
             app:key="report_a_bug"
             app:title="@string/report_a_bug" />
 
         <EditTextPreference
-            android:icon="@drawable/ic_baseline_info_24"
+            android:icon="@drawable/ic_info_24"
             android:singleLine="true"
             app:key="about"
             app:title="@string/about" />

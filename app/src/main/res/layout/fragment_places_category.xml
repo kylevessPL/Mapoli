@@ -3,25 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.trujca.mapoli.ui.places.viewmodel.PlacesCategoryViewModel" />
-    </data>
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.places.view.PlacesCategoryFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/place_chosen_category_view"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/item_places_category"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/item_places" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

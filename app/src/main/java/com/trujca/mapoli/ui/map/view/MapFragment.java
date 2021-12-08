@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -62,10 +63,9 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_search).setVisible(true);
-        menu.findItem(R.id.action_favourites).setVisible(true);
-        menu.findItem(R.id.action_add_category).setVisible(false);
+    public void onCreateOptionsMenu(@NonNull final Menu menu, @NonNull final MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_map_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -105,6 +105,11 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     @Override
     protected void updateUI() {
         setupMap();
+    }
+
+    @Override
+    protected void setupView() {
+        setHasOptionsMenu(true);
     }
 
     private void setupMap() {

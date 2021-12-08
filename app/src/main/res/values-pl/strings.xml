@@ -28,4 +28,15 @@
     <string name="add_category">Dodaj kategorię</string>
     <string name="add">Dodaj</string>
     <string name="category_name">Nazwa kategorii</string>
+
+    <string name="arts_and_entertainment">Kultura i Rozrywka</string>
+    <string name="business_and_professional_services">Biznes i Usługi</string>
+    <string name="community_and_government">Społeczeństwo i Urzędy</string>
+    <string name="dining_and_drinking">Jedzenie i Picie</string>
+    <string name="event">Wydarzenia</string>
+    <string name="health_and_medicine">Zdrowie i Medycyna</string>
+    <string name="landmarks_and_outdoors">Zabytki i Natura</string>
+    <string name="retail">Handel</string>
+    <string name="sports_and_recreation">Sport i Rekreacja</string>
+    <string name="travel_and_transportation">Podróże i Transport</string>
 </resources>

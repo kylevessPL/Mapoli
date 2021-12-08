@@ -1,88 +1,62 @@
 package com.trujca.mapoli.ui.places.viewmodel;
 
+import static com.trujca.mapoli.util.Constants.LATITUDE_INITIAL;
+import static com.trujca.mapoli.util.Constants.LONGTITUDE_INITIAL;
+
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.trujca.mapoli.data.places.repository.FoursquareService;
+import com.trujca.mapoli.data.common.model.Coordinates;
+import com.trujca.mapoli.data.places.model.PlaceNearby;
 import com.trujca.mapoli.data.places.repository.PlacesRepository;
-import com.trujca.mapoli.ui.places.model.ChosenPlace;
-import com.trujca.mapoli.ui.places.model.PlaceCategory;
-import com.trujca.mapoli.util.Constants;
+import com.trujca.mapoli.data.util.RepositoryCallback;
 
-import java.io.IOError;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import lombok.Getter;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 @HiltViewModel
-public class PlacesCategoryViewModel extends ViewModel
-{
+public class PlacesCategoryViewModel extends ViewModel {
+
+    private static final Integer PLACES_LIMIT = 10;
+    private static final Integer PLACES_RADIUS = 5000;
+
+    private final PlacesRepository placesRepository;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
     @Getter
-    private final MutableLiveData<PlaceCategory> chosenPlaceCategory = new MutableLiveData<PlaceCategory>();
-    @Getter
-    private final MutableLiveData<List<ChosenPlace>> foundPlaces = new MutableLiveData<List<ChosenPlace>>();
+    private final MutableLiveData<List<PlaceNearby>> placesNearby = new MutableLiveData<>();
 
     @Inject
-    public PlacesCategoryViewModel() {
-        getPlacesData();
+    public PlacesCategoryViewModel(PlacesRepository placesRepository) {
+        this.placesRepository = placesRepository;
     }
 
-    public void doOnPlaceCategoryClicked(ChosenPlace chosenPlace) {
-        //todo: poka na mapie punkta czy tam trase github copilot pls napisz essa
+    public void showPlaceOnMap(PlaceNearby place) {
     }
 
-    private void getPlacesData()
-    {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.foursquare.com/v3/places/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public void fetchPlacesInCategory(Integer categoryId) {
+        executor.execute(() -> placesRepository.getPlacesNearby(
+                new Coordinates((float) LATITUDE_INITIAL, (float) LONGTITUDE_INITIAL), // use initial coords for now
+                PLACES_RADIUS,
+                categoryId,
+                PLACES_LIMIT,
+                new RepositoryCallback<List<PlaceNearby>>() {
 
-        FoursquareService service = retrofit.create(FoursquareService.class);
+                    @Override
+                    public void onSuccess(final List<PlaceNearby> model) {
+                        placesNearby.postValue(model);
+                    }
 
-        String coordinates = Constants.LATITUDE_INITIAL + "," + Constants.LONGTITUDE_INITIAL; //todo: na razie punkt z mapy, ma być bieżaca lokalizacja
-//chosenPlaceCategory.getValue().getName()
-
-        Call<JsonObject> placeJsonData = service.getChosenPlace( coordinates, "restaurant");
-        List<ChosenPlace> data = new ArrayList<>();
-
-        placeJsonData.enqueue(new Callback<JsonObject>()
-        {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response)
-            {
-                JsonObject mainObject = response.body();
-                JsonArray results = mainObject.getAsJsonArray("results");
-                for(int i = 0; i < results.size();i++)
-                {
-                    JsonObject result = (JsonObject) results.get(i);
-                    String name = result.get("name").getAsString();
-                    int distance = result.get("distance").getAsInt();
-                    data.add(new ChosenPlace(i,name,distance));
-                }
-                foundPlaces.postValue(data);
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t)
-            {
-
-            }
-        });
-
+                    @Override
+                    public void onError(final String msg) {
+                        // we'll think 'bout later, ookaay?
+                    }
+                }));
     }
-
 }

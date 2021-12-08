@@ -13,6 +13,6 @@ public class CategoriesAdapter extends BaseAdapter<Category> {
 
     @Override
     protected int getLayoutIdForPosition(final int position) {
-        return R.layout.item_category;
+        return R.layout.item_places_category;
     }
 }

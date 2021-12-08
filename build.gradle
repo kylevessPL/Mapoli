@@ -7,15 +7,11 @@ buildscript {
     }
 
     dependencies {
+        def safeArgsVersion = "2.3.5"
         classpath "com.android.tools.build:gradle:7.0.3"
         classpath "com.google.gms:google-services:4.3.10"
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.1"
-    }
-}
-
-allprojects {
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$safeArgsVersion"
     }
 }
 
