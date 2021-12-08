@@ -31,13 +31,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             }));
         }
-        findPreference("language").setOnPreferenceChangeListener(((preference, newValue) -> {
+        ((Preference) requireNonNull(findPreference("language"))).setOnPreferenceChangeListener(((preference, newValue) -> {
             System.out.println(newValue);
             Locale newLocale;
             SettingsActivity settingsActivity = (SettingsActivity) requireActivity();
-            if (!newValue.toString().equals("system_default")){
+            if (!newValue.toString().equals("system_default")) {
                 newLocale = Locale.forLanguageTag(newValue.toString());
-            }else{
+            } else {
                 newLocale = LanguageSetting.getDefaultLanguage(requireContext());
             }
             settingsActivity.setLanguage(newLocale);

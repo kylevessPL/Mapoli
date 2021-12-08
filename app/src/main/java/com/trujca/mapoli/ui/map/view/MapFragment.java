@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
@@ -124,9 +123,9 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.getController().setCenter(new GeoPoint(LATITUDE_INITIAL, LONGTITUDE_INITIAL));
         map.setTilesScaledToDpi(true);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.requireContext());
         boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
-        if (darkModeEnabled){
+        if (darkModeEnabled) {
             map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
         }
     }

@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.ConfigurationCompat;
 import androidx.preference.PreferenceManager;
+
 import com.akexorcist.localizationactivity.ui.LocalizationApplication;
 import com.bumptech.glide.Glide;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
@@ -78,7 +79,7 @@ public class MapoliApp extends LocalizationApplication {
     @Override
     public Locale getDefaultLanguage(@NonNull Context context) {
         String language = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage();
-        if (language.equals("pl") || language.equals("en")){
+        if (language.equals("pl") || language.equals("en")) {
             return Locale.forLanguageTag(language);
         }
         return Locale.ENGLISH;

@@ -5,17 +5,18 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModel;
+
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.databinding.ActivitySettingsBinding;
 import com.trujca.mapoli.ui.base.BaseActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import com.trujca.mapoli.databinding.ActivitySettingsBinding;
 
 @AndroidEntryPoint
-public class SettingsActivity extends BaseActivity<ActivitySettingsBinding, ViewModel>{
+public class SettingsActivity extends BaseActivity<ActivitySettingsBinding, ViewModel> {
 
     @Override
-    protected Class getViewModelClass() {
+    protected Class<ViewModel> getViewModelClass() {
         return null;
     }
 

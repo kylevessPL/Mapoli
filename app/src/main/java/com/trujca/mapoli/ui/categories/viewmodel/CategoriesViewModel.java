@@ -2,13 +2,15 @@ package com.trujca.mapoli.ui.categories.viewmodel;
 
 import static java.util.Objects.requireNonNull;
 
+import android.util.Log;
+
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
 
+import com.trujca.mapoli.data.categories.model.Category;
 import com.trujca.mapoli.data.categories.repository.CategoriesRepository;
 import com.trujca.mapoli.data.util.RepositoryCallback;
 import com.trujca.mapoli.ui.base.BaseViewModel;
-import com.trujca.mapoli.ui.categories.model.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,7 @@ public class CategoriesViewModel extends BaseViewModel {
 
     private final CategoriesRepository categoriesRepository;
     @Getter
-    private final MutableLiveData<List<Category>> categoriesData = new MutableLiveData<>(new ArrayList<>());
-    public ObservableField<String> categoryNameInput = new ObservableField<>("");
+    private final MutableLiveData<List<Category>> categoriesData = new MutableLiveData<>();
 
     @Inject
     public CategoriesViewModel(CategoriesRepository categoriesRepository) {
