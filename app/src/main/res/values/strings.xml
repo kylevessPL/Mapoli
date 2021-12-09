@@ -30,6 +30,8 @@
     <string name="units"> Unit</string>
     <string name="dark_mode">Dark mode</string>
     <string name="report_bug_label">What is wrong?</string>
+    <string name="report_bug_success_toast">Report sent</string>
+    <string name="report_bug_failure_toast">Add first some report text</string>
 
     <string name="places">Places</string>
     <string name="icon" translatable="false">Icon</string>
