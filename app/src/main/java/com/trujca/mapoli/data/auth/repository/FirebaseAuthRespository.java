@@ -118,8 +118,8 @@ public class FirebaseAuthRespository implements AuthRepository {
                         FirebaseUser user = auth.getCurrentUser();
                         callback.onSuccess(AppUtils.toUserDetails(requireNonNull(user)));
 
-                        Map<String,String> newUser = new HashMap<>();
-                        newUser.put("name",""); //dummy cause document has to have any data
+                        Map<String, String> newUser = new HashMap<>();
+                        newUser.put("name", ""); //dummy cause document has to have any data
                         firebase.collection("users").document(user.getUid()).collection("categories").document("category1")
                                 .set(newUser)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -33,14 +33,12 @@ public class FirestoreCategoriesRepository implements CategoriesRepository {
         List<Category> categories = new ArrayList<>();
 
 
-
         firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("categories")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
-                            if(!document.getData().get("name").toString().equals(""))
-                            {
+                            if (!document.getData().get("name").toString().equals("")) {
                                 categories.add(new Category(UUID.randomUUID(), requireNonNull(document.getData().get("name")).toString()));
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }

@@ -27,7 +27,6 @@
     <string name="dark_mode">Ciemny motyw</string>
     <string name="report_bug_label">Co jest nie tak?</string>
     <string name="report_bug_success_toast">Zgłoszenie wysłane</string>
-    <string name="report_bug_failure_toast">Dodaj najpierw treść zgłoszenia</string>
 
     <string name="places">Miejsca</string>
 
