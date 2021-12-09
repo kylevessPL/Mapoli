@@ -3,22 +3,30 @@ package com.trujca.mapoli.ui.settings.view;
 import static java.util.Objects.requireNonNull;
 
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.akexorcist.localizationactivity.core.LanguageSetting;
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.ui.settings.viewmodel.SettingsFragmentViewModel;
 
 import java.util.Locale;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
+    public SettingsFragmentViewModel settingsFragmentViewModel;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        settingsFragmentViewModel = new ViewModelProvider(this).get(SettingsFragmentViewModel.class);
 
         SwitchPreferenceCompat darkModePreference = findPreference(getString(R.string.dark_mode_key));
         if (darkModePreference != null) {
@@ -31,7 +39,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             }));
         }
-        findPreference("language").setOnPreferenceChangeListener(((preference, newValue) -> {
+        ((Preference) requireNonNull(findPreference("language"))).setOnPreferenceChangeListener(((preference, newValue) -> {
             System.out.println(newValue);
             Locale newLocale;
             SettingsActivity settingsActivity = (SettingsActivity) requireActivity();
@@ -44,6 +52,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             return true;
         }));
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        settingsFragmentViewModel.currentUserLiveData.observe(getViewLifecycleOwner(), value -> ((Preference) requireNonNull(findPreference("report_a_bug"))).setVisible(value != null));
     }
 
     @Override
