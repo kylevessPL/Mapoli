@@ -7,9 +7,15 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.3"
-        classpath "com.google.gms:google-services:4.3.10"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.1"
+        def gradlePluginVersion = "7.0.4"
+        def gmsPluginVersion = "4.3.10"
+        def hiltPluginVersion = "2.40.5"
+        def safeArgsPluginVersion = "2.3.5"
+
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
+        classpath "com.google.gms:google-services:$gmsPluginVersion"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltPluginVersion"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$safeArgsPluginVersion"
     }
 }
 

@@ -1,8 +1,8 @@
 package com.trujca.mapoli.ui.categories.adapter;
 
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.categories.model.Category;
 import com.trujca.mapoli.ui.base.BaseAdapter;
-import com.trujca.mapoli.ui.categories.model.Category;
 import com.trujca.mapoli.ui.common.RecyclerViewClickListener;
 
 public class CategoriesAdapter extends BaseAdapter<Category> {

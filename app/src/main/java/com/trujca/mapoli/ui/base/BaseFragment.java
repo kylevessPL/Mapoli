@@ -1,5 +1,7 @@
 package com.trujca.mapoli.ui.base;
 
+import static java.util.Objects.requireNonNull;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,8 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
@@ -27,17 +31,22 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends ViewMo
     @LayoutRes
     protected abstract int getLayoutRes();
 
+    @StringRes
+    protected abstract int getTitle();
+
     @Override
     @CallSuper
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(getViewModelClass());
+        setup();
     }
 
     @Override
     @CallSuper
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
+        requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle(getTitle());
         setupView();
         return binding.getRoot();
     }
@@ -51,9 +60,21 @@ public abstract class BaseFragment<DB extends ViewDataBinding, VM extends ViewMo
         updateUI();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cleanup();
+    }
+
+    protected void setup() {
+    }
+
     protected void setupView() {
     }
 
     protected void updateUI() {
+    }
+
+    protected void cleanup() {
     }
 }

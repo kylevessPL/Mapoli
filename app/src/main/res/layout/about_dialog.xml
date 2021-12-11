@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="com.trujca.mapoli.BuildConfig" />
+
         <variable
             name="viewModel"
             type="com.trujca.mapoli.ui.settings.viewmodel.AboutDialogViewModel" />
@@ -19,11 +20,11 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/about"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_info_24"
-            android:contentDescription="@string/about" />
+            app:srcCompat="@drawable/ic_baseline_info_24" />
 
         <TextView
             android:id="@+id/textView2"

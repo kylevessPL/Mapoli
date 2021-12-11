@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="com.trujca.mapoli.ui.categories.model.Category" />
+            type="com.trujca.mapoli.data.categories.model.Category" />
 
         <variable
             name="adapter"

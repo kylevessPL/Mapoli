@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_user"
+    app:startDestination="@id/nav_login">
+
+    <fragment
+        android:id="@+id/nav_account"
+        android:name="com.trujca.mapoli.ui.account.view.AccountFragment"
+        android:label="@string/my_account"
+        tools:layout="@layout/fragment_account">
+
+        <action
+            android:id="@+id/action_AccountFragment_to_LoginFragment"
+            app:destination="@id/nav_login"
+            app:popUpTo="@id/nav_account"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.trujca.mapoli.ui.login.view.LoginFragment"
+        android:label="@string/signin"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_LoginFragment_to_RegisterFragment"
+            app:destination="@id/nav_register" />
+        <action
+            android:id="@+id/action_LoginFragment_to_AccountFragment"
+            app:destination="@id/nav_account"
+            app:popUpTo="@+id/nav_login"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_register"
+        android:name="com.trujca.mapoli.ui.register.view.RegisterFragment"
+        android:label="@string/signup"
+        tools:layout="@layout/fragment_register">
+
+        <action
+            android:id="@+id/action_RegisterFragment_to_LoginFragment"
+            app:destination="@id/nav_login" />
+        <action
+            android:id="@+id/action_RegisterFragment_to_AccountFragment"
+            app:destination="@id/nav_account"
+            app:popUpTo="@+id/nav_register"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

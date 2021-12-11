@@ -6,6 +6,7 @@ import static com.trujca.mapoli.util.Constants.LONGTITUDE_INITIAL;
 import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
+import org.osmdroid.views.overlay.TilesOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +118,11 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.app_name;
+    }
+
+    @Override
     protected void updateUI() {
         setupMap();
     }
@@ -170,6 +177,12 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
             }
         };
         map.getOverlays().add(touchOverlay);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.requireContext());
+        boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
+        if (darkModeEnabled) {
+            map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
+        }
     }
 
     private void checkPermissions() {
