@@ -11,19 +11,24 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.favorites.model.Favorite;
+import com.trujca.mapoli.data.util.RepositoryCallback;
 import com.trujca.mapoli.databinding.FragmentMapBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
 import com.trujca.mapoli.ui.map.MapMarkerPopup;
@@ -161,7 +166,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 GeoPoint location = (GeoPoint) projection.fromPixels((int)e.getX(), (int)e.getY());
                 Marker marker = new Marker(mapView);
                 marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_favorite_24, null));
-                MapMarkerPopup popupWindow = new MapMarkerPopup(R.layout.map_pin_popup, mapView);
+                MapMarkerPopup popupWindow = new MapMarkerPopup(R.layout.map_pin_popup, mapView, viewModel.repository);
                 marker.setInfoWindow(popupWindow);
                 marker.setPosition(location);
                 marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_map_pin, null));
@@ -230,5 +235,44 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 .setMessage(getString(R.string.permissions_message))
                 .setPositiveButton(android.R.string.ok, (dialog, i) -> dialog.dismiss())
                 .create().show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_favourites) {
+            favouritesPopup();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void favouritesPopup() {
+        PopupMenu popup = new PopupMenu(getContext(), getActivity().findViewById(R.id.action_favourites));
+        viewModel.repository.getAllFavorites(new RepositoryCallback<List<Favorite>, Void>() {
+            @Override
+            public void onLoading(Boolean loading) {
+
+            }
+
+            @Override
+            public void onSuccess(List<Favorite> favorites) {
+                viewModel.favorites = favorites;
+                for (int i = 0; i < favorites.size(); i++){
+                    popup.getMenu().add(0, i, 0, favorites.get(i).getName());
+                    popup.setOnMenuItemClickListener(item -> {
+                        Favorite fav = viewModel.favorites.get(item.getItemId());
+                        map.getController().setCenter(new GeoPoint((double) fav.getY(), (double) fav.getX()));
+                        return true;
+                    });
+                }
+                popup.inflate(R.menu.favourites_list);
+                popup.show();
+            }
+
+            @Override
+            public void onError(Void unused) {
+                Toast.makeText(getContext(), "REEEE", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

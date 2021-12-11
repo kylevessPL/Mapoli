@@ -50,4 +50,9 @@
     <string name="signup_success">Zostałeś pomyślnie zarejestrowany</string>
     <string name="invalid_credentials">Dane logowania są nieprawidłowe, sprawdź adres email oraz hasło i spróbuj ponownie</string>
     <string name="not_logged_in">Nie zalogowany</string>
+    <string name="favourite_added">Dodano ulubione miejsce</string>
+    <string name="favourite_not_added">Nie udało się dodać ulubionego miejsca!</string>
+    <string name="favourite_no_name">Nie można dodać ulubionego miejsca - podaj prawidłową nazwę</string>
+    <string name="favourite_insert_name">Nazwij punkt...</string>
+    <string name="favourites_list_error">Nie udało się załadować ulubionych - spróbuj ponownie</string>
 </resources>

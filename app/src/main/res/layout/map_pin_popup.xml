@@ -4,10 +4,14 @@
     android:layout_height="wrap_content"
     android:background="@drawable/marker_popup">
 
-    <TextView
+    <EditText
         android:id="@+id/bubble_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/favourite_insert_name"
+        android:inputType="textPersonName"
+        android:maxLength="20"
         android:text=""
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"

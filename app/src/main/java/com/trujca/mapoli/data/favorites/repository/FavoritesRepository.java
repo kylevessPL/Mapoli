@@ -10,4 +10,6 @@ public interface FavoritesRepository {
     void getAllFavorites(RepositoryCallback<List<Favorite>, Void> callback);
 
     void addFavorite(Favorite favorite, RepositoryCallback<Void, Void> callback);
+
+    void deleteFavorite(String documentId, RepositoryCallback<Void, Void> callback);
 }

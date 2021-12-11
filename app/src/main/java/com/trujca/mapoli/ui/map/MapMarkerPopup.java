@@ -6,11 +6,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.favorites.model.Favorite;
+import com.trujca.mapoli.data.favorites.repository.FavoritesRepository;
+import com.trujca.mapoli.data.util.RepositoryCallback;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
-import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
 
 public class MapMarkerPopup extends MarkerInfoWindow {
 
@@ -21,22 +25,54 @@ public class MapMarkerPopup extends MarkerInfoWindow {
      */
 
     Marker marker;
+    FavoritesRepository repository;
+    boolean addedToFavourites = false;
 
-    public MapMarkerPopup(int layoutResId, MapView mapView) {
+    public MapMarkerPopup(int layoutResId, MapView mapView, FavoritesRepository repository) {
         super(layoutResId, mapView);
+        this.repository = repository;
     }
 
     @Override
     public void onOpen(Object item) {
         marker = (Marker) item;
         TextView title = (TextView) mView.findViewById(R.id.bubble_title);
-        CharSequence text = marker.getPosition().getLatitude() + " " + marker.getPosition().getLongitude();
-        title.setText(text);
         ImageButton button = (ImageButton) (mView.findViewById(R.id.bubble_image));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(button.getContext(), "TODO: Add point to favourites", Toast.LENGTH_LONG).show();       // TODO: Add point to favourites list
+                if (!addedToFavourites){
+                    if (title.getText().length() < 3){
+                        Toast.makeText(button.getContext(), R.string.favourite_no_name, Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        String id = Double.parseDouble(new DecimalFormat("#.###").format(marker.getPosition().getLatitude())) + "-" + Double.parseDouble(new DecimalFormat("#.###").format(marker.getPosition().getLongitude()));
+                        Favorite fav = new Favorite(id, title.getText().toString(), (float)marker.getPosition().getLongitude(), (float)marker.getPosition().getLatitude());        // TODO: deal with this sheeit
+                        repository.addFavorite(fav, new RepositoryCallback<Void, Void>() {
+                                    @Override
+                                    public void onLoading(Boolean loading) {
+
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(button.getContext(), R.string.favourite_added, Toast.LENGTH_LONG).show();
+                                        button.setImageResource(R.drawable.ic_favourite_button_selected);
+                                        addedToFavourites = true;
+                                    }
+
+                                    @Override
+                                    public void onError(Void unused) {
+                                        Toast.makeText(button.getContext(), R.string.favourite_not_added, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                        );
+
+                    }
+                }
+                else {
+                    // TODO: Implement favourites deletion
+                }
             }
         });
     }

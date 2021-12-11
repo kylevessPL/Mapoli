@@ -61,4 +61,9 @@
     <string name="invalid_credentials">Invalid credentials provided. Check your email and password and try again.</string>
     <string name="not_logged_in">Not logged in</string>
     <string name="dark_mode_key" translatable="false">dark_mode</string>
+    <string name="favourite_added">Favourite added</string>
+    <string name="favourite_not_added">Couldn\'t add favourite!</string>
+    <string name="favourite_no_name">Couldn\'t add favourite - please enter valid name</string>
+    <string name="favourite_insert_name">Name a favourite...</string>
+    <string name="favourites_list_error">Couldn\'t load favourites - try again</string>
 </resources>

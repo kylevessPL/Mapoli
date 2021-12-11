@@ -3,10 +3,8 @@ package com.trujca.mapoli.data.favorites.model;
 import com.google.firebase.firestore.DocumentId;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Getter
 @AllArgsConstructor
@@ -17,4 +15,16 @@ public class Favorite {
     private String name;
     private Float coordX;
     private Float coordY;
+
+    public String getName(){
+        return name;
+    }
+
+    public float getX(){
+        return coordX;
+    }
+
+    public float getY(){
+        return coordY;
+    }
 }
