@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.trujca.mapoli.data.categories.model.Category;
+import com.trujca.mapoli.data.favorites.model.Favorite;
 import com.trujca.mapoli.data.util.RepositoryCallback;
 
 import java.util.List;
@@ -30,16 +31,14 @@ public class FirestoreCategoriesRepository implements CategoriesRepository {
     public void getAllCategories(RepositoryCallback<List<Category>, Void> callback) {
         firestore.collection("users").document(requireNonNull(auth.getUid())).collection("categories")
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        List<Category> categories = task.getResult().toObjects(Category.class);
-                        callback.onSuccess(categories);
-                        Log.w(TAG, "getAllCategories:success");
-                    } else {
-                        Exception ex = requireNonNull(task.getException());
-                        callback.onError(null);
-                        Log.w(TAG, "getAllCategories:failure", ex);
-                    }
+                .addOnSuccessListener(documents -> {
+                    List<Category> categories = documents.toObjects(Category.class);
+                    callback.onSuccess(categories);
+                    Log.w(TAG, "getAllCategories:success");
+                })
+                .addOnFailureListener(ex -> {
+                    callback.onError(null);
+                    Log.w(TAG, "getAllCategories:failure", ex);
                 });
     }
 
