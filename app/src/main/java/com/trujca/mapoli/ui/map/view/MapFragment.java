@@ -153,7 +153,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.getOverlays().add(scaleBar);
 
         // Compass
-        compass = new CompassOverlay(getContext(), map);
+        compass = new CompassOverlay(requireContext(), map);
         map.getOverlays().add(compass);
 
         // Setting start view on Lodz University of Technology
@@ -256,7 +256,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     }
 
     public void favouritesPopup() {
-        PopupMenu popup = new PopupMenu(getContext(), getActivity().findViewById(R.id.action_favourites));
+        PopupMenu popup = new PopupMenu(requireContext(), requireActivity().findViewById(R.id.action_favourites));
         viewModel.repository.getAllFavorites(new RepositoryCallback<List<Favorite>, Void>() {
             @Override
             public void onLoading(Boolean loading) {
