@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
-    private final MutableLiveData<PlaceCategory> chosenPlaceCategory = new MutableLiveData<>();
     private NavController navController;
     private NavigationView navView;
     private AppBarConfiguration appBarConfiguration;
