@@ -1,6 +1,7 @@
 package com.trujca.mapoli.ui.map;
 
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,9 +29,17 @@ public class MapMarkerPopup extends MarkerInfoWindow {
     FavoritesRepository repository;
     boolean addedToFavourites = false;
 
-    public MapMarkerPopup(int layoutResId, MapView mapView, FavoritesRepository repository) {
+    public MapMarkerPopup(int layoutResId, MapView mapView, FavoritesRepository repository, boolean isFavourite, String name) {
         super(layoutResId, mapView);
         this.repository = repository;
+        if (isFavourite){
+            EditText text = (EditText) mView.findViewById(R.id.bubble_title);
+            text.setText((CharSequence) name);
+            text.setFocusable(false);
+            ImageButton button = (ImageButton) (mView.findViewById(R.id.bubble_image));
+            button.setImageResource(R.drawable.ic_favourite_button_selected);
+            addedToFavourites = true;
+        }
     }
 
     @Override
@@ -57,6 +66,7 @@ public class MapMarkerPopup extends MarkerInfoWindow {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(button.getContext(), R.string.favourite_added, Toast.LENGTH_LONG).show();
+                                        title.setFocusable(false);
                                         button.setImageResource(R.drawable.ic_favourite_button_selected);
                                         addedToFavourites = true;
                                     }

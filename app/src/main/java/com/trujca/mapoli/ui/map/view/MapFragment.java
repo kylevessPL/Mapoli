@@ -59,6 +59,8 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
 
     private MapView map;
     private CompassOverlay compass;
+    Marker markerPresent = null;
+
     private boolean storagePermissionGranted = false;
     private boolean locationPermissionGranted = false;
 
@@ -159,23 +161,16 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.setTilesScaledToDpi(true);
 
         // Markers created by touch
-        Overlay touchOverlay = new Overlay(){
-            Marker markerPresent = null;
+        Overlay touchOverlay = new Overlay() {
             public boolean onSingleTapConfirmed(final MotionEvent e, final MapView mapView) {
-                Projection projection = mapView.getProjection();
-                GeoPoint location = (GeoPoint) projection.fromPixels((int)e.getX(), (int)e.getY());
-                Marker marker = new Marker(mapView);
-                marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_favorite_24, null));
-                MapMarkerPopup popupWindow = new MapMarkerPopup(R.layout.map_pin_popup, mapView, viewModel.repository);
-                marker.setInfoWindow(popupWindow);
-                marker.setPosition(location);
-                marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_map_pin, null));
-                if(markerPresent != null){
+                if (markerPresent != null) {
                     //if(markerPresent.isInfoWindowShown())
-                        markerPresent.closeInfoWindow();
+                    markerPresent.closeInfoWindow();
                     mapView.getOverlays().remove(markerPresent);
                 }
-                markerPresent = marker;
+                Projection projection = mapView.getProjection();
+                GeoPoint location = (GeoPoint) projection.fromPixels((int) e.getX(), (int) e.getY());
+                markerPresent = createMarker(mapView, location, "");
                 mapView.getOverlays().add(markerPresent);       // Marker will overlap other overlays and when put behind, tap function doesn't work
                 mapView.invalidate();
                 return true;
@@ -183,11 +178,25 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         };
         map.getOverlays().add(touchOverlay);
 
+        // Map dark mode
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.requireContext());
         boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
         if (darkModeEnabled) {
             map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
         }
+    }
+
+    Marker createMarker(MapView mapView, GeoPoint location, String name){
+        Marker newMarker = new Marker(mapView);
+        newMarker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_map_pin, null));
+        MapMarkerPopup popupWindow;
+        if (name.length() <= 3)
+            popupWindow = new MapMarkerPopup(R.layout.map_pin_popup, mapView, viewModel.repository, false, "");
+        else
+            popupWindow = new MapMarkerPopup(R.layout.map_pin_popup, mapView, viewModel.repository, true, name);
+        newMarker.setInfoWindow(popupWindow);
+        newMarker.setPosition(location);
+        return newMarker;
     }
 
     private void checkPermissions() {
@@ -260,8 +269,19 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 for (int i = 0; i < favorites.size(); i++){
                     popup.getMenu().add(0, i, 0, favorites.get(i).getName());
                     popup.setOnMenuItemClickListener(item -> {
+                        if (markerPresent != null) {
+                            //if(markerPresent.isInfoWindowShown())
+                            markerPresent.closeInfoWindow();
+                            map.getOverlays().remove(markerPresent);
+                        }
                         Favorite fav = viewModel.favorites.get(item.getItemId());
-                        map.getController().setCenter(new GeoPoint((double) fav.getY(), (double) fav.getX()));
+                        GeoPoint location = new GeoPoint((double) fav.getY(), (double) fav.getX());
+                        markerPresent = createMarker(map, location, fav.getName());
+                        markerPresent.setTitle(fav.getName());
+                        map.getOverlays().add(markerPresent);       // Marker will overlap other overlays and when put behind, tap function doesn't work
+                        markerPresent.showInfoWindow();
+                        markerPresent.moveToEventPosition();
+                        map.invalidate();
                         return true;
                     });
                 }
