@@ -4,8 +4,10 @@ import static java.util.Objects.requireNonNull;
 
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.trujca.mapoli.data.favorites.model.Favorite;
 import com.trujca.mapoli.data.util.RepositoryCallback;
 
@@ -33,16 +35,14 @@ public class FirestoreFavoritesRepository implements FavoritesRepository {
                 .document(requireNonNull(auth.getUid()))
                 .collection("favorites")
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        List<Favorite> favorites = task.getResult().toObjects(Favorite.class);
-                        callback.onSuccess(favorites);
-                        Log.w(TAG, "getAllFavorites:success");
-                    } else {
-                        Exception ex = requireNonNull(task.getException());
-                        callback.onError(null);
-                        Log.w(TAG, "getAllFavorites:failure", ex);
-                    }
+                .addOnSuccessListener(documents -> {
+                    List<Favorite> favorites = documents.toObjects(Favorite.class);
+                    callback.onSuccess(favorites);
+                    Log.w(TAG, "getAllFavorites:success");
+                })
+                .addOnFailureListener(ex -> {
+                    callback.onError(null);
+                    Log.w(TAG, "getAllFavorites:failure", ex);
                 });
     }
 
@@ -65,7 +65,20 @@ public class FirestoreFavoritesRepository implements FavoritesRepository {
     }
 
     @Override
-    public void deleteFavorite(String documentId, RepositoryCallback<Void, Void> callback) {
-        // TODO:
+    public void deleteFavorite(final Favorite favorite, RepositoryCallback<Void, Void> callback) {
+        firestore
+                .collection("users")
+                .document(requireNonNull(auth.getUid()))
+                .collection("favorites")
+                .document(favorite.getDocumentId())
+                .delete()
+                .addOnSuccessListener(nothing -> {
+                    callback.onSuccess(null);
+                    Log.d(TAG, "deleteFavorite:success");
+                })
+                .addOnFailureListener(ex -> {
+                    callback.onError(null);
+                    Log.w(TAG, "deleteFavorite:failure", ex);
+                });
     }
 }

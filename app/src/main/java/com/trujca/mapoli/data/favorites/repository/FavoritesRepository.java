@@ -11,5 +11,5 @@ public interface FavoritesRepository {
 
     void addFavorite(Favorite favorite, RepositoryCallback<Void, Void> callback);
 
-    void deleteFavorite(String documentId, RepositoryCallback<Void, Void> callback);
+    void deleteFavorite(Favorite favorite, RepositoryCallback<Void, Void> callback);
 }
