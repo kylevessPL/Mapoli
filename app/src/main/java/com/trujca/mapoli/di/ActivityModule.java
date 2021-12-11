@@ -5,6 +5,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import android.content.Context;
 import android.content.Intent;
 
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.trujca.mapoli.R;
@@ -64,6 +65,15 @@ public class ActivityModule {
                     ctx.startActivity(new Intent(ctx, UserActivity.class));
                     return true;
                 });
+    }
+
+    @Provides
+    @ActivityScoped
+    PrimaryDrawerItem provideCategoriesDrawerItem() {
+        return new PrimaryDrawerItem()
+                .withIdentifier(2)
+                .withName(R.string.categories)
+                .withIcon(R.drawable.ic_baseline_local_offer_24);
     }
 
     @Qualifier

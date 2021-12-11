@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +49,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Inject
     @LoggedInProfileSettingDrawerItem
     protected ProfileSettingDrawerItem loggedInProfileSettingItem;
+
+    @Inject
+    protected PrimaryDrawerItem categoriesDrawerItem;
 
     private AccountHeader header;
     private Drawer drawer;
@@ -109,15 +113,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                                     return true;
                                 }),
                         new PrimaryDrawerItem()
-                                .withIdentifier(2)
-                                .withName(R.string.categories)
-                                .withIcon(R.drawable.ic_baseline_local_offer_24)
-                                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                                    navController.navigate(R.id.nav_categories);
-                                    drawer.closeDrawer();
-                                    return true;
-                                }),
-                        new PrimaryDrawerItem()
                                 .withIdentifier(3)
                                 .withName(R.string.places)
                                 .withIcon(R.drawable.ic_baseline_place_24)
@@ -144,10 +139,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
     private void displayCurrentUserStatus(final UserDetails userDetails) {
+        boolean loggedIn = userDetails != null;
         header.getProfiles().clear();
-        if (userDetails == null) {
+        if (!loggedIn) {
+            drawer.removeItem(2);
             header.addProfiles(notLoggedInPlaceholder, notLoggedInProfileSettingItem);
             return;
+        }
+        if (drawer.getDrawerItem(2) == null) {
+            drawer.addItemAtPosition(categoriesDrawerItem, 2);
         }
         ProfileDrawerItem profileItem = createProfileDrawerItem(userDetails);
         header.addProfiles(profileItem, loggedInProfileSettingItem);
