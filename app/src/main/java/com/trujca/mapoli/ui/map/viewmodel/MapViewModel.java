@@ -18,4 +18,8 @@ public class MapViewModel extends BaseViewModel {
     MapViewModel(FavoritesRepository repository) {
         this.repository = repository;
     }
+
+    void fetchAllFavourites(){
+
+    }
 }

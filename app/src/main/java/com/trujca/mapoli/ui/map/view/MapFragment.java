@@ -26,6 +26,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.data.favorites.model.Favorite;
 import com.trujca.mapoli.data.util.RepositoryCallback;
@@ -45,6 +46,8 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.TilesOverlay;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     private MapView map;
     private CompassOverlay compass;
     Marker markerPresent = null;
+    MyLocationNewOverlay locationOverlay = null;
 
     private boolean storagePermissionGranted = false;
     private boolean locationPermissionGranted = false;
@@ -104,6 +108,9 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     public void onResume() {
         super.onResume();
         map.onResume();
+        if (locationOverlay != null){
+            locationOverlay.enableMyLocation();
+        }
         compass.enableCompass();
     }
 
@@ -111,6 +118,9 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     public void onPause() {
         super.onPause();
         map.onPause();
+        if (locationOverlay != null){
+            locationOverlay.disableMyLocation();
+        }
         compass.disableCompass();
     }
 
@@ -160,6 +170,13 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.getController().setCenter(new GeoPoint(LATITUDE_INITIAL, LONGTITUDE_INITIAL));
         map.setTilesScaledToDpi(true);
 
+        // Add location handling
+        locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(requireContext()), map);
+        //Drawable marker = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_map_pin, null);
+        //Bitmap mapCurrentLocationMarker = BitmapFactory.decodeResource(requireContext().getResources(), R.drawable.ic_map_current_location_pin);
+        //locationOverlay.setDirectionArrow(mapCurrentLocationMarker, mapCurrentLocationMarker);       // TODO: Somehow change marker?
+        map.getOverlays().add(locationOverlay);
+
         // Markers created by touch
         Overlay touchOverlay = new Overlay() {
             public boolean onSingleTapConfirmed(final MotionEvent e, final MapView mapView) {
@@ -183,6 +200,29 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
         if (darkModeEnabled) {
             map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
+        }
+
+        // Current location button
+        FloatingActionButton button = getView().findViewById(R.id.floatingActionButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToCurrentLocation();
+            }
+        });
+    }
+
+    void moveToCurrentLocation(){                                                    // TODO: Fix this total mess (check permissions?) - bugs: can't fetch localization if you turn it on/off during usage of map, but it works if you reload map fragment
+        if (locationOverlay != null){
+            if(locationOverlay.getMyLocation() != null){
+                map.getController().setCenter(locationOverlay.getMyLocation());
+            }
+            else {
+                Toast.makeText(getContext(), R.string.localization_off, Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            Toast.makeText(getContext(), R.string.localization_off, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -280,7 +320,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                         markerPresent.setTitle(fav.getName());
                         map.getOverlays().add(markerPresent);       // Marker will overlap other overlays and when put behind, tap function doesn't work
                         markerPresent.showInfoWindow();
-                        markerPresent.moveToEventPosition();
+                        map.getController().setCenter(location);
                         map.invalidate();
                         return true;
                     });

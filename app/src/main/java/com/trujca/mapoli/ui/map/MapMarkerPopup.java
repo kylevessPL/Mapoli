@@ -56,7 +56,7 @@ public class MapMarkerPopup extends MarkerInfoWindow {
                     }
                     else{
                         String id = Double.parseDouble(new DecimalFormat("#.###").format(marker.getPosition().getLatitude())) + "-" + Double.parseDouble(new DecimalFormat("#.###").format(marker.getPosition().getLongitude()));
-                        Favorite fav = new Favorite(id, title.getText().toString(), (float)marker.getPosition().getLongitude(), (float)marker.getPosition().getLatitude());        // TODO: deal with this sheeit
+                        Favorite fav = new Favorite(id, title.getText().toString(), (float)marker.getPosition().getLongitude(), (float)marker.getPosition().getLatitude());
                         repository.addFavorite(fav, new RepositoryCallback<Void, Void>() {
                                     @Override
                                     public void onLoading(Boolean loading) {
@@ -67,6 +67,7 @@ public class MapMarkerPopup extends MarkerInfoWindow {
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(button.getContext(), R.string.favourite_added, Toast.LENGTH_LONG).show();
                                         title.setFocusable(false);
+                                        title.setFocusableInTouchMode(false);
                                         button.setImageResource(R.drawable.ic_favourite_button_selected);
                                         addedToFavourites = true;
                                     }
@@ -81,7 +82,28 @@ public class MapMarkerPopup extends MarkerInfoWindow {
                     }
                 }
                 else {
-                    // TODO: Implement favourites deletion
+                    String id = Double.parseDouble(new DecimalFormat("#.###").format(marker.getPosition().getLatitude())) + "-" + Double.parseDouble(new DecimalFormat("#.###").format(marker.getPosition().getLongitude()));
+                    Favorite fav = new Favorite(id, title.getText().toString(), (float)marker.getPosition().getLongitude(), (float)marker.getPosition().getLatitude());
+                    repository.deleteFavorite(fav, new RepositoryCallback<Void, Void>() {
+                        @Override
+                        public void onLoading(Boolean loading) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(button.getContext(), R.string.favourite_deleted, Toast.LENGTH_LONG).show();
+                            title.setFocusable(true);
+                            title.setFocusableInTouchMode(true);
+                            button.setImageResource(R.drawable.ic_favourite_button);
+                            addedToFavourites = false;
+                        }
+
+                        @Override
+                        public void onError(Void unused) {
+                            Toast.makeText(button.getContext(), R.string.favourite_delete_fail, Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }
         });
