@@ -37,8 +37,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
 
-    public Drawer drawer;
-    public AccountHeader header;
     @Inject
     protected ProfileDrawerItem notLoggedInPlaceholder;
     @Inject
@@ -49,6 +47,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     protected ProfileSettingDrawerItem loggedInProfileSettingItem;
     @Inject
     protected PrimaryDrawerItem categoriesDrawerItem;
+
+    private Drawer drawer;
+    private AccountHeader header;
 
     @Override
     protected void setup() {
