@@ -1,17 +1,19 @@
 package com.trujca.mapoli.ui.categories.viewmodel;
 
+import static java.util.Objects.requireNonNull;
+
+import android.util.Log;
+
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.trujca.mapoli.data.categories.model.Category;
 import com.trujca.mapoli.data.categories.repository.CategoriesRepository;
 import com.trujca.mapoli.data.util.RepositoryCallback;
-import com.trujca.mapoli.ui.categories.model.Category;
+import com.trujca.mapoli.ui.base.BaseViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -19,13 +21,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 import lombok.Getter;
 
 @HiltViewModel
-public class CategoriesViewModel extends ViewModel {
+public class CategoriesViewModel extends BaseViewModel {
 
     private final CategoriesRepository categoriesRepository;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
     @Getter
-    private final MutableLiveData<List<Category>> categoriesData = new MutableLiveData<>(new ArrayList<>());
-    public ObservableField<String> categoryNameInput = new ObservableField<>("");
+    private final MutableLiveData<List<Category>> categoriesData = new MutableLiveData<>();
 
     @Inject
     public CategoriesViewModel(CategoriesRepository categoriesRepository) {
@@ -37,7 +37,12 @@ public class CategoriesViewModel extends ViewModel {
     }
 
     public void fetchAllCategories() {
-        executor.execute(() -> categoriesRepository.getAllCategories(new RepositoryCallback<List<Category>>() {
+        executor.execute(() -> categoriesRepository.getAllCategories(new RepositoryCallback<List<Category>, Void>() {
+
+            @Override
+            public void onLoading(final Boolean isLoading) {
+                // update loading livedata and display progressindicator with proper visibility
+            }
 
             @Override
             public void onSuccess(final List<Category> model) {
@@ -45,33 +50,31 @@ public class CategoriesViewModel extends ViewModel {
             }
 
             @Override
-            public void onError(final String msg) {
+            public void onError(final Void ex) {
                 // do sth with error, ex. show dialog with error msg
             }
         }));
     }
 
     public void addNewCategory(Category category) {
-        executor.execute(() -> categoriesRepository.addCategory(category, new RepositoryCallback<Void>() {
+        executor.execute(() -> categoriesRepository.addCategory(category, new RepositoryCallback<Void, Void>() {
+
+            @Override
+            public void onLoading(final Boolean isLoading) {
+                // update loading livedata and display progressindicator with proper visibility
+            }
 
             @Override
             public void onSuccess(final Void model) {
-                // List<Category> categories = requireNonNull(categoriesData.getValue()); TODO jak juz bedzie dzialalo dodawanie wielu kategorii do firestore
-                List<Category> categories = new ArrayList<>(); // for now, change later
+                List<Category> categories = requireNonNull(categoriesData.getValue());
                 categories.add(category);
                 categoriesData.postValue(new ArrayList<>(categories));
             }
 
             @Override
-            public void onError(final String msg) {
+            public void onError(final Void ex) {
                 // do sth with error, ex. show dialog with error msg
             }
         }));
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        executor.shutdown();
     }
 }

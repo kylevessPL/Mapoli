@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "700127274116",
+    "firebase_url": "https://mapoli-f61e6-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "mapoli-f61e6",
     "storage_bucket": "mapoli-f61e6.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "700127274116-chg9qgpg6uc76dculmm0dnb8h0l6q030.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trujca.mapoli",
+            "certificate_hash": "b1c136e89c0b73adc6d5defb43170e12935321e4"
+          }
+        },
         {
           "client_id": "700127274116-koda3f4ld63gjv27k0mpjj4gfnkh4v0r.apps.googleusercontent.com",
           "client_type": 3

@@ -1,7 +1,9 @@
 package com.trujca.mapoli.ui.categories.view;
 
+import static android.widget.Toast.LENGTH_SHORT;
 import static java.util.Objects.requireNonNull;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,12 +12,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.categories.model.Category;
 import com.trujca.mapoli.databinding.FragmentCategoriesBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
 import com.trujca.mapoli.ui.categories.adapter.CategoriesAdapter;
-import com.trujca.mapoli.ui.categories.model.Category;
 import com.trujca.mapoli.ui.categories.viewmodel.CategoriesViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -49,6 +52,11 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
     }
 
     @Override
+    protected int getTitle() {
+        return R.string.categories;
+    }
+
+    @Override
     protected void setupView() {
         setHasOptionsMenu(true);
         setupAdapter();
@@ -63,7 +71,7 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
         binding.categoriesView.setAdapter(new CategoriesAdapter((view, item) -> {
             Category category = (Category) item;
             viewModel.doOnPlaceCategoryClicked(category);
-            Toast.makeText(getContext(), String.format("Item %s clicked!", category.getId()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), String.format("Item %s clicked!", category.getDocumentId()), LENGTH_SHORT).show();
         }));
     }
 
@@ -71,11 +79,11 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
         if (data == null) {
             return;
         }
-        requireNonNull((CategoriesAdapter) binding.categoriesView.getAdapter()).submitList(data);
+        requireNonNull((CategoriesAdapter) binding.categoriesView.getAdapter()).submitList(new ArrayList<>(data));
     }
 
     private void showAddCategoryDialog() {
-        AddCategoryDialog dialog = new AddCategoryDialog();
-        dialog.show(getChildFragmentManager(), AddCategoryDialog.TAG);
+        AddCategoryDialogFragment dialog = new AddCategoryDialogFragment();
+        dialog.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);
     }
 }

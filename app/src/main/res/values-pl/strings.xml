@@ -18,6 +18,9 @@
     <string name="appearance">Wygląd</string>
 
     <string name="about">O aplikacji</string>
+    <string name="version">Wersja:</string>
+    <string name="send">Wyślij</string>
+    <string name="report_bug_hint">Pisz tutaj (maksymalnie 500 znaków)</string>
     <string name="report_a_bug">Zgłoś błąd</string>
     <string name="language">Język</string>
     <string name="units">Jednostki miary</string>
@@ -28,7 +31,25 @@
     <string name="add_category">Dodaj kategorię</string>
     <string name="add">Dodaj</string>
     <string name="category_name">Nazwa kategorii</string>
-
+    <string name="my_account">Moje konto</string>
+    <string name="signin">Zaloguj się</string>
+    <string name="signup">Zarejestruj się</string>
+    <string name="signout">Wyloguj się</string>
+    <string name="display_name">Nazwa wyświetlana</string>
+    <string name="general_error_message">Nie udało się przetworzyć żądania, spróbuj ponownie później</string>
+    <string name="sign_out_confirmation_dialog_message">Czy jesteś pewien, że chcesz się wylogować?</string>
+    <string name="password">Hasło</string>
+    <string name="password_confirm">Powtórz hasło</string>
+    <string name="min_six_chars_allowed">Minimum 6 znaków</string>
+    <string name="empty_not_allowed">Pole nie może być puste</string>
+    <string name="email_not_valid">Nieprawidłowy email</string>
+    <string name="passwords_not_match">Hasła nie są zgodne</string>
+    <string name="login_link_question">Masz już konto?</string>
+    <string name="register_link_question">Nie masz konta?</string>
+    <string name="email_in_use">Użytkownik o tym adresie email juz istnieje</string>
+    <string name="signup_success">Zostałeś pomyślnie zarejestrowany</string>
+    <string name="invalid_credentials">Dane logowania są nieprawidłowe, sprawdź adres email oraz hasło i spróbuj ponownie</string>
+    <string name="not_logged_in">Nie zalogowany</string>
     <string name="arts_and_entertainment">Kultura i Rozrywka</string>
     <string name="business_and_professional_services">Biznes i Usługi</string>
     <string name="community_and_government">Społeczeństwo i Urzędy</string>

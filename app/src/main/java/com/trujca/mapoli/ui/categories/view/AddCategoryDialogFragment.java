@@ -12,16 +12,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.categories.model.Category;
 import com.trujca.mapoli.databinding.DialogAddCategoryBinding;
-import com.trujca.mapoli.ui.categories.model.Category;
 import com.trujca.mapoli.ui.categories.viewmodel.AddCategoryDialogViewModel;
 import com.trujca.mapoli.ui.categories.viewmodel.CategoriesViewModel;
 
 import java.util.UUID;
 
-public class AddCategoryDialog extends DialogFragment {
+public class AddCategoryDialogFragment extends DialogFragment {
 
-    public static final String TAG = AddCategoryDialog.class.getSimpleName();
+    public static final String TAG = AddCategoryDialogFragment.class.getSimpleName();
 
     private DialogAddCategoryBinding binding;
     private AddCategoryDialogViewModel viewModel;
@@ -49,11 +49,10 @@ public class AddCategoryDialog extends DialogFragment {
                 .setView(binding.getRoot())
                 .setTitle(R.string.add_category)
                 .setPositiveButton(R.string.add, (dialog, i) -> {
-                    Category category = new Category(UUID.randomUUID(), requireNonNull(binding.addCategoryDialogInput.getEditText()).getText().toString());
+                    Category category = new Category(UUID.randomUUID().toString(), requireNonNull(binding.addCategoryDialogInput.getEditText()).getText().toString());
                     parentFragmentViewModel.addNewCategory(category);
                 })
-                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> {
-                })
+                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> {})
                 .create();
     }
 }

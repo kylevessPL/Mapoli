@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="chateau_green_200">#4E8F64</color>
+    <color name="chateau_green_500">#196036</color>
+    <color name="chateau_green_700">#14502C</color>
+    <color name="sundance_200">#FBEEB1</color>
+    <color name="sundance_500">#F2DC72</color>
+    <color name="sundance_700">#CCB564</color>
+    <color name="tussock_500">#D99F5B</color>
+    <color name="tussock_700">#CB884F</color>
+    <color name="tussock_900">#B16C47</color>
+    <color name="black">#33000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="drawer_theme">#000000</color>
+    <color name="drawer_text">#FFFFFF</color>
+</resources>

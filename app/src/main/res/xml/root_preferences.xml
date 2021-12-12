@@ -10,7 +10,7 @@
 
         <ListPreference
             android:icon="@drawable/ic_translate_24"
-            app:defaultValue="english"
+            app:defaultValue="en"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
             app:key="language"
@@ -29,13 +29,13 @@
 
     <PreferenceCategory app:title="@string/other">
 
-        <EditTextPreference
+        <Preference
             android:icon="@drawable/ic_bug_report_24"
             android:singleLine="true"
             app:key="report_a_bug"
             app:title="@string/report_a_bug" />
 
-        <EditTextPreference
+        <Preference
             android:icon="@drawable/ic_info_24"
             android:singleLine="true"
             app:key="about"

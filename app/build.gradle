@@ -3,6 +3,7 @@ plugins {
     id "androidx.navigation.safeargs"
     id "com.google.gms.google-services"
     id "dagger.hilt.android.plugin"
+    id "androidx.navigation.safeargs"
 }
 
 Properties properties = new Properties()
@@ -23,7 +24,6 @@ android {
     }
 
     buildTypes {
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
@@ -42,24 +42,31 @@ android {
 
 dependencies {
 
-    def appCompatVersion = "1.3.1"
+    def appCompatVersion = "1.4.0"
+    def annotationVersion = "1.3.0"
     def materialVersion = "1.4.0"
     def preferenceVersion = "1.1.1"
-    def constraintLayoutVersion = "2.1.1"
+    def constraintLayoutVersion = "2.1.2"
     def lifecycleVersion = "2.4.0"
     def navigationVersion = "2.3.5"
+    def recyclerViewVersion = "1.2.1"
     def firebaseVersion = "28.4.2"
+    def playServicesAuthVersion = "19.2.0"
+    def materialDrawerVersion = "6.1.2"
     def osmdroidVersion = "6.1.11"
     def retrofitVersion = "2.9.0"
+    def liveEventVersion = "1.3.0"
+    def hiltVersion = "2.40.5"
+    def avatarViewVersion = "0.0.2"
+    def glideVersion = "4.12.0"
     def okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
     def gsonFlattenVersion = "0.8.1"
-    def liveEventVersion = "1.3.0"
-    def hiltVersion = "2.40.1"
-    def glideVersion = "4.12.0"
     def lombokVersion = "1.18.22"
+    def localization = "1.2.10"
 
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.annotation:annotation:$annotationVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.preference:preference:$preferenceVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
@@ -67,21 +74,27 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
     implementation "androidx.navigation:navigation-fragment:$navigationVersion"
     implementation "androidx.navigation:navigation-ui:$navigationVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     implementation "com.google.firebase:firebase-analytics"
     implementation "com.google.firebase:firebase-firestore"
     implementation "com.google.firebase:firebase-auth"
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
+    //noinspection GradleDependency
+    implementation "com.mikepenz:materialdrawer:$materialDrawerVersion"
     implementation "org.osmdroid:osmdroid-android:$osmdroidVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion"
-    implementation "org.itishka.gson-flatten:gson-flatten:$gsonFlattenVersion"
     implementation "com.github.hadilq:live-event:$liveEventVersion"
+    implementation "org.itishka.gson-flatten:gson-flatten:$gsonFlattenVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
+    implementation "agency.tango.android:avatar-view:$avatarViewVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
     //noinspection AnnotationProcessorOnCompilePath
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "com.google.dagger:hilt-compiler:$hiltVersion"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation "com.akexorcist:localization:$localization"
 }
