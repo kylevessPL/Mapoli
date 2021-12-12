@@ -38,6 +38,10 @@
             android:name="categoryId"
             app:argType="integer" />
 
+        <argument
+            android:name="categoryName"
+            app:argType="integer" />
+
         <action
             android:id="@+id/action_PlacesCategoryFragment_to_PlacesFragment"
             app:destination="@id/nav_places"

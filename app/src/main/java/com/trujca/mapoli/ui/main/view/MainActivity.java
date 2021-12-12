@@ -4,8 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -57,12 +55,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private Drawer drawer;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     protected void setup() {
         setSupportActionBar(binding.appBarMain.toolbar);
         setupNavDrawer();
@@ -106,39 +98,45 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         new PrimaryDrawerItem()
                                 .withIdentifier(1)
                                 .withName(R.string.map)
-                                .withIcon(R.drawable.ic_baseline_map_24)
-                                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                                    navController.navigate(R.id.nav_map);
-                                    drawer.closeDrawer();
-                                    return true;
-                                }),
+                                .withIcon(R.drawable.ic_map_24),
                         new PrimaryDrawerItem()
                                 .withIdentifier(3)
                                 .withName(R.string.places)
-                                .withIcon(R.drawable.ic_baseline_place_24)
-                                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                                    navController.navigate(R.id.nav_places);
-                                    drawer.closeDrawer();
-                                    return true;
-                                }),
+                                .withIcon(R.drawable.ic_place_24),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem()
                                 .withIdentifier(4)
                                 .withName(R.string.settings)
-                                .withIcon(R.drawable.ic_baseline_settings_24)
+                                .withIcon(R.drawable.ic_settings_24)
                                 .withSelectable(false)
-                                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                                    drawer.closeDrawer();
-                                    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                                    return true;
-                                })
                 )
+                .withOnDrawerItemClickListener((view, position, item) -> {
+                    drawer.closeDrawer();
+                    switch ((int) item.getIdentifier()) {
+                        case 1:
+                            navController.navigate(R.id.nav_map);
+                            break;
+                        case 2:
+                            navController.navigate(R.id.nav_categories);
+                            break;
+                        case 3:
+                            navController.navigate(R.id.nav_places);
+                            break;
+                        case 4:
+                            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                            break;
+                        default:
+                            return false;
+                    }
+                    return true;
+                })
                 .withAccountHeader(header)
                 .build();
         drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
     }
 
     private void displayCurrentUserStatus(final UserDetails userDetails) {
+        invalidateOptionsMenu();
         boolean loggedIn = userDetails != null;
         header.getProfiles().clear();
         if (!loggedIn) {

@@ -30,7 +30,7 @@ public class FoursquarePlacesRepository implements PlacesRepository {
     }
 
     @Override
-    public void getPlaceDetails(Integer placeId, RepositoryCallback<Place> callback) {
+    public void getPlaceDetails(Integer placeId, RepositoryCallback<Place, Void> callback) {
         service.getPlaceDetails(placeId).enqueue(new Callback<Place>() {
 
             @Override
@@ -46,7 +46,7 @@ public class FoursquarePlacesRepository implements PlacesRepository {
 
             @Override
             public void onFailure(@NonNull final Call<Place> call, @NonNull final Throwable ex) {
-                callback.onError(ex.getMessage());
+                callback.onError(null);
                 Log.w(TAG, "getPlaceDetails:failure", ex);
             }
         });
@@ -58,7 +58,7 @@ public class FoursquarePlacesRepository implements PlacesRepository {
             Integer radius,
             Integer categoryId,
             Integer limit,
-            RepositoryCallback<List<PlaceNearby>> callback
+            RepositoryCallback<List<PlaceNearby>, Void> callback
     ) {
         service.getPlacesNearby(coordinates, radius, categoryId, limit).enqueue(new Callback<List<PlaceNearby>>() {
 
@@ -75,7 +75,7 @@ public class FoursquarePlacesRepository implements PlacesRepository {
 
             @Override
             public void onFailure(@NonNull final Call<List<PlaceNearby>> call, @NonNull final Throwable ex) {
-                callback.onError(ex.getMessage());
+                callback.onError(null);
                 Log.w(TAG, "getPlacesNearby:failure", ex);
             }
         });

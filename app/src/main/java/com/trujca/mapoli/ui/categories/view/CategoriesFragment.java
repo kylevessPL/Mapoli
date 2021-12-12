@@ -3,7 +3,6 @@ package com.trujca.mapoli.ui.categories.view;
 import static android.widget.Toast.LENGTH_SHORT;
 import static java.util.Objects.requireNonNull;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;

@@ -19,12 +19,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.FragmentMapBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
+import com.trujca.mapoli.ui.main.viewmodel.MainViewModel;
 import com.trujca.mapoli.ui.map.viewmodel.MapViewModel;
 
 import org.osmdroid.config.Configuration;
@@ -43,6 +45,8 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     public static final String STORAGE_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE;
     public static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
 
+    private MainViewModel parentViewModel;
+
     private MapView map;
     private boolean storagePermissionGranted = false;
     private boolean locationPermissionGranted = false;
@@ -59,8 +63,24 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     );
 
     @Override
+    public Class<MapViewModel> getViewModelClass() {
+        return MapViewModel.class;
+    }
+
+    @Override
+    public int getLayoutRes() {
+        return R.layout.fragment_map;
+    }
+
+    @Override
+    protected int getTitle() {
+        return R.string.app_name;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        parentViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         setHasOptionsMenu(true);
     }
 
@@ -68,6 +88,14 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     public void onCreateOptionsMenu(@NonNull final Menu menu, @NonNull final MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_map_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull final Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (parentViewModel.getCurrentUser().getValue() == null) {
+            menu.removeItem(R.id.action_favourites);
+        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -95,28 +123,9 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     }
 
     @Override
-    public Class<MapViewModel> getViewModelClass() {
-        return MapViewModel.class;
-    }
-
-    @Override
-    public int getLayoutRes() {
-        return R.layout.fragment_map;
-    }
-
-    @Override
-    protected int getTitle() {
-        return R.string.app_name;
-    }
-
-    @Override
-    protected void updateUI() {
-        setupMap();
-    }
-
-    @Override
     protected void setupView() {
         setHasOptionsMenu(true);
+        setupMap();
     }
 
     private void setupMap() {

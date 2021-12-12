@@ -6,6 +6,7 @@ import static com.trujca.mapoli.util.Constants.LONGTITUDE_INITIAL;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.hadilq.liveevent.LiveEvent;
 import com.trujca.mapoli.data.common.model.Coordinates;
 import com.trujca.mapoli.data.places.model.PlaceNearby;
 import com.trujca.mapoli.data.places.repository.PlacesRepository;
@@ -31,6 +32,10 @@ public class PlacesCategoryViewModel extends ViewModel {
 
     @Getter
     private final MutableLiveData<List<PlaceNearby>> placesNearby = new MutableLiveData<>();
+    @Getter
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    @Getter
+    private final MutableLiveData<Boolean> generalError = new LiveEvent<>();
 
     @Inject
     public PlacesCategoryViewModel(PlacesRepository placesRepository) {
@@ -46,7 +51,12 @@ public class PlacesCategoryViewModel extends ViewModel {
                 PLACES_RADIUS,
                 categoryId,
                 PLACES_LIMIT,
-                new RepositoryCallback<List<PlaceNearby>>() {
+                new RepositoryCallback<List<PlaceNearby>, Void>() {
+
+                    @Override
+                    public void onLoading(final Boolean loading) {
+                        isLoading.postValue(loading);
+                    }
 
                     @Override
                     public void onSuccess(final List<PlaceNearby> model) {
@@ -54,8 +64,8 @@ public class PlacesCategoryViewModel extends ViewModel {
                     }
 
                     @Override
-                    public void onError(final String msg) {
-                        // we'll think 'bout later, ookaay?
+                    public void onError(final Void unused) {
+                        generalError.postValue(true);
                     }
                 }));
     }

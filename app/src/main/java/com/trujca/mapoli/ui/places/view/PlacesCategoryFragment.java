@@ -28,6 +28,11 @@ public class PlacesCategoryFragment extends BaseFragment<FragmentPlacesCategoryB
     }
 
     @Override
+    protected int getTitle() {
+        return PlacesCategoryFragmentArgs.fromBundle(getArguments()).getCategoryName();
+    }
+
+    @Override
     protected void setupView() {
         setupAdapter();
         fetchPlaces();

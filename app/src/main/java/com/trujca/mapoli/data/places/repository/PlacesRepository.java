@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface PlacesRepository {
 
-    void getPlaceDetails(Integer placeId, RepositoryCallback<Place> callback);
+    void getPlaceDetails(Integer placeId, RepositoryCallback<Place, Void> callback);
 
     void getPlacesNearby(
             Coordinates coordinates,
             Integer radius,
             Integer categoryId,
             Integer limit,
-            RepositoryCallback<List<PlaceNearby>> callback
+            RepositoryCallback<List<PlaceNearby>, Void> callback
     );
 }

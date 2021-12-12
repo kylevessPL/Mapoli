@@ -1,5 +1,6 @@
 package com.trujca.mapoli.ui.places.view;
 
+import androidx.core.util.Pair;
 import androidx.navigation.Navigation;
 
 import com.trujca.mapoli.R;
@@ -49,10 +50,10 @@ public class PlacesFragment extends BaseFragment<FragmentPlacesBinding, PlacesVi
         binding.recyclerView.setAdapter(adapter);
     }
 
-    private void navigateToPlacesCategoryFragment(Integer categoryId) {
-        if (categoryId != null) {
+    private void navigateToPlacesCategoryFragment(Pair<Integer, Integer> categoryDetails) {
+        if (categoryDetails != null) {
             ActionPlacesFragmentToPlacesCategoryFragment action = PlacesFragmentDirections
-                    .actionPlacesFragmentToPlacesCategoryFragment(categoryId);
+                    .actionPlacesFragmentToPlacesCategoryFragment(categoryDetails.first, categoryDetails.second);
             Navigation.findNavController(requireView()).navigate(action);
         }
     }

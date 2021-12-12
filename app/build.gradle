@@ -3,7 +3,6 @@ plugins {
     id "androidx.navigation.safeargs"
     id "com.google.gms.google-services"
     id "dagger.hilt.android.plugin"
-    id "androidx.navigation.safeargs"
 }
 
 Properties properties = new Properties()
