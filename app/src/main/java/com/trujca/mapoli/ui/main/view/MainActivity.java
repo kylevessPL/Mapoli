@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     protected void setup() {
-        setSupportActionBar(binding.appBarMain.toolbar);
+        setSupportActionBar(binding.toolbar);
         setupNavDrawer();
     }
 
@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @NonNull
     private NavController getNavController() {
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.appBarMain.contentMain.navHostFragmentContentMain.getId());
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.contentMain.navHostMain.getId());
         return requireNonNull(navHostFragment).getNavController();
     }
 
@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(false)
-                .withToolbar(binding.appBarMain.toolbar)
+                .withToolbar(binding.toolbar)
                 .addDrawerItems(
                         new PrimaryDrawerItem()
                                 .withIdentifier(1)

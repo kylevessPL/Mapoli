@@ -33,4 +33,9 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding, View
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
+    @Override
+    protected void setup() {
+        setSupportActionBar(binding.toolbar);
+    }
 }
