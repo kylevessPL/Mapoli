@@ -81,6 +81,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         mSettingsViewModel.mailSent.observe(getViewLifecycleOwner(), message -> {
             if (message != null) {
                 Toast.makeText(getContext(), getString(R.string.report_bug_success_toast), Toast.LENGTH_SHORT).show();
+                mSettingsViewModel.message.setValue("");
             }
         });
     }

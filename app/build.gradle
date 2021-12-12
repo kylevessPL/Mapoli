@@ -14,6 +14,11 @@ android {
         targetSdk 30
         versionCode 1
         versionName "1.0"
+        buildConfigField 'String', 'SMPT', "\"smtp.mailtrap.io\""
+        buildConfigField 'String', 'SMPT_USER_NAME', "\"a1a7b80d1b1d8d\""
+        buildConfigField 'String', 'SMPT_USER_PASSWORD', "\"bde830bbc5748a\""
+        buildConfigField 'String', 'SMPT_EMAIL_TO', "\"kacperkluska130@gmail.com\""
+        buildConfigField 'String', 'SMPT_PORT', "\"2525\""
     }
 
     buildTypes {

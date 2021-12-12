@@ -3,6 +3,7 @@ package com.trujca.mapoli.ui.settings.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.hadilq.liveevent.LiveEvent;
+import com.trujca.mapoli.BuildConfig;
 import com.trujca.mapoli.data.auth.repository.AuthRepository;
 import com.trujca.mapoli.ui.base.BaseViewModel;
 import com.trujca.mapoli.ui.common.CurrentUserLiveData;
@@ -32,16 +33,15 @@ public class SettingsViewModel extends BaseViewModel {
     @SneakyThrows
     public void sendEmail() {
         closeReportBugDialog.setValue(true);
-        message.setValue(null);
         String userEmail = authRepository.getCurrentUserDetails().getEmail();
         executor.execute(() -> new MaildroidX.Builder()
-                .smtp("smtp.mailtrap.io")
-                .smtpUsername("a1a7b80d1b1d8d")
-                .smtpPassword("bde830bbc5748a")
-                .port("2525")
+                .smtp(BuildConfig.SMPT)
+                .smtpUsername(BuildConfig.SMPT_USER_NAME)
+                .smtpPassword(BuildConfig.SMPT_USER_PASSWORD)
+                .port(BuildConfig.SMPT_PORT)
                 .isStartTLSEnabled(true)
                 .type(MaildroidXType.HTML)
-                .to("kacperkluska130@gmail.com")
+                .to(BuildConfig.SMPT_EMAIL_TO)
                 .from(userEmail)
                 .subject("Bug report")
                 .body("<h1>Bug report</h1><h4>User message:<p>" + message.getValue() + "</p></h4>")
