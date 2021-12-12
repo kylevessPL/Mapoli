@@ -52,7 +52,8 @@ public class AddCategoryDialogFragment extends DialogFragment {
                     Category category = new Category(UUID.randomUUID().toString(), requireNonNull(binding.addCategoryDialogInput.getEditText()).getText().toString());
                     parentFragmentViewModel.addNewCategory(category);
                 })
-                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> {})
+                .setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> {
+                })
                 .create();
     }
 }

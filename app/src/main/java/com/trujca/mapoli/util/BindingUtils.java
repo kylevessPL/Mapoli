@@ -6,14 +6,17 @@ import static android.view.View.VISIBLE;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static lombok.AccessLevel.PRIVATE;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.BindingConversion;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -62,5 +65,16 @@ public class BindingUtils {
             return VISIBLE;
         }
         return GONE;
+    }
+
+    @BindingAdapter({"android:imageUrl", "android:placeholderDrawable"})
+    public static void imageUrl(ImageView view, String imageUrl, Drawable placeholderDrawable) {
+        Glide.with(view.getContext())
+                .load(imageUrl)
+                .placeholder(placeholderDrawable)
+                .fallback(placeholderDrawable)
+                .error(placeholderDrawable)
+                .centerCrop()
+                .into(view);
     }
 }

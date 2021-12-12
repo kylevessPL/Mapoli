@@ -3,10 +3,12 @@ package com.trujca.mapoli.ui.categories.view;
 import static android.widget.Toast.LENGTH_SHORT;
 import static java.util.Objects.requireNonNull;
 
-import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.data.categories.model.Category;
@@ -24,10 +26,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, CategoriesViewModel> {
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_search).setVisible(false);
-        menu.findItem(R.id.action_favourites).setVisible(false);
-        menu.findItem(R.id.action_add_category).setVisible(true);
+    public void onCreateOptionsMenu(@NonNull final Menu menu, @NonNull final MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_categories_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

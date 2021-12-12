@@ -21,7 +21,33 @@
         android:id="@+id/nav_places"
         android:name="com.trujca.mapoli.ui.places.view.PlacesFragment"
         android:label="@string/places"
-        tools:layout="@layout/fragment_places" />
+        tools:layout="@layout/fragment_places">
+
+        <action
+            android:id="@+id/action_PlacesFragment_to_PlacesCategoryFragment"
+            app:destination="@id/nav_places_category" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_places_category"
+        android:name="com.trujca.mapoli.ui.places.view.PlacesCategoryFragment"
+        android:label="@string/places"
+        tools:layout="@layout/fragment_places_category">
+
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+
+        <argument
+            android:name="categoryName"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/action_PlacesCategoryFragment_to_PlacesFragment"
+            app:destination="@id/nav_places"
+            app:popUpTo="@+id/nav_places_category"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <activity
         android:id="@+id/nav_settings"

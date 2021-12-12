@@ -3,18 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_favourites"
-        android:icon="@drawable/ic_baseline_favorite_24"
+        android:icon="@drawable/ic_favorite_24"
         android:onClick="favouritesPopup"
         android:title="@string/favourites"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_baseline_search_24"
+        android:icon="@drawable/ic_search_24"
         android:title="@string/search"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_add_category"
-        android:icon="@drawable/ic_baseline_add_circle_24"
-        android:title="@string/add_category"
         app:showAsAction="always" />
 </menu>

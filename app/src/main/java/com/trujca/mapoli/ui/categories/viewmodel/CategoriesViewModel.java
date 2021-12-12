@@ -2,9 +2,6 @@ package com.trujca.mapoli.ui.categories.viewmodel;
 
 import static java.util.Objects.requireNonNull;
 
-import android.util.Log;
-
-import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
 
 import com.trujca.mapoli.data.categories.model.Category;

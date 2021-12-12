@@ -1,8 +1,13 @@
 plugins {
     id "com.android.application"
+    id "androidx.navigation.safeargs"
     id "com.google.gms.google-services"
     id "dagger.hilt.android.plugin"
-    id "androidx.navigation.safeargs"
+}
+
+Properties properties = new Properties()
+if (project.rootProject.file('local.properties').canRead()) {
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
 }
 
 android {
@@ -14,6 +19,7 @@ android {
         targetSdk 30
         versionCode 1
         versionName "1.0"
+        buildConfigField 'String', 'FOURSQUARE_TOKEN', "\"${properties.getProperty('foursquare.token', 'token')}\""
     }
 
     buildTypes {
@@ -52,6 +58,8 @@ dependencies {
     def hiltVersion = "2.40.5"
     def avatarViewVersion = "0.0.2"
     def glideVersion = "4.12.0"
+    def okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
+    def gsonFlattenVersion = "0.8.1"
     def lombokVersion = "1.18.22"
     def localization = "1.2.10"
 
@@ -75,6 +83,9 @@ dependencies {
     implementation "org.osmdroid:osmdroid-android:$osmdroidVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.github.hadilq:live-event:$liveEventVersion"
+    implementation "org.itishka.gson-flatten:gson-flatten:$gsonFlattenVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     implementation "agency.tango.android:avatar-view:$avatarViewVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
