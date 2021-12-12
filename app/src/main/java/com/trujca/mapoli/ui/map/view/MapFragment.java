@@ -81,7 +81,6 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parentViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        setHasOptionsMenu(true);
     }
 
     @Override

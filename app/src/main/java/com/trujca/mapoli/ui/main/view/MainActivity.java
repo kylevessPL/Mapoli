@@ -37,27 +37,24 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
 
+    public Drawer drawer;
+    public AccountHeader header;
     @Inject
     protected ProfileDrawerItem notLoggedInPlaceholder;
-
     @Inject
     @NotLoggedInProfileSettingDrawerItem
     protected ProfileSettingDrawerItem notLoggedInProfileSettingItem;
-
     @Inject
     @LoggedInProfileSettingDrawerItem
     protected ProfileSettingDrawerItem loggedInProfileSettingItem;
-
     @Inject
     protected PrimaryDrawerItem categoriesDrawerItem;
-
-    private AccountHeader header;
-    private Drawer drawer;
 
     @Override
     protected void setup() {
         setSupportActionBar(binding.toolbar);
         setupNavDrawer();
+        setupNavController();
     }
 
     @Override
@@ -75,6 +72,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         return R.layout.activity_main;
     }
 
+    private void setupNavController() {
+        NavController navController = getNavController();
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.nav_places_category) {
+                drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+                requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+                return;
+            }
+            requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+            drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+        });
+    }
+
     @NonNull
     private NavController getNavController() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.contentMain.navHostMain.getId());
@@ -83,7 +93,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     private void setupNavDrawer() {
         NavController navController = getNavController();
-        requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.side_nav_bar)
@@ -110,6 +119,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                                 .withIcon(R.drawable.ic_settings_24)
                                 .withSelectable(false)
                 )
+                .withOnDrawerNavigationListener(view -> {
+                    onBackPressed();
+                    return true;
+                })
                 .withOnDrawerItemClickListener((view, position, item) -> {
                     drawer.closeDrawer();
                     switch ((int) item.getIdentifier()) {
@@ -132,7 +145,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 })
                 .withAccountHeader(header)
                 .build();
-        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
     }
 
     private void displayCurrentUserStatus(final UserDetails userDetails) {

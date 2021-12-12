@@ -41,12 +41,6 @@
         <argument
             android:name="categoryName"
             app:argType="integer" />
-
-        <action
-            android:id="@+id/action_PlacesCategoryFragment_to_PlacesFragment"
-            app:destination="@id/nav_places"
-            app:popUpTo="@+id/nav_places_category"
-            app:popUpToInclusive="true" />
     </fragment>
 
     <activity
