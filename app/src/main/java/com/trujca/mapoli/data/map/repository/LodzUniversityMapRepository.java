@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.trujca.mapoli.data.map.api.LodzUniversityBuildingsService;
+import com.trujca.mapoli.data.map.api.LodzUniversityMapService;
 import com.trujca.mapoli.data.map.model.LodzUniversityBuilding;
 import com.trujca.mapoli.data.util.RepositoryCallback;
 
@@ -20,10 +20,10 @@ public class LodzUniversityMapRepository implements MapRepository {
 
     private static final String TAG = LodzUniversityMapRepository.class.getSimpleName();
 
-    private final LodzUniversityBuildingsService service;
+    private final LodzUniversityMapService service;
 
     @Inject
-    public LodzUniversityMapRepository(LodzUniversityBuildingsService service) {
+    public LodzUniversityMapRepository(LodzUniversityMapService service) {
         this.service = service;
     }
 

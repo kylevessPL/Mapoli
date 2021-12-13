@@ -15,8 +15,8 @@ public class Coordinates {
         float x = 0;
         float y = 0;
         for (float[] coordinate : geometry) {
-            x += coordinate[0];
-            y += coordinate[1];
+            x += coordinate[1];
+            y += coordinate[0];
         }
         x = x / geometry.size();
         y = y / geometry.size();

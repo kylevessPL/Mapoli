@@ -26,6 +26,8 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.common.model.Coordinates;
+import com.trujca.mapoli.data.map.model.LodzUniversityBuilding;
 import com.trujca.mapoli.data.places.model.Place;
 import com.trujca.mapoli.databinding.FragmentMapBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
@@ -39,6 +41,7 @@ import org.osmdroid.views.overlay.TilesOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -128,11 +131,13 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     protected void setupView() {
         setHasOptionsMenu(true);
         setupMap();
+        fetchUniversityBuildings();
         fetchPlaceDetails();
     }
 
     @Override
     protected void updateUI() {
+        viewModel.getUniversityBuildings().observe(getViewLifecycleOwner(), this::showUniversityBuildingsOnMap);
         viewModel.getPlace().observe(getViewLifecycleOwner(), this::showPlaceOnMap);
         viewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
     }
@@ -147,19 +152,30 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     }
 
     private void setMapDarkOverlay() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.requireContext());
-        boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        boolean darkModeEnabled = sharedPreferences.getBoolean(getString(R.string.dark_mode_key), false);
         if (darkModeEnabled) {
             map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
         }
     }
 
+    private void showUniversityBuildingsOnMap(final List<LodzUniversityBuilding> universityBuildings) {
+        List<Coordinates> coordinates = universityBuildings.stream()
+                .map(building -> Coordinates.centerFromGeometry(building.getGeometry()))
+                .collect(Collectors.toList());
+        // TODO: display marker on map & show bubble/cloud with place info (on click)
+    }
+
     private void showPlaceOnMap(final Place place) {
-        // TODO: display marker on map & show bubble/cloud with place info
+        // TODO: display marker on map & show bubble/cloud with place info (immediately)
     }
 
     private void showGeneralErrorMessage(final Boolean value) {
         Toast.makeText(getContext(), getString(R.string.general_error_message), LENGTH_LONG).show();
+    }
+
+    private void fetchUniversityBuildings() {
+        viewModel.fetchUniversityBuildings();
     }
 
     private void fetchPlaceDetails() {

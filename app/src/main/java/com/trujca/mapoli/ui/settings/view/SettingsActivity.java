@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel;
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivitySettingsBinding;
 import com.trujca.mapoli.ui.base.BaseActivity;
-import com.trujca.mapoli.ui.settings.viewmodel.SettingsViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

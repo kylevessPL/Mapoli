@@ -7,8 +7,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
-public interface LodzUniversityBuildingsService {
+public interface LodzUniversityMapService {
 
-    @GET
+    @GET("buildings.json")
     Call<List<LodzUniversityBuilding>> getBuildings();
 }

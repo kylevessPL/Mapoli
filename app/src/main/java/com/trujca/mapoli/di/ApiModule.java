@@ -7,7 +7,7 @@ import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.trujca.mapoli.data.map.api.LodzUniversityBuildingsService;
+import com.trujca.mapoli.data.map.api.LodzUniversityMapService;
 import com.trujca.mapoli.data.map.model.LodzUniversityBuilding;
 import com.trujca.mapoli.data.map.repository.LodzUniversityBuildingListDeserializer;
 import com.trujca.mapoli.data.places.api.FoursquarePlacesService;
@@ -38,7 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiModule {
 
     private static final String FOURSQUARE_PLACES_BASE_URL = "https://api.foursquare.com/v3/places/";
-    private static final String LODZ_UNIVERSITY_BUILDINGS_BASE_URL = "https://nav.p.lodz.pl/data/buildings.json/";
+    private static final String LODZ_UNIVERSITY_MAP_BASE_URL = "https://nav.p.lodz.pl/data/";
 
     @Provides
     @Singleton
@@ -107,12 +107,12 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    @LodzUniversityBuildingsApiClient
-    Retrofit provideLodzUniversityBuildingsApiClient(@CommonHttpClient OkHttpClient commonHttpClient, Gson gson) {
+    @LodzUniversityMapApiClient
+    Retrofit provideLodzUniversityMapApiClient(@CommonHttpClient OkHttpClient commonHttpClient, Gson gson) {
         return new Retrofit.Builder()
                 .client(commonHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(LODZ_UNIVERSITY_BUILDINGS_BASE_URL)
+                .baseUrl(LODZ_UNIVERSITY_MAP_BASE_URL)
                 .build();
     }
 
@@ -124,8 +124,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    LodzUniversityBuildingsService provideLodzUniversityBuildingsApiService(@LodzUniversityBuildingsApiClient Retrofit apiClient) {
-        return apiClient.create(LodzUniversityBuildingsService.class);
+    LodzUniversityMapService provideLodzUniversityMapApiService(@LodzUniversityMapApiClient Retrofit apiClient) {
+        return apiClient.create(LodzUniversityMapService.class);
     }
 
     @Qualifier
@@ -155,6 +155,6 @@ public class ApiModule {
 
     @Qualifier
     @Retention(RUNTIME)
-    public @interface LodzUniversityBuildingsApiClient {
+    public @interface LodzUniversityMapApiClient {
     }
 }
