@@ -27,10 +27,10 @@
             android:gravity="center_vertical"
             android:minHeight="?attr/minTouchTargetSize">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/mtrl_list_item_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:contentDescription="@string/icon"
                 android:paddingHorizontal="@dimen/list_imageview_padding_horizontal"
                 android:paddingVertical="@dimen/list_imageview_padding_vertical"

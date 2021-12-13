@@ -16,7 +16,6 @@ import androidx.annotation.StringRes;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.BindingConversion;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 

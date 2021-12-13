@@ -2,8 +2,6 @@ package com.trujca.mapoli.util;
 
 import androidx.annotation.NonNull;
 
-import com.bumptech.glide.Glide;
-
 import agency.tango.android.avatarview.AvatarPlaceholder;
 import agency.tango.android.avatarview.ImageLoaderBase;
 import agency.tango.android.avatarview.views.AvatarView;

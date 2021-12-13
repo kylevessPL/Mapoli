@@ -31,10 +31,12 @@ public class FoursquarePlacesRepository implements PlacesRepository {
 
     @Override
     public void getPlaceDetails(Integer placeId, RepositoryCallback<Place, Void> callback) {
+        callback.onLoading(true);
         service.getPlaceDetails(placeId).enqueue(new Callback<Place>() {
 
             @Override
             public void onResponse(@NonNull final Call<Place> call, @NonNull final Response<Place> response) {
+                callback.onLoading(false);
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
                     Log.w(TAG, "getPlaceDetails:success");
@@ -46,6 +48,7 @@ public class FoursquarePlacesRepository implements PlacesRepository {
 
             @Override
             public void onFailure(@NonNull final Call<Place> call, @NonNull final Throwable ex) {
+                callback.onLoading(false);
                 callback.onError(null);
                 Log.w(TAG, "getPlaceDetails:failure", ex);
             }
@@ -60,10 +63,12 @@ public class FoursquarePlacesRepository implements PlacesRepository {
             Integer limit,
             RepositoryCallback<List<PlaceNearby>, Void> callback
     ) {
+        callback.onLoading(true);
         service.getPlacesNearby(coordinates, radius, categoryId, limit).enqueue(new Callback<List<PlaceNearby>>() {
 
             @Override
             public void onResponse(@NonNull final Call<List<PlaceNearby>> call, @NonNull final Response<List<PlaceNearby>> response) {
+                callback.onLoading(false);
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
                     Log.w(TAG, "getPlacesNearby:success");
@@ -75,6 +80,7 @@ public class FoursquarePlacesRepository implements PlacesRepository {
 
             @Override
             public void onFailure(@NonNull final Call<List<PlaceNearby>> call, @NonNull final Throwable ex) {
+                callback.onLoading(false);
                 callback.onError(null);
                 Log.w(TAG, "getPlacesNearby:failure", ex);
             }

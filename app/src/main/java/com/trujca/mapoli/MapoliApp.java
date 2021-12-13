@@ -17,7 +17,6 @@ import androidx.core.os.ConfigurationCompat;
 import androidx.preference.PreferenceManager;
 
 import com.akexorcist.localizationactivity.ui.LocalizationApplication;
-import com.bumptech.glide.Glide;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
