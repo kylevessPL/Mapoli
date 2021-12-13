@@ -24,7 +24,7 @@ import lombok.Getter;
 @HiltViewModel
 public class PlacesCategoryViewModel extends ViewModel {
 
-    private static final Integer PLACES_LIMIT = 10;
+    private static final Integer PLACES_LIMIT = 15;
     private static final Integer PLACES_RADIUS = 5000;
 
     private final PlacesRepository placesRepository;

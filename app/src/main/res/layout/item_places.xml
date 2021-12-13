@@ -36,7 +36,7 @@
                 android:paddingVertical="@dimen/list_imageview_padding_vertical"
                 android:src="@{item.iconId}" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/mtrl_list_item_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

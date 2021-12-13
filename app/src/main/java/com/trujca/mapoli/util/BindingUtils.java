@@ -4,6 +4,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+import static androidx.appcompat.widget.LinearLayoutCompat.VERTICAL;
 import static lombok.AccessLevel.PRIVATE;
 
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.BindingConversion;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.DividerItemDecoration;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -49,6 +52,14 @@ public class BindingUtils {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             return true;
         });
+    }
+
+    @BindingAdapter("android:itemDecoration")
+    public static void itemDecoration(RecyclerView view, Boolean value) {
+        if (!value) {
+            return;
+        }
+        view.addItemDecoration(new DividerItemDecoration(view.getContext(), VERTICAL));
     }
 
     @BindingAdapter({"android:userAvatar", "android:userName"})

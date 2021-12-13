@@ -37,8 +37,9 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:itemDecoration="@{true}"
                 app:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/item_places" />
+                tools:listitem="@layout/item_places_category" />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
