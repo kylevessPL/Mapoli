@@ -18,7 +18,7 @@ public class PlacesViewModel extends BaseViewModel {
     @Getter
     private final LiveEvent<Pair<Integer, Integer>> navigateToPlacesCategoryFragment = new LiveEvent<>();
 
-    public void navigateToPlacesCategoryFragment(PlaceCategory placeCategory) {
+    public void handleItemClicked(PlaceCategory placeCategory) {
         navigateToPlacesCategoryFragment.setValue(new Pair<>(placeCategory.getPlaceId(), placeCategory.getNameId()));
     }
 }

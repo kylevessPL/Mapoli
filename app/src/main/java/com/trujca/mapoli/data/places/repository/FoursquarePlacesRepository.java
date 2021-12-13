@@ -30,7 +30,7 @@ public class FoursquarePlacesRepository implements PlacesRepository {
     }
 
     @Override
-    public void getPlaceDetails(Integer placeId, RepositoryCallback<Place, Void> callback) {
+    public void getPlaceDetails(String placeId, RepositoryCallback<Place, Void> callback) {
         callback.onLoading(true);
         service.getPlaceDetails(placeId).enqueue(new Callback<Place>() {
 

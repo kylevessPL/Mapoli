@@ -9,7 +9,14 @@
         android:id="@+id/nav_map"
         android:name="com.trujca.mapoli.ui.map.view.MapFragment"
         android:label="@string/map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+
+        <argument
+            android:name="placeId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_categories"
@@ -41,6 +48,12 @@
         <argument
             android:name="categoryName"
             app:argType="integer" />
+
+        <action
+            android:id="@+id/action_PlacesCategoryFragment_to_MapFragment"
+            app:destination="@id/nav_map"
+            app:popUpTo="@id/nav_places_category"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <activity

@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 
 import android.widget.Toast;
 
+import androidx.navigation.Navigation;
+
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.data.places.model.PlaceNearby;
 import com.trujca.mapoli.databinding.FragmentPlacesCategoryBinding;
@@ -45,12 +47,13 @@ public class PlacesCategoryFragment extends BaseFragment<FragmentPlacesCategoryB
     protected void updateUI() {
         viewModel.getPlacesNearby().observe(getViewLifecycleOwner(), this::updateAdapterData);
         viewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
+        viewModel.getNavigateToMapFragment().observe(getViewLifecycleOwner(), this::navigateToMapFragment);
     }
 
     private void setupAdapter() {
         binding.recyclerView.setAdapter(new PlacesCategoryAdapter((view, item) -> {
             PlaceNearby placeNearby = (PlaceNearby) item;
-            viewModel.showPlaceOnMap(placeNearby);
+            viewModel.handleItemClicked(placeNearby);
         }));
     }
 
@@ -63,6 +66,14 @@ public class PlacesCategoryFragment extends BaseFragment<FragmentPlacesCategoryB
 
     private void showGeneralErrorMessage(final Boolean value) {
         Toast.makeText(getContext(), getString(R.string.general_error_message), LENGTH_LONG).show();
+    }
+
+    private void navigateToMapFragment(String placeId) {
+        if (placeId != null) {
+            PlacesCategoryFragmentDirections.ActionPlacesCategoryFragmentToMapFragment action = PlacesCategoryFragmentDirections
+                    .actionPlacesCategoryFragmentToMapFragment().setPlaceId(placeId);
+            Navigation.findNavController(requireView()).navigate(action);
+        }
     }
 
     private void fetchPlaces() {

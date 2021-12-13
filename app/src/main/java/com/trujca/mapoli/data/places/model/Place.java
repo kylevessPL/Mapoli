@@ -12,14 +12,22 @@ public class Place {
     @SerializedName("fsq_id")
     String placeId;
     String name;
-    @Flatten("location::address_extended")
-    String address;
+    @SerializedName("location")
+    Address address;
     @SerializedName("tel")
     String phone;
     String email;
-    String fax;
     @SerializedName("website")
     String websiteUrl;
     @Flatten("geocodes::main")
     Coordinates coordinates;
+
+    @Value
+    public static class Address {
+        String address;
+        @SerializedName("postcode")
+        String zipCode;
+        @SerializedName("locality")
+        String city;
+    }
 }

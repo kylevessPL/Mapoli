@@ -7,10 +7,10 @@ import lombok.Value;
 @Value
 public class Coordinates {
     Float latitude;
-    Float longtitude;
+    Float longitude;
 
     @NonNull
     public String toString() {
-        return this.getLatitude() + "," + this.getLongtitude();
+        return this.getLatitude() + "," + this.getLongitude();
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PlacesRepository {
 
-    void getPlaceDetails(Integer placeId, RepositoryCallback<Place, Void> callback);
+    void getPlaceDetails(String placeId, RepositoryCallback<Place, Void> callback);
 
     void getPlacesNearby(
             Coordinates coordinates,

@@ -1,6 +1,7 @@
 package com.trujca.mapoli.ui.map.view;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static android.widget.Toast.LENGTH_LONG;
 import static com.trujca.mapoli.util.Constants.LATITUDE_INITIAL;
 import static com.trujca.mapoli.util.Constants.LONGTITUDE_INITIAL;
 import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -24,6 +26,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.places.model.Place;
 import com.trujca.mapoli.databinding.FragmentMapBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
 import com.trujca.mapoli.ui.main.viewmodel.MainViewModel;
@@ -125,21 +128,44 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     protected void setupView() {
         setHasOptionsMenu(true);
         setupMap();
+        fetchPlaceDetails();
+    }
+
+    @Override
+    protected void updateUI() {
+        viewModel.getPlace().observe(getViewLifecycleOwner(), this::showPlaceOnMap);
+        viewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
     }
 
     private void setupMap() {
         map = binding.map;
         map.setTileSource(MAPNIK);
         map.getController().setZoom(16.0);
-
-        // setting start view on Lodz University of Technology
         map.getController().setCenter(new GeoPoint(LATITUDE_INITIAL, LONGTITUDE_INITIAL));
         map.setTilesScaledToDpi(true);
+        setMapDarkOverlay();
+    }
 
+    private void setMapDarkOverlay() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.requireContext());
         boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
         if (darkModeEnabled) {
             map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
+        }
+    }
+
+    private void showPlaceOnMap(final Place place) {
+        // TODO: display marker on map & show bubble/cloud with place info
+    }
+
+    private void showGeneralErrorMessage(final Boolean value) {
+        Toast.makeText(getContext(), getString(R.string.general_error_message), LENGTH_LONG).show();
+    }
+
+    private void fetchPlaceDetails() {
+        String placeId = MapFragmentArgs.fromBundle(getArguments()).getPlaceId();
+        if (placeId != null) {
+            viewModel.fetchPlaceDetails(placeId);
         }
     }
 

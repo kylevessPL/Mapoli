@@ -1,6 +1,7 @@
 package com.trujca.mapoli.data.favorites.model;
 
 import com.google.firebase.firestore.DocumentId;
+import com.trujca.mapoli.data.common.model.Coordinates;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +14,5 @@ public class Favorite {
     @DocumentId
     private String documentId;
     private String name;
-    private Float coordX;
-    private Float coordY;
+    private Coordinates coordinates;
 }

@@ -13,8 +13,8 @@ import retrofit2.http.Query;
 
 public interface FoursquarePlacesService {
 
-    @GET("?fields=fsq_id,name,location,tel,email,fax,website,geocodes")
-    Call<Place> getPlaceDetails(@Path("fsq_id") Integer placeId);
+    @GET("{fsq_id}?fields=fsq_id,name,location,tel,email,fax,website,geocodes")
+    Call<Place> getPlaceDetails(@Path("fsq_id") String placeId);
 
     @GET("search?fields=fsq_id,name,location,distance,categories&sort=distance")
     Call<List<PlaceNearby>> getPlacesNearby(

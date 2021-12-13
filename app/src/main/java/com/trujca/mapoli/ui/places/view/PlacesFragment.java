@@ -44,7 +44,7 @@ public class PlacesFragment extends BaseFragment<FragmentPlacesBinding, PlacesVi
     private void setupAdapter() {
         PlacesAdapter adapter = new PlacesAdapter((view, item) -> {
             PlaceCategory category = (PlaceCategory) item;
-            viewModel.navigateToPlacesCategoryFragment(category);
+            viewModel.handleItemClicked(category);
         });
         adapter.submitList(viewModel.getPlaceCategories());
         binding.recyclerView.setAdapter(adapter);
