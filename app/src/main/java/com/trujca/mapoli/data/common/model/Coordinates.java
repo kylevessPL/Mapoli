@@ -11,6 +11,6 @@ public class Coordinates {
 
     @NonNull
     public String toString() {
-        return this.getLatitude() + "," + this.getLongitude();
+        return latitude + "," + longitude;
     }
 }
