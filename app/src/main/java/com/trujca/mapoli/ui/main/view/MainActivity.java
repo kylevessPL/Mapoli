@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -40,28 +39,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Inject
     protected ProfileDrawerItem notLoggedInPlaceholder;
-
     @Inject
     @NotLoggedInProfileSettingDrawerItem
     protected ProfileSettingDrawerItem notLoggedInProfileSettingItem;
-
     @Inject
     @LoggedInProfileSettingDrawerItem
     protected ProfileSettingDrawerItem loggedInProfileSettingItem;
+    @Inject
+    protected PrimaryDrawerItem categoriesDrawerItem;
 
-    private AccountHeader header;
     private Drawer drawer;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+    private AccountHeader header;
 
     @Override
     protected void setup() {
-        setSupportActionBar(binding.appBarMain.toolbar);
+        setSupportActionBar(binding.toolbar);
         setupNavDrawer();
+        setupNavController();
     }
 
     @Override
@@ -79,15 +73,27 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         return R.layout.activity_main;
     }
 
+    private void setupNavController() {
+        NavController navController = getNavController();
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.nav_places_category) {
+                drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+                requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+                return;
+            }
+            requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+            drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+        });
+    }
+
     @NonNull
     private NavController getNavController() {
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.appBarMain.contentMain.navHostFragmentContentMain.getId());
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.contentMain.navHostMain.getId());
         return requireNonNull(navHostFragment).getNavController();
     }
 
     private void setupNavDrawer() {
         NavController navController = getNavController();
-        requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.side_nav_bar)
@@ -97,57 +103,62 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(false)
-                .withToolbar(binding.appBarMain.toolbar)
+                .withToolbar(binding.toolbar)
                 .addDrawerItems(
                         new PrimaryDrawerItem()
                                 .withIdentifier(1)
                                 .withName(R.string.map)
-                                .withIcon(R.drawable.ic_baseline_map_24)
-                                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                                    navController.navigate(R.id.nav_map);
-                                    drawer.closeDrawer();
-                                    return true;
-                                }),
-                        new PrimaryDrawerItem()
-                                .withIdentifier(2)
-                                .withName(R.string.categories)
-                                .withIcon(R.drawable.ic_baseline_local_offer_24)
-                                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                                    navController.navigate(R.id.nav_categories);
-                                    drawer.closeDrawer();
-                                    return true;
-                                }),
+                                .withIcon(R.drawable.ic_map_24),
                         new PrimaryDrawerItem()
                                 .withIdentifier(3)
                                 .withName(R.string.places)
-                                .withIcon(R.drawable.ic_baseline_place_24)
-                                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                                    navController.navigate(R.id.nav_places);
-                                    drawer.closeDrawer();
-                                    return true;
-                                }),
+                                .withIcon(R.drawable.ic_place_24),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem()
                                 .withIdentifier(4)
                                 .withName(R.string.settings)
-                                .withIcon(R.drawable.ic_baseline_settings_24)
+                                .withIcon(R.drawable.ic_settings_24)
                                 .withSelectable(false)
-                                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
-                                    drawer.closeDrawer();
-                                    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                                    return true;
-                                })
                 )
+                .withOnDrawerNavigationListener(view -> {
+                    onBackPressed();
+                    return true;
+                })
+                .withOnDrawerItemClickListener((view, position, item) -> {
+                    drawer.closeDrawer();
+                    switch ((int) item.getIdentifier()) {
+                        case 1:
+                            navController.navigate(R.id.nav_map);
+                            break;
+                        case 2:
+                            navController.navigate(R.id.nav_categories);
+                            break;
+                        case 3:
+                            navController.navigate(R.id.nav_places);
+                            break;
+                        case 4:
+                            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                            break;
+                        default:
+                            return false;
+                    }
+                    return true;
+                })
                 .withAccountHeader(header)
                 .build();
-        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
     }
 
     private void displayCurrentUserStatus(final UserDetails userDetails) {
+        invalidateOptionsMenu();
+        boolean loggedIn = userDetails != null;
         header.getProfiles().clear();
-        if (userDetails == null) {
+        if (!loggedIn) {
+            drawer.removeItem(2);
             header.addProfiles(notLoggedInPlaceholder, notLoggedInProfileSettingItem);
             return;
+        }
+        if (drawer.getDrawerItem(2) == null) {
+            drawer.addItemAtPosition(categoriesDrawerItem, 2);
         }
         ProfileDrawerItem profileItem = createProfileDrawerItem(userDetails);
         header.addProfiles(profileItem, loggedInProfileSettingItem);

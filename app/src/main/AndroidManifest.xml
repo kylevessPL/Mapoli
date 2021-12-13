@@ -38,8 +38,7 @@
             android:name=".ui.settings.view.SettingsActivity"
             android:exported="false"
             android:label="@string/settings"
-            android:parentActivityName=".ui.main.view.MainActivity"
-            android:theme="@style/Theme.Mapoli" />
+            android:parentActivityName=".ui.main.view.MainActivity" />
     </application>
 
 </manifest>

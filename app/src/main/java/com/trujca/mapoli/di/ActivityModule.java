@@ -5,6 +5,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import android.content.Context;
 import android.content.Intent;
 
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.trujca.mapoli.R;
@@ -43,7 +44,7 @@ public class ActivityModule {
         return new ProfileSettingDrawerItem()
                 .withIdentifier(-1)
                 .withName(R.string.signin)
-                .withIcon(R.drawable.ic_baseline_login_24)
+                .withIcon(R.drawable.ic_login_24)
                 .withSelectable(false)
                 .withOnDrawerItemClickListener((view, position, item) -> {
                     ctx.startActivity(new Intent(ctx, UserActivity.class));
@@ -58,12 +59,21 @@ public class ActivityModule {
         return new ProfileSettingDrawerItem()
                 .withIdentifier(-2)
                 .withName(R.string.my_account)
-                .withIcon(R.drawable.ic_baseline_account_circle_24)
+                .withIcon(R.drawable.ic_account_circle_24)
                 .withSelectable(false)
                 .withOnDrawerItemClickListener((view, position, item) -> {
                     ctx.startActivity(new Intent(ctx, UserActivity.class));
                     return true;
                 });
+    }
+
+    @Provides
+    @ActivityScoped
+    PrimaryDrawerItem provideCategoriesDrawerItem() {
+        return new PrimaryDrawerItem()
+                .withIdentifier(2)
+                .withName(R.string.categories)
+                .withIcon(R.drawable.ic_local_offer_24);
     }
 
     @Qualifier

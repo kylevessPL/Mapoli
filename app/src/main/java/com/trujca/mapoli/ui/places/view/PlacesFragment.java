@@ -1,17 +1,15 @@
 package com.trujca.mapoli.ui.places.view;
 
-import static java.util.Objects.requireNonNull;
-
-import android.widget.Toast;
+import androidx.core.util.Pair;
+import androidx.navigation.Navigation;
 
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.places.model.PlaceCategory;
 import com.trujca.mapoli.databinding.FragmentPlacesBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
 import com.trujca.mapoli.ui.places.adapter.PlacesAdapter;
-import com.trujca.mapoli.ui.places.model.PlaceCategory;
+import com.trujca.mapoli.ui.places.view.PlacesFragmentDirections.ActionPlacesFragmentToPlacesCategoryFragment;
 import com.trujca.mapoli.ui.places.viewmodel.PlacesViewModel;
-
-import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -40,21 +38,23 @@ public class PlacesFragment extends BaseFragment<FragmentPlacesBinding, PlacesVi
 
     @Override
     protected void updateUI() {
-        viewModel.getPlaceCategoryData().observe(getViewLifecycleOwner(), this::updateAdapterData);
+        viewModel.getNavigateToPlacesCategoryFragment().observe(getViewLifecycleOwner(), this::navigateToPlacesCategoryFragment);
     }
 
     private void setupAdapter() {
-        binding.placeCategoriesView.setAdapter(new PlacesAdapter((view, item) -> {
+        PlacesAdapter adapter = new PlacesAdapter((view, item) -> {
             PlaceCategory category = (PlaceCategory) item;
-            viewModel.doOnPlaceCategoryClicked(category);
-            Toast.makeText(getContext(), String.format("Item %s clicked!", category.getId()), Toast.LENGTH_SHORT).show();
-        }));
+            viewModel.handleItemClicked(category);
+        });
+        adapter.submitList(viewModel.getPlaceCategories());
+        binding.recyclerView.setAdapter(adapter);
     }
 
-    private void updateAdapterData(final List<PlaceCategory> data) {
-        if (data == null) {
-            return;
+    private void navigateToPlacesCategoryFragment(Pair<Integer, Integer> categoryDetails) {
+        if (categoryDetails != null) {
+            ActionPlacesFragmentToPlacesCategoryFragment action = PlacesFragmentDirections
+                    .actionPlacesFragmentToPlacesCategoryFragment(categoryDetails.first, categoryDetails.second);
+            Navigation.findNavController(requireView()).navigate(action);
         }
-        requireNonNull((PlacesAdapter) binding.placeCategoriesView.getAdapter()).submitList(data);
     }
 }

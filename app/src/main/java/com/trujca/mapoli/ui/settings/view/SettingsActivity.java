@@ -3,6 +3,7 @@ package com.trujca.mapoli.ui.settings.view;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModel;
 
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.databinding.ActivitySettingsBinding;
@@ -12,11 +13,11 @@ import com.trujca.mapoli.ui.settings.viewmodel.SettingsViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class SettingsActivity extends BaseActivity<ActivitySettingsBinding, SettingsViewModel> {
+public class SettingsActivity extends BaseActivity<ActivitySettingsBinding, ViewModel> {
 
     @Override
-    protected Class<SettingsViewModel> getViewModelClass() {
-        return SettingsViewModel.class;
+    protected Class<ViewModel> getViewModelClass() {
+        return null;
     }
 
     @Override
@@ -31,5 +32,10 @@ public class SettingsActivity extends BaseActivity<ActivitySettingsBinding, Sett
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    protected void setup() {
+        setSupportActionBar(binding.toolbar);
     }
 }

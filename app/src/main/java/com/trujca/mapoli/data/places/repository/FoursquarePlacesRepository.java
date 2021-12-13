@@ -1,25 +1,89 @@
 package com.trujca.mapoli.data.places.repository;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.trujca.mapoli.data.places.model.PlaceCategoryResponse;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.trujca.mapoli.data.common.model.Coordinates;
+import com.trujca.mapoli.data.places.api.FoursquarePlacesService;
+import com.trujca.mapoli.data.places.model.Place;
+import com.trujca.mapoli.data.places.model.PlaceNearby;
+import com.trujca.mapoli.data.util.RepositoryCallback;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class FoursquarePlacesRepository implements PlacesRepository {
 
     private static final String TAG = FoursquarePlacesRepository.class.getSimpleName();
 
-    private final FirebaseFirestore firestore;
+    private final FoursquarePlacesService service;
 
     @Inject
-    public FoursquarePlacesRepository(FirebaseFirestore firestore) {
-        this.firestore = firestore;
+    public FoursquarePlacesRepository(FoursquarePlacesService service) {
+        this.service = service;
     }
 
     @Override
-    public List<PlaceCategoryResponse> getAllPlaceCategories() {
-        throw new UnsupportedOperationException(); // TODO implement
+    public void getPlaceDetails(String placeId, RepositoryCallback<Place, Void> callback) {
+        callback.onLoading(true);
+        service.getPlaceDetails(placeId).enqueue(new Callback<Place>() {
+
+            @Override
+            public void onResponse(@NonNull final Call<Place> call, @NonNull final Response<Place> response) {
+                callback.onLoading(false);
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                    Log.w(TAG, "getPlaceDetails:success");
+                } else {
+                    callback.onError(null);
+                    Log.w(TAG, "getPlaceDetails:failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull final Call<Place> call, @NonNull final Throwable ex) {
+                callback.onLoading(false);
+                callback.onError(null);
+                Log.w(TAG, "getPlaceDetails:failure", ex);
+            }
+        });
+    }
+
+    @Override
+    public void getPlacesNearby(
+            Coordinates coordinates,
+            Integer radius,
+            Integer categoryId,
+            Integer limit,
+            RepositoryCallback<List<PlaceNearby>, Void> callback
+    ) {
+        callback.onLoading(true);
+        service.getPlacesNearby(coordinates, radius, categoryId, limit).enqueue(new Callback<List<PlaceNearby>>() {
+
+            @Override
+            public void onResponse(@NonNull final Call<List<PlaceNearby>> call, @NonNull final Response<List<PlaceNearby>> response) {
+                callback.onLoading(false);
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                    Log.w(TAG, "getPlacesNearby:success");
+                } else {
+                    callback.onError(null);
+                    Log.w(TAG, "getPlacesNearby:failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull final Call<List<PlaceNearby>> call, @NonNull final Throwable ex) {
+                callback.onLoading(false);
+                callback.onError(null);
+                Log.w(TAG, "getPlacesNearby:failure", ex);
+            }
+        });
     }
 }

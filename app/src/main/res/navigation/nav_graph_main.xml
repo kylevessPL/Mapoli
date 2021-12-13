@@ -2,14 +2,21 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
+    android:id="@+id/nav_graph_main"
     app:startDestination="@+id/nav_map">
 
     <fragment
         android:id="@+id/nav_map"
         android:name="com.trujca.mapoli.ui.map.view.MapFragment"
         android:label="@string/map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+
+        <argument
+            android:name="placeId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_categories"
@@ -21,7 +28,33 @@
         android:id="@+id/nav_places"
         android:name="com.trujca.mapoli.ui.places.view.PlacesFragment"
         android:label="@string/places"
-        tools:layout="@layout/fragment_places" />
+        tools:layout="@layout/fragment_places">
+
+        <action
+            android:id="@+id/action_PlacesFragment_to_PlacesCategoryFragment"
+            app:destination="@id/nav_places_category" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_places_category"
+        android:name="com.trujca.mapoli.ui.places.view.PlacesCategoryFragment"
+        android:label="@string/places"
+        tools:layout="@layout/fragment_places_category">
+
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+
+        <argument
+            android:name="categoryName"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/action_PlacesCategoryFragment_to_MapFragment"
+            app:destination="@id/nav_map"
+            app:popUpTo="@id/nav_places_category"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <activity
         android:id="@+id/nav_settings"

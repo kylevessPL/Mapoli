@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="com.trujca.mapoli.ui.categories.model.Category" />
+            type="com.trujca.mapoli.data.categories.model.Category" />
 
         <variable
             name="adapter"
@@ -15,20 +15,20 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/list_padding"
-        android:layout_marginTop="@dimen/list_padding"
+        android:layout_marginHorizontal="@dimen/list_spacing"
+        android:layout_marginTop="@dimen/list_spacing"
         android:clickable="true"
         android:onClick="@{(view) -> adapter.onItemClicked(view, item)}">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/mtrl_list_item_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?attr/minTouchTargetSize"
-            android:paddingStart="@dimen/list_textview_padding_start"
-            android:paddingEnd="@dimen/list_textview_padding_end"
+            android:paddingStart="@dimen/list_textview_spacing_start"
+            android:paddingEnd="@dimen/list_textview_spacing_end"
             android:text="@{item.name}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="@color/mtrl_list_item_tint" />

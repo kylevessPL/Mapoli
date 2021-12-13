@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.trujca.mapoli.data.places.model.PlaceCategory" />
+
+        <variable
+            name="adapter"
+            type="com.trujca.mapoli.ui.places.adapter.PlacesAdapter" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/list_spacing"
+        android:layout_marginTop="@dimen/list_spacing"
+        android:clickable="true"
+        android:onClick="@{(view) -> adapter.onItemClicked(view, item)}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?attr/minTouchTargetSize">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/mtrl_list_item_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/icon"
+                android:paddingHorizontal="@dimen/list_imageview_spacing_horizontal"
+                android:paddingVertical="@dimen/list_imageview_spacing_vertical"
+                app:imageResource="@{item.iconId}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/mtrl_list_item_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/list_textview_spacing_start"
+                android:paddingEnd="@dimen/list_textview_spacing_end"
+                android:text="@{item.nameId}"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                android:textColor="@color/mtrl_list_item_tint" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -64,11 +64,11 @@ public abstract class BaseAdapter<T> extends ListAdapter<T, BaseAdapter<T>.BaseV
 
         public void bind(T item) {
             binding.setVariable(BR.item, item);
+            binding.executePendingBindings();
         }
 
         public void bind(BaseAdapter<T> adapter) {
             binding.setVariable(BR.adapter, adapter);
-            binding.executePendingBindings();
         }
     }
 }
