@@ -69,7 +69,7 @@ public class BindingUtils {
 
     @BindingAdapter({"android:imageUrl", "android:placeholderDrawable"})
     public static void imageUrl(ImageView view, String imageUrl, Drawable placeholderDrawable) {
-        Glide.with(view.getContext())
+        GlideApp.with(view.getContext())
                 .load(imageUrl)
                 .placeholder(placeholderDrawable)
                 .fallback(placeholderDrawable)

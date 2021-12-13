@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
+import com.trujca.mapoli.util.GlideApp;
 
 import java.util.Locale;
 
@@ -41,7 +42,7 @@ public class MapoliApp extends LocalizationApplication {
 
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
-                Glide.with(imageView.getContext())
+                GlideApp.with(imageView.getContext())
                         .load(uri)
                         .placeholder(placeholder)
                         .fallback(placeholder)
@@ -52,7 +53,7 @@ public class MapoliApp extends LocalizationApplication {
 
             @Override
             public void cancel(ImageView imageView) {
-                Glide.with(imageView.getContext()).clear(imageView);
+                GlideApp.with(imageView.getContext()).clear(imageView);
             }
 
             @Override

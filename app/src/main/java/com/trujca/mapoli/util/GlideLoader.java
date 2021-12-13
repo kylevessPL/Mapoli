@@ -20,7 +20,7 @@ public class GlideLoader extends ImageLoaderBase {
 
     @Override
     public void loadImage(@NonNull AvatarView avatarView, @NonNull AvatarPlaceholder avatarPlaceholder, String avatarUrl) {
-        Glide.with(avatarView.getContext())
+        GlideApp.with(avatarView.getContext())
                 .load(avatarUrl)
                 .placeholder(avatarPlaceholder)
                 .fallback(avatarPlaceholder)
