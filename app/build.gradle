@@ -19,6 +19,11 @@ android {
         targetSdk 30
         versionCode 1
         versionName "1.0"
+        buildConfigField 'String', 'SMPT', "\"smtp.mailtrap.io\""
+        buildConfigField 'String', 'SMPT_USER_NAME', "\"a1a7b80d1b1d8d\""
+        buildConfigField 'String', 'SMPT_USER_PASSWORD', "\"bde830bbc5748a\""
+        buildConfigField 'String', 'SMPT_EMAIL_TO', "\"kacperkluska130@gmail.com\""
+        buildConfigField 'String', 'SMPT_PORT', "\"2525\""
         buildConfigField 'String', 'FOURSQUARE_TOKEN', "\"${properties.getProperty('foursquare.token', 'token')}\""
     }
 
@@ -36,6 +41,11 @@ android {
 
     buildFeatures {
         dataBinding true
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/NOTICE.md")
+        resources.excludes.add("META-INF/LICENSE.md")
     }
 }
 
@@ -62,6 +72,7 @@ dependencies {
     def gsonFlattenVersion = "0.8.1"
     def lombokVersion = "1.18.22"
     def localization = "1.2.10"
+    def mailDroid = "v0.0.9-release"
 
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
@@ -97,4 +108,5 @@ dependencies {
     annotationProcessor "com.google.dagger:hilt-compiler:$hiltVersion"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation "com.akexorcist:localization:$localization"
+    implementation "com.github.nedimf:maildroid:$mailDroid"
 }

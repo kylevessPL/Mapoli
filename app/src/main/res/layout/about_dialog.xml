@@ -5,10 +5,6 @@
     <data>
 
         <import type="com.trujca.mapoli.BuildConfig" />
-
-        <variable
-            name="viewModel"
-            type="com.trujca.mapoli.ui.settings.viewmodel.AboutDialogViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
