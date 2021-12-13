@@ -118,13 +118,13 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    FoursquarePlacesService provideFoursquarePlacesApiService(Retrofit apiClient) {
+    FoursquarePlacesService provideFoursquarePlacesApiService(@FoursquarePlacesApiClient Retrofit apiClient) {
         return apiClient.create(FoursquarePlacesService.class);
     }
 
     @Provides
     @Singleton
-    LodzUniversityBuildingsService provideLodzUniversityBuildingsApiService(Retrofit apiClient) {
+    LodzUniversityBuildingsService provideLodzUniversityBuildingsApiService(@LodzUniversityBuildingsApiClient Retrofit apiClient) {
         return apiClient.create(LodzUniversityBuildingsService.class);
     }
 
