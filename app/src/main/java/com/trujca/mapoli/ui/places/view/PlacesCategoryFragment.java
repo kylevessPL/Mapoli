@@ -1,6 +1,9 @@
 package com.trujca.mapoli.ui.places.view;
 
+import static android.widget.Toast.LENGTH_LONG;
 import static java.util.Objects.requireNonNull;
+
+import android.widget.Toast;
 
 import com.trujca.mapoli.R;
 import com.trujca.mapoli.data.places.model.PlaceNearby;
@@ -41,6 +44,7 @@ public class PlacesCategoryFragment extends BaseFragment<FragmentPlacesCategoryB
     @Override
     protected void updateUI() {
         viewModel.getPlacesNearby().observe(getViewLifecycleOwner(), this::updateAdapterData);
+        viewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
     }
 
     private void setupAdapter() {
@@ -55,6 +59,10 @@ public class PlacesCategoryFragment extends BaseFragment<FragmentPlacesCategoryB
             return;
         }
         requireNonNull((PlacesCategoryAdapter) binding.recyclerView.getAdapter()).submitList(new ArrayList<>(data));
+    }
+
+    private void showGeneralErrorMessage(final Boolean value) {
+        Toast.makeText(getContext(), getString(R.string.general_error_message), LENGTH_LONG).show();
     }
 
     private void fetchPlaces() {

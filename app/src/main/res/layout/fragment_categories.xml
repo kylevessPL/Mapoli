@@ -15,12 +15,31 @@
         android:layout_height="match_parent"
         tools:context=".ui.categories.view.CategoriesFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categories_view"
+        <com.google.android.material.progressindicator.LinearProgressIndicator
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_places" />
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.isLoading.booleanValue}" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/no_data_available"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:visibility="@{!viewModel.isLoading &amp;&amp; (viewModel.categories == null || viewModel.categories.empty)}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_category" />
+        </FrameLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

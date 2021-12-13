@@ -28,29 +28,31 @@ public class FirestoreCategoriesRepository implements CategoriesRepository {
 
     @Override
     public void getAllCategories(RepositoryCallback<List<Category>, Void> callback) {
+        callback.onLoading(true);
         firestore.collection("users").document(requireNonNull(auth.getUid())).collection("categories")
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        List<Category> categories = task.getResult().toObjects(Category.class);
-                        callback.onSuccess(categories);
-                        Log.w(TAG, "getAllCategories:success");
-                    } else {
-                        Exception ex = requireNonNull(task.getException());
-                        callback.onError(null);
-                        Log.w(TAG, "getAllCategories:failure", ex);
-                    }
+                .addOnCompleteListener(task -> callback.onLoading(false))
+                .addOnSuccessListener(documents -> {
+                    List<Category> categories = documents.toObjects(Category.class);
+                    callback.onSuccess(categories);
+                    Log.d(TAG, "getAllCategories:success");
+                })
+                .addOnFailureListener(ex -> {
+                    callback.onError(null);
+                    Log.w(TAG, "getAllCategories:failure", ex);
                 });
     }
 
     @Override
     public void addCategory(final Category category, RepositoryCallback<Void, Void> callback) {
+        callback.onLoading(true);
         firestore
                 .collection("users")
                 .document(requireNonNull(auth.getUid()))
                 .collection("categories")
                 .document(category.getDocumentId())
                 .set(category)
+                .addOnCompleteListener(task -> callback.onLoading(false))
                 .addOnSuccessListener(nothing -> {
                     callback.onSuccess(null);
                     Log.d(TAG, "addCategory:success");

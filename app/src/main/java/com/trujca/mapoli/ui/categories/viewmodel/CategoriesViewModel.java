@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.hadilq.liveevent.LiveEvent;
 import com.trujca.mapoli.data.categories.model.Category;
 import com.trujca.mapoli.data.categories.repository.CategoriesRepository;
 import com.trujca.mapoli.data.util.RepositoryCallback;
@@ -22,7 +23,11 @@ public class CategoriesViewModel extends BaseViewModel {
 
     private final CategoriesRepository categoriesRepository;
     @Getter
-    private final MutableLiveData<List<Category>> categoriesData = new MutableLiveData<>();
+    private final MutableLiveData<List<Category>> categories = new MutableLiveData<>();
+    @Getter
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    @Getter
+    private final MutableLiveData<Boolean> generalError = new LiveEvent<>();
 
     @Inject
     public CategoriesViewModel(CategoriesRepository categoriesRepository) {
@@ -37,18 +42,18 @@ public class CategoriesViewModel extends BaseViewModel {
         executor.execute(() -> categoriesRepository.getAllCategories(new RepositoryCallback<List<Category>, Void>() {
 
             @Override
-            public void onLoading(final Boolean isLoading) {
-                // update loading livedata and display progressindicator with proper visibility
+            public void onLoading(final Boolean loading) {
+                isLoading.postValue(loading);
             }
 
             @Override
             public void onSuccess(final List<Category> model) {
-                categoriesData.postValue(model);
+                categories.postValue(model);
             }
 
             @Override
-            public void onError(final Void ex) {
-                // do sth with error, ex. show dialog with error msg
+            public void onError(final Void unused) {
+                generalError.postValue(true);
             }
         }));
     }
@@ -57,20 +62,20 @@ public class CategoriesViewModel extends BaseViewModel {
         executor.execute(() -> categoriesRepository.addCategory(category, new RepositoryCallback<Void, Void>() {
 
             @Override
-            public void onLoading(final Boolean isLoading) {
-                // update loading livedata and display progressindicator with proper visibility
+            public void onLoading(final Boolean loading) {
+                isLoading.postValue(loading);
             }
 
             @Override
             public void onSuccess(final Void model) {
-                List<Category> categories = requireNonNull(categoriesData.getValue());
+                List<Category> categories = requireNonNull(CategoriesViewModel.this.categories.getValue());
                 categories.add(category);
-                categoriesData.postValue(new ArrayList<>(categories));
+                CategoriesViewModel.this.categories.postValue(new ArrayList<>(categories));
             }
 
             @Override
-            public void onError(final Void ex) {
-                // do sth with error, ex. show dialog with error msg
+            public void onError(final Void unused) {
+                generalError.postValue(true);
             }
         }));
     }

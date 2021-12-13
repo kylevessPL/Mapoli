@@ -1,5 +1,6 @@
 package com.trujca.mapoli.ui.categories.view;
 
+import static android.widget.Toast.LENGTH_LONG;
 import static android.widget.Toast.LENGTH_SHORT;
 import static java.util.Objects.requireNonNull;
 
@@ -63,11 +64,12 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
 
     @Override
     protected void updateUI() {
-        viewModel.getCategoriesData().observe(getViewLifecycleOwner(), this::updateAdapterData);
+        viewModel.getCategories().observe(getViewLifecycleOwner(), this::updateAdapterData);
+        viewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
     }
 
     private void setupAdapter() {
-        binding.categoriesView.setAdapter(new CategoriesAdapter((view, item) -> {
+        binding.recyclerView.setAdapter(new CategoriesAdapter((view, item) -> {
             Category category = (Category) item;
             viewModel.doOnPlaceCategoryClicked(category);
             Toast.makeText(getContext(), String.format("Item %s clicked!", category.getDocumentId()), LENGTH_SHORT).show();
@@ -78,7 +80,11 @@ public class CategoriesFragment extends BaseFragment<FragmentCategoriesBinding, 
         if (data == null) {
             return;
         }
-        requireNonNull((CategoriesAdapter) binding.categoriesView.getAdapter()).submitList(new ArrayList<>(data));
+        requireNonNull((CategoriesAdapter) binding.recyclerView.getAdapter()).submitList(new ArrayList<>(data));
+    }
+
+    private void showGeneralErrorMessage(final Boolean value) {
+        Toast.makeText(getContext(), getString(R.string.general_error_message), LENGTH_LONG).show();
     }
 
     private void showAddCategoryDialog() {

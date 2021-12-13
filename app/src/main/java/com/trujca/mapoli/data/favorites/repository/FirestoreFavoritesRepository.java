@@ -28,32 +28,34 @@ public class FirestoreFavoritesRepository implements FavoritesRepository {
 
     @Override
     public void getAllFavorites(RepositoryCallback<List<Favorite>, Void> callback) {
+        callback.onLoading(true);
         firestore
                 .collection("users")
                 .document(requireNonNull(auth.getUid()))
                 .collection("favorites")
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        List<Favorite> favorites = task.getResult().toObjects(Favorite.class);
-                        callback.onSuccess(favorites);
-                        Log.w(TAG, "getAllFavorites:success");
-                    } else {
-                        Exception ex = requireNonNull(task.getException());
-                        callback.onError(null);
-                        Log.w(TAG, "getAllFavorites:failure", ex);
-                    }
+                .addOnCompleteListener(task -> callback.onLoading(false))
+                .addOnSuccessListener(documents -> {
+                    List<Favorite> favorites = documents.toObjects(Favorite.class);
+                    callback.onSuccess(favorites);
+                    Log.d(TAG, "getAllFavorites:success");
+                })
+                .addOnFailureListener(ex -> {
+                    callback.onError(null);
+                    Log.w(TAG, "getAllFavorites:failure", ex);
                 });
     }
 
     @Override
     public void addFavorite(final Favorite favorite, RepositoryCallback<Void, Void> callback) {
+        callback.onLoading(true);
         firestore
                 .collection("users")
                 .document(requireNonNull(auth.getUid()))
                 .collection("favorites")
                 .document(favorite.getDocumentId())
                 .set(favorite)
+                .addOnCompleteListener(task -> callback.onLoading(false))
                 .addOnSuccessListener(nothing -> {
                     callback.onSuccess(null);
                     Log.d(TAG, "addFavorite:success");
