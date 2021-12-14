@@ -1,16 +1,15 @@
 package com.trujca.mapoli.ui.places.viewmodel;
 
-import static com.trujca.mapoli.util.Constants.LATITUDE_INITIAL;
-import static com.trujca.mapoli.util.Constants.LONGITUDE_INITIAL;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.hadilq.liveevent.LiveEvent;
 import com.trujca.mapoli.data.common.model.Coordinates;
+import com.trujca.mapoli.data.location.repository.LocationRepository;
 import com.trujca.mapoli.data.places.model.PlaceNearby;
 import com.trujca.mapoli.data.places.repository.PlacesRepository;
 import com.trujca.mapoli.data.util.RepositoryCallback;
 import com.trujca.mapoli.ui.base.BaseViewModel;
+import com.trujca.mapoli.util.AppUtils;
 
 import java.util.List;
 
@@ -25,6 +24,7 @@ public class PlacesCategoryViewModel extends BaseViewModel {
     private static final Integer PLACES_LIMIT = 15;
     private static final Integer PLACES_RADIUS = 5000;
 
+    private final LocationRepository locationRepository;
     private final PlacesRepository placesRepository;
 
     @Getter
@@ -37,7 +37,8 @@ public class PlacesCategoryViewModel extends BaseViewModel {
     private final LiveEvent<String> navigateToMapFragment = new LiveEvent<>();
 
     @Inject
-    public PlacesCategoryViewModel(PlacesRepository placesRepository) {
+    public PlacesCategoryViewModel(LocationRepository locationRepository, PlacesRepository placesRepository) {
+        this.locationRepository = locationRepository;
         this.placesRepository = placesRepository;
     }
 
@@ -46,8 +47,28 @@ public class PlacesCategoryViewModel extends BaseViewModel {
     }
 
     public void fetchPlacesInCategory(Integer categoryId) {
-        executor.execute(() -> placesRepository.getPlacesNearby(
-                new Coordinates((float) LATITUDE_INITIAL, (float) LONGITUDE_INITIAL), // use initial coords for now
+        executor.execute(() -> locationRepository.getCurrentLocation(new RepositoryCallback<Coordinates, Void>() {
+
+            @Override
+            public void onLoading(final Boolean loading) {
+                isLoading.postValue(true);
+            }
+
+            @Override
+            public void onSuccess(final Coordinates coordinates) {
+                getPlacesNearbyInCategory(coordinates, categoryId);
+            }
+
+            @Override
+            public void onError(final Void unused) {
+                getPlacesNearbyInCategory(AppUtils.getDefaultCoordinates(), categoryId);
+            }
+        }));
+    }
+
+    private void getPlacesNearbyInCategory(Coordinates coordinates, Integer categoryId) {
+        placesRepository.getPlacesNearby(
+                coordinates,
                 PLACES_RADIUS,
                 categoryId,
                 PLACES_LIMIT,
@@ -67,6 +88,6 @@ public class PlacesCategoryViewModel extends BaseViewModel {
                     public void onError(final Void unused) {
                         generalError.postValue(true);
                     }
-                }));
+                });
     }
 }

@@ -6,5 +6,5 @@ import com.trujca.mapoli.data.util.RepositoryCallback;
 import java.util.List;
 
 public interface MapRepository {
-    void getBuildings(RepositoryCallback<List<LodzUniversityBuilding>, Void> callback);
+    void getAllBuildings(RepositoryCallback<List<LodzUniversityBuilding>, Void> callback);
 }

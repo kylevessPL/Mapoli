@@ -6,6 +6,8 @@ import com.trujca.mapoli.data.categories.repository.CategoriesRepository;
 import com.trujca.mapoli.data.categories.repository.FirestoreCategoriesRepository;
 import com.trujca.mapoli.data.favorites.repository.FavoritesRepository;
 import com.trujca.mapoli.data.favorites.repository.FirestoreFavoritesRepository;
+import com.trujca.mapoli.data.location.repository.FusedLocationProviderLocationRepository;
+import com.trujca.mapoli.data.location.repository.LocationRepository;
 import com.trujca.mapoli.data.map.repository.LodzUniversityMapRepository;
 import com.trujca.mapoli.data.map.repository.MapRepository;
 import com.trujca.mapoli.data.places.repository.FoursquarePlacesRepository;
@@ -40,4 +42,8 @@ public abstract class RepositoryModule {
     @Binds
     @ViewModelScoped
     abstract MapRepository provideMapRepository(LodzUniversityMapRepository mapRepository);
+
+    @Binds
+    @ViewModelScoped
+    abstract LocationRepository provideLocationRepository(FusedLocationProviderLocationRepository locationRepository);
 }

@@ -1,5 +1,7 @@
 package com.trujca.mapoli.util;
 
+import static com.trujca.mapoli.util.Constants.LATITUDE_INITIAL;
+import static com.trujca.mapoli.util.Constants.LONGITUDE_INITIAL;
 import static lombok.AccessLevel.PRIVATE;
 
 import android.net.Uri;
@@ -32,5 +34,9 @@ public class AppUtils {
     public static void navigateToPointOnMap(final MapView map, final Coordinates coordinates) {
         GeoPoint point = new GeoPoint(coordinates.getLatitude(), coordinates.getLongitude());
         map.getController().animateTo(point);
+    }
+
+    public static Coordinates getDefaultCoordinates() {
+        return new Coordinates((float) LATITUDE_INITIAL, (float) LONGITUDE_INITIAL);
     }
 }

@@ -4,6 +4,10 @@ import static com.trujca.mapoli.BuildConfig.FOURSQUARE_TOKEN;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 
+import android.app.Application;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -39,6 +43,12 @@ public class ApiModule {
 
     private static final String FOURSQUARE_PLACES_BASE_URL = "https://api.foursquare.com/v3/places/";
     private static final String LODZ_UNIVERSITY_MAP_BASE_URL = "https://nav.p.lodz.pl/data/";
+
+    @Provides
+    @Singleton
+    FusedLocationProviderClient provideFusedLocationClient(Application application) {
+        return LocationServices.getFusedLocationProviderClient(application);
+    }
 
     @Provides
     @Singleton

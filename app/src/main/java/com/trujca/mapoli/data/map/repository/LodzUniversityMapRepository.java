@@ -28,7 +28,7 @@ public class LodzUniversityMapRepository implements MapRepository {
     }
 
     @Override
-    public void getBuildings(final RepositoryCallback<List<LodzUniversityBuilding>, Void> callback) {
+    public void getAllBuildings(final RepositoryCallback<List<LodzUniversityBuilding>, Void> callback) {
         callback.onLoading(true);
         service.getBuildings().enqueue(new Callback<List<LodzUniversityBuilding>>() {
 

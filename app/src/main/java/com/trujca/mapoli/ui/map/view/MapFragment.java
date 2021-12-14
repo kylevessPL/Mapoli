@@ -53,8 +53,10 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.ScaleDiskOverlay;
 import org.osmdroid.views.overlay.TilesOverlay;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,6 +146,17 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     }
 
     @Override
+    public boolean singleTapConfirmedHelper(final GeoPoint point) {
+        InfoWindow.closeAllInfoWindowsOn(map);
+        return true;
+    }
+
+    @Override
+    public boolean longPressHelper(final GeoPoint p) {
+        return false;
+    }
+
+    @Override
     protected void setupView() {
         setHasOptionsMenu(true);
         setupMap();
@@ -166,6 +179,8 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.getController().setCenter(new GeoPoint(LATITUDE_INITIAL, LONGITUDE_INITIAL));
         map.getOverlays().add(new RotationGestureOverlay(map));
         map.getOverlays().add(new MapEventsOverlay(this));
+        map.getOverlays().add(createMyLocationOverlay());
+        map.getOverlays().add(createCompassOverlay());
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_A, LONGITUDE_CAMPUS_A, 230));
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_B, LONGITUDE_CAMPUS_B, 250));
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_C, LONGITUDE_CAMPUS_C, 100));
@@ -178,6 +193,19 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         if (darkModeEnabled) {
             map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
         }
+    }
+
+    private MyLocationNewOverlay createMyLocationOverlay() {
+        MyLocationNewOverlay myLocationOverlay = new MyLocationNewOverlay(map);
+        myLocationOverlay.enableFollowLocation();
+        myLocationOverlay.enableMyLocation();
+        return myLocationOverlay;
+    }
+
+    private CompassOverlay createCompassOverlay() {
+        CompassOverlay compassOverlay = new CompassOverlay(requireContext(), map);
+        compassOverlay.enableCompass();
+        return compassOverlay;
     }
 
     private ScaleDiskOverlay createUniversityCampusOverlay(final double latitude, final double longitude, final int radius) {
@@ -266,16 +294,5 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 .setMessage(getString(R.string.permissions_message))
                 .setPositiveButton(android.R.string.ok, (dialog, i) -> dialog.dismiss())
                 .create().show();
-    }
-
-    @Override
-    public boolean singleTapConfirmedHelper(final GeoPoint point) {
-        InfoWindow.closeAllInfoWindowsOn(map);
-        return true;
-    }
-
-    @Override
-    public boolean longPressHelper(final GeoPoint p) {
-        return false;
     }
 }

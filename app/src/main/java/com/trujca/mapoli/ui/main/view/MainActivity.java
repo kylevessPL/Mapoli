@@ -4,11 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -157,6 +154,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             header.addProfiles(notLoggedInPlaceholder, notLoggedInProfileSettingItem);
             return;
         }
+        viewModel.fetchFavorites();
         if (drawer.getDrawerItem(2) == null) {
             drawer.addItemAtPosition(categoriesDrawerItem, 2);
         }
@@ -181,20 +179,5 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             profileItem.withIcon(avatar);
         }
         return profileItem;
-    }
-
-    public void favouritesPopup(MenuItem menuItem) {
-        View favouritesButton = findViewById(R.id.action_favourites);
-        PopupMenu popup = new PopupMenu(this, favouritesButton);
-        popup.getMenu().add("Weeia");                                                                   // TODO: Fill with binded data
-        popup.getMenu().add("Mordor");
-        popup.getMenu().add("Lodex");
-        popup.getMenu().add("Akwarium");
-        popup.setOnMenuItemClickListener(item -> {
-            item.getTitle();                                                                        // TODO: Make action depending on items details (id + name)
-            return true;
-        });
-        popup.inflate(R.menu.favourites_list);
-        popup.show();
     }
 }
