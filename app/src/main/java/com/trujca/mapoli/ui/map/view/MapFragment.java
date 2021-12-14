@@ -2,12 +2,19 @@ package com.trujca.mapoli.ui.map.view;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.widget.Toast.LENGTH_LONG;
+import static com.trujca.mapoli.util.Constants.LATITUDE_CAMPUS_A;
+import static com.trujca.mapoli.util.Constants.LATITUDE_CAMPUS_B;
+import static com.trujca.mapoli.util.Constants.LATITUDE_CAMPUS_C;
 import static com.trujca.mapoli.util.Constants.LATITUDE_INITIAL;
-import static com.trujca.mapoli.util.Constants.LONGTITUDE_INITIAL;
+import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_A;
+import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_B;
+import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_C;
+import static com.trujca.mapoli.util.Constants.LONGITUDE_INITIAL;
 import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
 
 import android.Manifest;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +28,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
@@ -33,20 +41,28 @@ import com.trujca.mapoli.databinding.FragmentMapBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
 import com.trujca.mapoli.ui.main.viewmodel.MainViewModel;
 import com.trujca.mapoli.ui.map.viewmodel.MapViewModel;
+import com.trujca.mapoli.util.AppUtils;
 
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MapEventsOverlay;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.ScaleDiskOverlay;
 import org.osmdroid.views.overlay.TilesOverlay;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
+import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> {
+public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> implements MapEventsReceiver {
 
     public static final String STORAGE_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE;
     public static final String LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -131,23 +147,28 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     protected void setupView() {
         setHasOptionsMenu(true);
         setupMap();
-        fetchUniversityBuildings();
         fetchPlaceDetails();
     }
 
     @Override
     protected void updateUI() {
-        viewModel.getUniversityBuildings().observe(getViewLifecycleOwner(), this::showUniversityBuildingsOnMap);
+        parentViewModel.getUniversityBuildings().observe(getViewLifecycleOwner(), this::showUniversityBuildingsOnMap);
         viewModel.getPlace().observe(getViewLifecycleOwner(), this::showPlaceOnMap);
+        parentViewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
         viewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
     }
 
     private void setupMap() {
         map = binding.map;
         map.setTileSource(MAPNIK);
-        map.getController().setZoom(16.0);
-        map.getController().setCenter(new GeoPoint(LATITUDE_INITIAL, LONGTITUDE_INITIAL));
         map.setTilesScaledToDpi(true);
+        map.getController().setZoom(16.0);
+        map.getController().setCenter(new GeoPoint(LATITUDE_INITIAL, LONGITUDE_INITIAL));
+        map.getOverlays().add(new RotationGestureOverlay(map));
+        map.getOverlays().add(new MapEventsOverlay(this));
+        map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_A, LONGITUDE_CAMPUS_A, 230));
+        map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_B, LONGITUDE_CAMPUS_B, 250));
+        map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_C, LONGITUDE_CAMPUS_C, 100));
         setMapDarkOverlay();
     }
 
@@ -159,23 +180,38 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         }
     }
 
-    private void showUniversityBuildingsOnMap(final List<LodzUniversityBuilding> universityBuildings) {
-        List<Coordinates> coordinates = universityBuildings.stream()
-                .map(building -> Coordinates.centerFromGeometry(building.getGeometry()))
-                .collect(Collectors.toList());
-        // TODO: display marker on map & show bubble/cloud with place info (on click)
+    private ScaleDiskOverlay createUniversityCampusOverlay(final double latitude, final double longitude, final int radius) {
+        ScaleDiskOverlay overlay = new ScaleDiskOverlay(
+                requireContext(),
+                new GeoPoint(latitude, longitude),
+                radius,
+                GeoConstants.UnitOfMeasure.meter);
+        Paint paint = new Paint();
+        paint.setColor(ResourcesCompat.getColor(getResources(), R.color.chateau_green_700, null));
+        paint.setAlpha(40);
+        overlay.setCirclePaint1(paint);
+        return overlay;
     }
 
     private void showPlaceOnMap(final Place place) {
-        // TODO: display marker on map & show bubble/cloud with place info (immediately)
+        Coordinates coordinates = place.getCoordinates();
+        Marker marker = new PlaceMarker(map, place);
+        map.getOverlays().add(marker);
+        map.invalidate();
+        marker.showInfoWindow();
+        AppUtils.navigateToPointOnMap(map, coordinates);
+    }
+
+    private void showUniversityBuildingsOnMap(final List<LodzUniversityBuilding> universityBuildings) {
+        universityBuildings.forEach(universityBuilding -> {
+            Polygon polygon = new UniversityBuildingPolygon(map, universityBuilding);
+            map.getOverlayManager().add(polygon);
+            map.invalidate();
+        });
     }
 
     private void showGeneralErrorMessage(final Boolean value) {
         Toast.makeText(getContext(), getString(R.string.general_error_message), LENGTH_LONG).show();
-    }
-
-    private void fetchUniversityBuildings() {
-        viewModel.fetchUniversityBuildings();
     }
 
     private void fetchPlaceDetails() {
@@ -230,5 +266,16 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 .setMessage(getString(R.string.permissions_message))
                 .setPositiveButton(android.R.string.ok, (dialog, i) -> dialog.dismiss())
                 .create().show();
+    }
+
+    @Override
+    public boolean singleTapConfirmedHelper(final GeoPoint point) {
+        InfoWindow.closeAllInfoWindowsOn(map);
+        return true;
+    }
+
+    @Override
+    public boolean longPressHelper(final GeoPoint p) {
+        return false;
     }
 }

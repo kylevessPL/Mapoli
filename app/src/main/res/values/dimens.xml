@@ -11,4 +11,5 @@
     <dimen name="list_textview_spacing_end">16dp</dimen>
     <dimen name="text_spacing">16dp</dimen>
     <dimen name="text_input_height">56dp</dimen>
+    <dimen name="info_window_spacing">16dp</dimen>
 </resources>

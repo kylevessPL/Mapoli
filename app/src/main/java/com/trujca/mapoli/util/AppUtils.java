@@ -6,6 +6,10 @@ import android.net.Uri;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.trujca.mapoli.data.auth.model.UserDetails;
+import com.trujca.mapoli.data.common.model.Coordinates;
+
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 
 import lombok.NoArgsConstructor;
 
@@ -23,5 +27,10 @@ public class AppUtils {
             photoUri = Uri.parse(photoUri.toString().replace("s96-c", "s300-c"));
         }
         return new UserDetails(displayName, email, photoUri);
+    }
+
+    public static void navigateToPointOnMap(final MapView map, final Coordinates coordinates) {
+        GeoPoint point = new GeoPoint(coordinates.getLatitude(), coordinates.getLongitude());
+        map.getController().animateTo(point);
     }
 }

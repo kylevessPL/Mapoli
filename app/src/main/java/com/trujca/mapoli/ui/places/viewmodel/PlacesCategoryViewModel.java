@@ -1,7 +1,7 @@
 package com.trujca.mapoli.ui.places.viewmodel;
 
 import static com.trujca.mapoli.util.Constants.LATITUDE_INITIAL;
-import static com.trujca.mapoli.util.Constants.LONGTITUDE_INITIAL;
+import static com.trujca.mapoli.util.Constants.LONGITUDE_INITIAL;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -47,7 +47,7 @@ public class PlacesCategoryViewModel extends BaseViewModel {
 
     public void fetchPlacesInCategory(Integer categoryId) {
         executor.execute(() -> placesRepository.getPlacesNearby(
-                new Coordinates((float) LATITUDE_INITIAL, (float) LONGTITUDE_INITIAL), // use initial coords for now
+                new Coordinates((float) LATITUDE_INITIAL, (float) LONGITUDE_INITIAL), // use initial coords for now
                 PLACES_RADIUS,
                 categoryId,
                 PLACES_LIMIT,

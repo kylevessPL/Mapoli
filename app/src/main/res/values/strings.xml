@@ -75,4 +75,6 @@
     <string name="sports_and_recreation">Sports and Recreation</string>
     <string name="travel_and_transportation">Travel and Transportation</string>
     <string name="no_data_available">No data available</string>
+    <string name="no_info">No information</string>
+    <string name="lodz_university">Lodz University of Technology</string>
 </resources>

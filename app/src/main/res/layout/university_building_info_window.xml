@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.trujca.mapoli.ui.map.view.UniversityBuildingPolygon" />
+    </data>
+
+    <io.github.florent37.shapeofview.shapes.BubbleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:arrow_posititon_percent="0.5"
+        app:shape_bubble_arrowHeight="10dp"
+        app:shape_bubble_arrowPosition="bottom"
+        app:shape_bubble_arrowWidth="10dp"
+        app:shape_bubble_borderRadius="20dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@color/black_white_theme"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/info_window_spacing"
+            android:paddingEnd="@dimen/info_window_spacing"
+            android:paddingBottom="@dimen/info_window_spacing">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="-8dp"
+                android:gravity="center"
+                android:text="@string/lodz_university"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_lodz_university_64" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/text_spacing"
+                android:gravity="center"
+                android:text="@{item.universityBuilding.name}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:text="@{item.universityBuilding.address != null &amp;&amp; !item.universityBuilding.address.empty ? item.universityBuilding.address : @string/no_info}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </io.github.florent37.shapeofview.shapes.BubbleView>
+</layout>

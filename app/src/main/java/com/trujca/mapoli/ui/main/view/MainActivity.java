@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         new PrimaryDrawerItem()
                                 .withIdentifier(3)
                                 .withName(R.string.places)
-                                .withIcon(R.drawable.ic_place_24),
+                                .withIcon(R.drawable.ic_place_48),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem()
                                 .withIdentifier(4)

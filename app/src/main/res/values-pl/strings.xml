@@ -63,4 +63,6 @@
     <string name="sports_and_recreation">Sport i Rekreacja</string>
     <string name="travel_and_transportation">Podróże i Transport</string>
     <string name="no_data_available">Brak dostępnych danych</string>
+    <string name="no_info">Brak informacji</string>
+    <string name="lodz_university">Politechnika Łódzka</string>
 </resources>
