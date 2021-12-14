@@ -24,6 +24,8 @@ public class MapViewModel extends BaseViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     @Getter
     private final MutableLiveData<Boolean> generalError = new LiveEvent<>();
+    @Getter
+    private final LiveEvent<Boolean> navigateToCurrentLocation = new LiveEvent<>();
 
     @Inject
     public MapViewModel(PlacesRepository placesRepository) {
@@ -50,5 +52,9 @@ public class MapViewModel extends BaseViewModel {
                         generalError.postValue(true);
                     }
                 }));
+    }
+
+    public void navigateToCurrentLocation() {
+        navigateToCurrentLocation.setValue(true);
     }
 }

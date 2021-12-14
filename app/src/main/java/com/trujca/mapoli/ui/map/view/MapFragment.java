@@ -5,11 +5,9 @@ import static android.widget.Toast.LENGTH_LONG;
 import static com.trujca.mapoli.util.Constants.LATITUDE_CAMPUS_A;
 import static com.trujca.mapoli.util.Constants.LATITUDE_CAMPUS_B;
 import static com.trujca.mapoli.util.Constants.LATITUDE_CAMPUS_C;
-import static com.trujca.mapoli.util.Constants.LATITUDE_INITIAL;
 import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_A;
 import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_B;
 import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_C;
-import static com.trujca.mapoli.util.Constants.LONGITUDE_INITIAL;
 import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
 
 import android.Manifest;
@@ -72,6 +70,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     private MainViewModel parentViewModel;
 
     private MapView map;
+    private MyLocationNewOverlay myLocationOverlay;
     private boolean storagePermissionGranted = false;
     private boolean locationPermissionGranted = false;
 
@@ -166,6 +165,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     @Override
     protected void updateUI() {
         parentViewModel.getUniversityBuildings().observe(getViewLifecycleOwner(), this::showUniversityBuildingsOnMap);
+        viewModel.getNavigateToCurrentLocation().observe(getViewLifecycleOwner(), this::navigateToCurrentLocation);
         viewModel.getPlace().observe(getViewLifecycleOwner(), this::showPlaceOnMap);
         parentViewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
         viewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
@@ -175,16 +175,23 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map = binding.map;
         map.setTileSource(MAPNIK);
         map.setTilesScaledToDpi(true);
+        setupMyLocationOverlay();
         map.getController().setZoom(16.0);
-        map.getController().setCenter(new GeoPoint(LATITUDE_INITIAL, LONGITUDE_INITIAL));
+        map.getController().setCenter(coordinatesToGeoPoint(AppUtils.getDefaultCoordinates()));
         map.getOverlays().add(new RotationGestureOverlay(map));
         map.getOverlays().add(new MapEventsOverlay(this));
-        map.getOverlays().add(createMyLocationOverlay());
+        map.getOverlays().add(myLocationOverlay);
         map.getOverlays().add(createCompassOverlay());
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_A, LONGITUDE_CAMPUS_A, 230));
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_B, LONGITUDE_CAMPUS_B, 250));
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_C, LONGITUDE_CAMPUS_C, 100));
         setMapDarkOverlay();
+    }
+
+    private void setupMyLocationOverlay() {
+        myLocationOverlay = new MyLocationNewOverlay(map);
+        myLocationOverlay.enableFollowLocation();
+        myLocationOverlay.enableMyLocation();
     }
 
     private void setMapDarkOverlay() {
@@ -193,13 +200,6 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         if (darkModeEnabled) {
             map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
         }
-    }
-
-    private MyLocationNewOverlay createMyLocationOverlay() {
-        MyLocationNewOverlay myLocationOverlay = new MyLocationNewOverlay(map);
-        myLocationOverlay.enableFollowLocation();
-        myLocationOverlay.enableMyLocation();
-        return myLocationOverlay;
     }
 
     private CompassOverlay createCompassOverlay() {
@@ -219,6 +219,14 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         paint.setAlpha(40);
         overlay.setCirclePaint1(paint);
         return overlay;
+    }
+
+    private void navigateToCurrentLocation(final Boolean value) {
+        GeoPoint point = myLocationOverlay.getMyLocation();
+        if (point == null) {
+            point = coordinatesToGeoPoint(AppUtils.getDefaultCoordinates());
+        }
+        map.getController().animateTo(point);
     }
 
     private void showPlaceOnMap(final Place place) {
@@ -272,9 +280,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     }
 
     private void checkLocationPermission() {
-        if (
-                ContextCompat.checkSelfPermission(requireContext(), LOCATION_PERMISSION) == PERMISSION_GRANTED
-        ) {
+        if (ContextCompat.checkSelfPermission(requireContext(), LOCATION_PERMISSION) == PERMISSION_GRANTED) {
             locationPermissionGranted = true;
         }
     }
@@ -294,5 +300,9 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 .setMessage(getString(R.string.permissions_message))
                 .setPositiveButton(android.R.string.ok, (dialog, i) -> dialog.dismiss())
                 .create().show();
+    }
+
+    private GeoPoint coordinatesToGeoPoint(Coordinates coordinates) {
+        return new GeoPoint(coordinates.getLatitude(), coordinates.getLongitude());
     }
 }
