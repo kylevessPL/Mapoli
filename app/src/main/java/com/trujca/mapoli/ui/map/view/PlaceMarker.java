@@ -6,9 +6,11 @@ import static java.util.Objects.requireNonNull;
 
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.LayoutRes;
+import androidx.databinding.ViewDataBinding;
+
 import com.trujca.mapoli.R;
-import com.trujca.mapoli.data.places.model.Place;
-import com.trujca.mapoli.databinding.PlaceInfoWindowBinding;
+import com.trujca.mapoli.data.common.model.Coordinates;
 import com.trujca.mapoli.util.AppUtils;
 
 import org.osmdroid.util.GeoPoint;
@@ -18,40 +20,37 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
 import lombok.Getter;
 
-public class PlaceMarker extends Marker {
+public class PlaceMarker<DB extends ViewDataBinding> extends Marker {
 
     @Getter
-    private final Place place;
+    private final Object item;
 
-    public PlaceMarker(final MapView mapView, final Place place) {
+    public PlaceMarker(final MapView mapView, @LayoutRes final int layoutRes, final Object item, String name, Coordinates position) {
         super(mapView);
-        this.place = place;
-        setupMarker(mapView);
-        setupClickListener();
-        setPlaceDetails();
+        this.item = item;
+        setupMarker(mapView, layoutRes);
+        setDetails(name, position);
+        setupClickListener(position);
     }
 
-    private void setupMarker(final MapView mapView) {
+    private void setupMarker(final MapView mapView, @LayoutRes final int layoutRes) {
         setIcon(getMarkerDrawable(mapView));
-        InfoWindow infoWindow = new MapInfoWindow<PlaceInfoWindowBinding>(mapView, R.layout.place_info_window);
+        InfoWindow infoWindow = new MapInfoWindow<DB>(mapView, layoutRes);
         setInfoWindow(infoWindow);
     }
 
-    private void setupClickListener() {
+    private void setupClickListener(Coordinates position) {
         setOnMarkerClickListener((view, map) -> {
-            AppUtils.navigateToPointOnMap(map, place.getCoordinates());
+            AppUtils.navigateToPointOnMap(map, position);
             InfoWindow.closeAllInfoWindowsOn(map);
             view.showInfoWindow();
             return true;
         });
     }
 
-    private void setPlaceDetails() {
-        setTitle(place.getName());
-        setPosition(new GeoPoint(
-                place.getCoordinates().getLatitude(),
-                place.getCoordinates().getLongitude()
-        ));
+    private void setDetails(String name, Coordinates position) {
+        setTitle(name);
+        setPosition(new GeoPoint(position.getLatitude(), position.getLongitude()));
     }
 
     private Drawable getMarkerDrawable(final MapView mapView) {

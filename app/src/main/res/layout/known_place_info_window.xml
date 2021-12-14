@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="com.trujca.mapoli.data.places.model.Place" />
+
         <variable
             name="item"
             type="com.trujca.mapoli.ui.map.view.PlaceMarker" />
@@ -31,7 +33,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/text_spacing"
                 android:gravity="center"
-                android:text="@{item.place.name}"
+                android:text="@{((Place) item.item).name}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textStyle="bold" />
 
@@ -41,7 +43,7 @@
                 android:layout_marginBottom="@dimen/list_imageview_spacing_vertical"
                 android:drawablePadding="@dimen/list_spacing"
                 android:gravity="center_vertical"
-                android:text="@{item.place.address != null &amp;&amp; item.place.address.address != null &amp;&amp; !item.place.address.address.empty ? item.place.address.address : @string/no_info}"
+                android:text="@{((Place) item.item).address != null &amp;&amp; ((Place) item.item).address.address != null &amp;&amp; !((Place) item.item).address.address.empty ? ((Place) item.item).address.address : @string/no_info}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:drawableStartCompat="@drawable/ic_business_24" />
 
@@ -52,7 +54,7 @@
                 android:autoLink="phone"
                 android:drawablePadding="@dimen/list_spacing"
                 android:gravity="center_vertical"
-                android:text="@{item.place.phone != null &amp;&amp; !item.place.phone.empty ? item.place.phone : @string/no_info}"
+                android:text="@{((Place) item.item).phone != null &amp;&amp; !((Place) item.item).phone.empty ? ((Place) item.item).phone : @string/no_info}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:drawableStartCompat="@drawable/ic_phone_24" />
 
@@ -63,7 +65,7 @@
                 android:autoLink="email"
                 android:drawablePadding="@dimen/list_spacing"
                 android:gravity="center_vertical"
-                android:text="@{item.place.email != null &amp;&amp; !item.place.email.empty ? item.place.email : @string/no_info}"
+                android:text="@{((Place) item.item).email != null &amp;&amp; !((Place) item.item).email.empty ? ((Place) item.item).email : @string/no_info}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:drawableStartCompat="@drawable/ic_email_24" />
 
@@ -73,7 +75,7 @@
                 android:autoLink="web"
                 android:drawablePadding="@dimen/list_spacing"
                 android:gravity="center_vertical"
-                android:text="@{item.place.websiteUrl != null &amp;&amp; !item.place.websiteUrl.empty ? item.place.websiteUrl : @string/no_info}"
+                android:text="@{((Place) item.item).websiteUrl != null &amp;&amp; !((Place) item.item).websiteUrl.empty ? ((Place) item.item).websiteUrl : @string/no_info}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:drawableStartCompat="@drawable/ic_website_24" />
         </androidx.appcompat.widget.LinearLayoutCompat>

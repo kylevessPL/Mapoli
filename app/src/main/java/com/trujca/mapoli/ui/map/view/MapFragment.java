@@ -36,6 +36,7 @@ import com.trujca.mapoli.data.common.model.Coordinates;
 import com.trujca.mapoli.data.map.model.LodzUniversityBuilding;
 import com.trujca.mapoli.data.places.model.Place;
 import com.trujca.mapoli.databinding.FragmentMapBinding;
+import com.trujca.mapoli.databinding.KnownPlaceInfoWindowBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
 import com.trujca.mapoli.ui.main.viewmodel.MainViewModel;
 import com.trujca.mapoli.ui.map.viewmodel.MapViewModel;
@@ -151,7 +152,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     }
 
     @Override
-    public boolean longPressHelper(final GeoPoint p) {
+    public boolean longPressHelper(final GeoPoint point) {
         return false;
     }
 
@@ -190,7 +191,9 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
 
     private void setupMyLocationOverlay() {
         myLocationOverlay = new MyLocationNewOverlay(map);
-        myLocationOverlay.enableFollowLocation();
+        if (MapFragmentArgs.fromBundle(getArguments()).getPlaceId() == null) {
+            myLocationOverlay.enableFollowLocation();
+        }
         myLocationOverlay.enableMyLocation();
     }
 
@@ -231,7 +234,13 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
 
     private void showPlaceOnMap(final Place place) {
         Coordinates coordinates = place.getCoordinates();
-        Marker marker = new PlaceMarker(map, place);
+        Marker marker = new PlaceMarker<KnownPlaceInfoWindowBinding>(
+                map,
+                R.layout.known_place_info_window,
+                place,
+                place.getName(),
+                place.getCoordinates()
+        );
         map.getOverlays().add(marker);
         map.invalidate();
         marker.showInfoWindow();

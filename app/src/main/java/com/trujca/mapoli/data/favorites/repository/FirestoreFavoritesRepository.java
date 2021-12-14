@@ -65,4 +65,22 @@ public class FirestoreFavoritesRepository implements FavoritesRepository {
                     Log.w(TAG, "addFavorite:failure", ex);
                 });
     }
+
+    @Override
+    public void deleteFavorite(final Favorite favorite, RepositoryCallback<Void, Void> callback) {
+        firestore
+                .collection("users")
+                .document(requireNonNull(auth.getUid()))
+                .collection("favorites")
+                .document(favorite.getDocumentId())
+                .delete()
+                .addOnSuccessListener(nothing -> {
+                    callback.onSuccess(null);
+                    Log.d(TAG, "deleteFavorite:success");
+                })
+                .addOnFailureListener(ex -> {
+                    callback.onError(null);
+                    Log.w(TAG, "deleteFavorite:failure", ex);
+                });
+    }
 }
