@@ -2,6 +2,9 @@ package com.trujca.mapoli.ui.map.viewmodel;
 
 import static java.util.Objects.requireNonNull;
 
+import android.view.MenuItem;
+
+import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 
 import com.hadilq.liveevent.LiveEvent;
@@ -36,6 +39,8 @@ public class MapViewModel extends BaseViewModel {
     private final MutableLiveData<Boolean> generalError = new LiveEvent<>();
     @Getter
     private final LiveEvent<Boolean> navigateToCurrentLocation = new LiveEvent<>();
+    @Getter
+    private final List<Pair<MenuItem, Favorite>> favoritesMenuItems = new ArrayList<>();
 
     @Inject
     public MapViewModel(FavoritesRepository favoritesRepository, PlacesRepository placesRepository) {

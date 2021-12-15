@@ -134,8 +134,15 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         if (item.getItemId() == R.id.action_favourites) {
             PopupMenu favoritesPopup = createFavoritesPopup();
             favoritesPopup.setOnMenuItemClickListener(it -> {
-                Favorite favorite = requireNonNull(viewModel.getFavorites().getValue()).get(it.getOrder());
-                showGenericPlaceOnMap(favorite.getCoordinates(), new Pair<>(favorite.getName(), favorite.getDocumentId()));
+                viewModel.getFavoritesMenuItems()
+                        .stream()
+                        .filter(element -> element.first.equals(it))
+                        .map(element -> element.second)
+                        .findFirst()
+                        .ifPresent(element -> showGenericPlaceOnMap(
+                                element.getCoordinates(),
+                                new Pair<>(element.getName(), element.getDocumentId())
+                        ));
                 return true;
             });
             favoritesPopup.show();
@@ -205,8 +212,6 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.setTileSource(MAPNIK);
         map.setTilesScaledToDpi(true);
         setupMyLocationOverlay();
-        map.getController().setZoom(16.0);
-        map.getController().setCenter(coordinatesToGeoPoint(AppUtils.getDefaultCoordinates()));
         map.getOverlays().add(new RotationGestureOverlay(map));
         map.getOverlays().add(new MapEventsOverlay(this));
         map.getOverlays().add(myLocationOverlay);
@@ -214,14 +219,16 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_A, LONGITUDE_CAMPUS_A, 230));
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_B, LONGITUDE_CAMPUS_B, 250));
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_C, LONGITUDE_CAMPUS_C, 100));
+        map.getController().setZoom(16.0);
+        map.getController().setCenter(myLocationOverlay.getMyLocation() != null
+                ? myLocationOverlay.getMyLocation()
+                : coordinatesToGeoPoint(AppUtils.getDefaultCoordinates())
+        );
         setMapDarkOverlay();
     }
 
     private void setupMyLocationOverlay() {
         myLocationOverlay = new MyLocationNewOverlay(map);
-        if (MapFragmentArgs.fromBundle(getArguments()).getPlaceId() == null) {
-            myLocationOverlay.enableFollowLocation();
-        }
         myLocationOverlay.enableMyLocation();
     }
 
@@ -237,9 +244,11 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         View favouritesAction = requireActivity().findViewById(R.id.action_favourites);
         PopupMenu favoritesPopup = new PopupMenu(requireContext(), favouritesAction);
         favoritesPopup.inflate(R.menu.favorites_popup_menu);
-        requireNonNull(viewModel.getFavorites().getValue()).forEach(favorite ->
-                favoritesPopup.getMenu().add(favorite.getName())
-        );
+        viewModel.getFavoritesMenuItems().clear();
+        requireNonNull(viewModel.getFavorites().getValue()).forEach(favorite -> {
+            MenuItem item = favoritesPopup.getMenu().add(favorite.getName());
+            viewModel.getFavoritesMenuItems().add(new Pair<>(item, favorite));
+        });
         return favoritesPopup;
     }
 
