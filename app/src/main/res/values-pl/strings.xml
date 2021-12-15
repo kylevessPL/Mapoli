@@ -65,5 +65,6 @@
     <string name="no_data_available">Brak dostępnych danych</string>
     <string name="no_info">Brak informacji</string>
     <string name="lodz_university">Politechnika Łódzka</string>
-    <string name="show_current_location">Pokaz aktualna lokalizację</string>
+    <string name="show_current_location">Pokaż aktualną lokalizację</string>
+    <string name="name">Nazwa</string>
 </resources>

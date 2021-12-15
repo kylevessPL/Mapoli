@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="java.util.Locale" />
+
+        <variable
+            name="item"
+            type="com.trujca.mapoli.ui.map.view.PlaceMarker" />
+    </data>
+
+    <io.github.florent37.shapeofview.shapes.BubbleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:arrow_posititon_percent="0.5"
+        app:shape_bubble_arrowHeight="10dp"
+        app:shape_bubble_arrowPosition="bottom"
+        app:shape_bubble_arrowWidth="10dp"
+        app:shape_bubble_borderRadius="20dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@color/black_white_theme"
+            android:orientation="vertical"
+            android:padding="@dimen/info_window_spacing">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/text_spacing"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/text_spacing"
+                android:gravity="center"
+                android:text='@{String.format(Locale.US, "%f, %f", item.position.latitude, item.position.longitude)}'
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/text_spacing"
+                android:gravity="center_vertical"
+                android:hint="@string/name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/favorite_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/text_spacing"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:gravity="center_vertical"
+                app:srcCompat="@drawable/ic_favorite_24" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </io.github.florent37.shapeofview.shapes.BubbleView>
+</layout>

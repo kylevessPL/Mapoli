@@ -9,6 +9,7 @@ import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_A;
 import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_B;
 import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_C;
 import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
+import static java.util.Objects.requireNonNull;
 
 import android.Manifest;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -25,17 +27,22 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.util.Pair;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trujca.mapoli.R;
+import com.trujca.mapoli.data.auth.model.UserDetails;
 import com.trujca.mapoli.data.common.model.Coordinates;
+import com.trujca.mapoli.data.favorites.model.Favorite;
 import com.trujca.mapoli.data.map.model.LodzUniversityBuilding;
 import com.trujca.mapoli.data.places.model.Place;
 import com.trujca.mapoli.databinding.FragmentMapBinding;
+import com.trujca.mapoli.databinding.GenericPlaceInfoWindowBinding;
 import com.trujca.mapoli.databinding.KnownPlaceInfoWindowBinding;
 import com.trujca.mapoli.ui.base.BaseFragment;
 import com.trujca.mapoli.ui.main.viewmodel.MainViewModel;
@@ -59,6 +66,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -121,6 +129,16 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
+        if (item.getItemId() == R.id.action_favourites) {
+            PopupMenu favoritesPopup = createFavoritesPopup();
+            favoritesPopup.show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Configuration.getInstance().load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()));
@@ -153,7 +171,13 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
 
     @Override
     public boolean longPressHelper(final GeoPoint point) {
-        return false;
+        InfoWindow.closeAllInfoWindowsOn(map);
+        removeAllMarkers();
+        showGenericPlaceOnMap(
+                new Coordinates((float) point.getLatitude(), (float) point.getLongitude()),
+                null
+        );
+        return true;
     }
 
     @Override
@@ -165,9 +189,10 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
 
     @Override
     protected void updateUI() {
+        parentViewModel.getCurrentUser().observe(getViewLifecycleOwner(), this::fetchFavorites);
         parentViewModel.getUniversityBuildings().observe(getViewLifecycleOwner(), this::showUniversityBuildingsOnMap);
         viewModel.getNavigateToCurrentLocation().observe(getViewLifecycleOwner(), this::navigateToCurrentLocation);
-        viewModel.getPlace().observe(getViewLifecycleOwner(), this::showPlaceOnMap);
+        viewModel.getPlace().observe(getViewLifecycleOwner(), this::showKnownPlaceOnMap);
         parentViewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
         viewModel.getGeneralError().observe(getViewLifecycleOwner(), this::showGeneralErrorMessage);
     }
@@ -205,6 +230,16 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         }
     }
 
+    private PopupMenu createFavoritesPopup() {
+        View favouritesAction = requireActivity().findViewById(R.id.action_favourites);
+        PopupMenu favoritesPopup = new PopupMenu(requireContext(), favouritesAction);
+        favoritesPopup.inflate(R.menu.favorites_popup_menu);
+        requireNonNull(viewModel.getFavorites().getValue()).forEach(favorite ->
+                favoritesPopup.getMenu().add(favorite.getName())
+        );
+        return favoritesPopup;
+    }
+
     private CompassOverlay createCompassOverlay() {
         CompassOverlay compassOverlay = new CompassOverlay(requireContext(), map);
         compassOverlay.enableCompass();
@@ -232,15 +267,32 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.getController().animateTo(point);
     }
 
-    private void showPlaceOnMap(final Place place) {
+    private void showKnownPlaceOnMap(final Place place) {
         Coordinates coordinates = place.getCoordinates();
-        Marker marker = new PlaceMarker<KnownPlaceInfoWindowBinding>(
+        Marker marker = new PlaceMarker<KnownPlaceInfoWindowBinding, Place>(
                 map,
                 R.layout.known_place_info_window,
                 place,
                 place.getName(),
                 place.getCoordinates()
         );
+        map.getOverlays().add(marker);
+        map.invalidate();
+        marker.showInfoWindow();
+        AppUtils.navigateToPointOnMap(map, coordinates);
+    }
+
+    private void showGenericPlaceOnMap(final Coordinates coordinates, final Pair<String, String> favouriteDetails) {
+        String name = favouriteDetails != null ? favouriteDetails.first : null;
+        PlaceMarker<GenericPlaceInfoWindowBinding, Pair<String, String>> marker = new PlaceMarker<>(
+                map,
+                R.layout.generic_place_info_window,
+                favouriteDetails,
+                name,
+                coordinates
+        );
+        setGenericPlaceInfoWindowDetails(marker.getInfoWindow(), name);
+        setOnFavoriteButtonClickHandler(marker, coordinates);
         map.getOverlays().add(marker);
         map.invalidate();
         marker.showInfoWindow();
@@ -255,8 +307,56 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         });
     }
 
+    private void setOnFavoriteButtonClickHandler(final PlaceMarker<GenericPlaceInfoWindowBinding, Pair<String, String>> marker, final Coordinates coordinates) {
+        MapInfoWindow<GenericPlaceInfoWindowBinding> infoWindow = marker.getInfoWindow();
+        infoWindow.binding.favoriteButton.setOnClickListener(view -> {
+            String name = requireNonNull(infoWindow.binding.input.getEditText()).getText().toString();
+            if (marker.getItem() == null) {
+                if (!name.equals("")) {
+                    setGenericPlaceInfoWindowDetails(infoWindow, name);
+                    String uuid = UUID.randomUUID().toString();
+                    viewModel.addFavorite(new Favorite(uuid, name, coordinates));
+                    marker.setTitle(name);
+                    marker.setItem(new Pair<>(name, uuid));
+                }
+                return;
+            }
+            Pair<String, String> details = marker.getItem();
+            setGenericPlaceInfoWindowDetails(infoWindow, null);
+            viewModel.deleteFavorite(new Favorite(details.second, details.first, coordinates));
+            marker.setTitle(null);
+            marker.setItem(null);
+        });
+    }
+
+    private void setGenericPlaceInfoWindowDetails(
+            MapInfoWindow<GenericPlaceInfoWindowBinding> infoWindow,
+            String name
+    ) {
+        infoWindow.binding.name.setText(name);
+        infoWindow.binding.name.setVisibility(name != null ? View.VISIBLE : View.GONE);
+        infoWindow.binding.favoriteButton.setVisibility(parentViewModel.getCurrentUser().getValue() != null
+                ? View.VISIBLE
+                : View.GONE
+        );
+        infoWindow.binding.favoriteButton.setColorFilter(
+                ResourcesCompat.getColor(getResources(), name != null ? R.color.md_red_700 : android.R.color.darker_gray, null)
+        );
+        requireNonNull(infoWindow.binding.input.getEditText()).setText(null);
+        infoWindow.binding.input.setVisibility(name == null && parentViewModel.getCurrentUser().getValue() != null
+                ? View.VISIBLE
+                : View.GONE
+        );
+    }
+
     private void showGeneralErrorMessage(final Boolean value) {
         Toast.makeText(getContext(), getString(R.string.general_error_message), LENGTH_LONG).show();
+    }
+
+    private void fetchFavorites(UserDetails userDetails) {
+        if (userDetails != null) {
+            viewModel.fetchFavorites();
+        }
     }
 
     private void fetchPlaceDetails() {
@@ -309,6 +409,13 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 .setMessage(getString(R.string.permissions_message))
                 .setPositiveButton(android.R.string.ok, (dialog, i) -> dialog.dismiss())
                 .create().show();
+    }
+
+    private void removeAllMarkers() {
+        map.getOverlays()
+                .stream()
+                .filter(overlay -> overlay instanceof Marker)
+                .forEach(marker -> ((Marker) marker).remove(map));
     }
 
     private GeoPoint coordinatesToGeoPoint(Coordinates coordinates) {

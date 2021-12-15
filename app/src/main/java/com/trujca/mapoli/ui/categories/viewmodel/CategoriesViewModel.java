@@ -23,7 +23,7 @@ public class CategoriesViewModel extends BaseViewModel {
 
     private final CategoriesRepository categoriesRepository;
     @Getter
-    private final MutableLiveData<List<Category>> categories = new MutableLiveData<>();
+    private final MutableLiveData<List<Category>> categories = new MutableLiveData<>(new ArrayList<>());
     @Getter
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     @Getter

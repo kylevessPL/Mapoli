@@ -4,12 +4,19 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Value
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Coordinates {
-    Float latitude;
-    Float longitude;
+
+    private Float latitude;
+    private Float longitude;
 
     public static Coordinates centerFromGeometry(List<float[]> geometry) {
         float x = 0;

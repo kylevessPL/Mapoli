@@ -27,7 +27,7 @@ public class MapViewModel extends BaseViewModel {
     private final PlacesRepository placesRepository;
 
     @Getter
-    private final MutableLiveData<List<Favorite>> favorites = new MutableLiveData<>();
+    private final MutableLiveData<List<Favorite>> favorites = new MutableLiveData<>(new ArrayList<>());
     @Getter
     private final MutableLiveData<Place> place = new MutableLiveData<>();
     @Getter
@@ -96,7 +96,7 @@ public class MapViewModel extends BaseViewModel {
             @Override
             public void onSuccess(final Void unused) {
                 List<Favorite> favorites = requireNonNull(MapViewModel.this.favorites.getValue());
-                favorites.remove(favorite);
+                favorites.removeIf(element -> element.getDocumentId().equals(favorite.getDocumentId()));
                 MapViewModel.this.favorites.postValue(new ArrayList<>(favorites));
             }
 

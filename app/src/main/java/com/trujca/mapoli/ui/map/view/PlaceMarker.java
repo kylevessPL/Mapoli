@@ -19,13 +19,16 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
 import lombok.Getter;
+import lombok.Setter;
 
-public class PlaceMarker<DB extends ViewDataBinding> extends Marker {
+public class PlaceMarker<DB extends ViewDataBinding, Item> extends Marker {
 
     @Getter
-    private final Object item;
+    @Setter
+    private Item item;
+    private MapInfoWindow<DB> infoWindow;
 
-    public PlaceMarker(final MapView mapView, @LayoutRes final int layoutRes, final Object item, String name, Coordinates position) {
+    public PlaceMarker(final MapView mapView, @LayoutRes final int layoutRes, final Item item, String name, Coordinates position) {
         super(mapView);
         this.item = item;
         setupMarker(mapView, layoutRes);
@@ -35,7 +38,7 @@ public class PlaceMarker<DB extends ViewDataBinding> extends Marker {
 
     private void setupMarker(final MapView mapView, @LayoutRes final int layoutRes) {
         setIcon(getMarkerDrawable(mapView));
-        InfoWindow infoWindow = new MapInfoWindow<DB>(mapView, layoutRes);
+        infoWindow = new MapInfoWindow<>(mapView, layoutRes);
         setInfoWindow(infoWindow);
     }
 
@@ -57,5 +60,10 @@ public class PlaceMarker<DB extends ViewDataBinding> extends Marker {
         Drawable icon = getDrawable(mapView.getResources(), R.drawable.ic_place_48, null);
         requireNonNull(icon).setTint(getColor(mapView.getResources(), R.color.md_red_600, null));
         return icon;
+    }
+
+    @Override
+    public MapInfoWindow<DB> getInfoWindow() {
+        return infoWindow;
     }
 }
