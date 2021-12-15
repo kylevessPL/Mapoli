@@ -133,6 +133,11 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         if (item.getItemId() == R.id.action_favourites) {
             PopupMenu favoritesPopup = createFavoritesPopup();
+            favoritesPopup.setOnMenuItemClickListener(it -> {
+                Favorite favorite = requireNonNull(viewModel.getFavorites().getValue()).get(it.getOrder());
+                showGenericPlaceOnMap(favorite.getCoordinates(), new Pair<>(favorite.getName(), favorite.getDocumentId()));
+                return true;
+            });
             favoritesPopup.show();
             return true;
         }
@@ -171,8 +176,6 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
 
     @Override
     public boolean longPressHelper(final GeoPoint point) {
-        InfoWindow.closeAllInfoWindowsOn(map);
-        removeAllMarkers();
         showGenericPlaceOnMap(
                 new Coordinates((float) point.getLatitude(), (float) point.getLongitude()),
                 null
@@ -293,6 +296,8 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         );
         setGenericPlaceInfoWindowDetails(marker.getInfoWindow(), name);
         setOnFavoriteButtonClickHandler(marker, coordinates);
+        InfoWindow.closeAllInfoWindowsOn(map);
+        removeAllMarkers();
         map.getOverlays().add(marker);
         map.invalidate();
         marker.showInfoWindow();
