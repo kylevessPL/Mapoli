@@ -9,6 +9,7 @@ import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_A;
 import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_B;
 import static com.trujca.mapoli.util.Constants.LONGITUDE_CAMPUS_C;
 import static org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK;
+import static org.osmdroid.views.CustomZoomButtonsController.Visibility.NEVER;
 import static java.util.Objects.requireNonNull;
 
 import android.Manifest;
@@ -53,6 +54,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
@@ -220,10 +222,12 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_B, LONGITUDE_CAMPUS_B, 250));
         map.getOverlays().add(createUniversityCampusOverlay(LATITUDE_CAMPUS_C, LONGITUDE_CAMPUS_C, 100));
         map.getController().setZoom(16.0);
+        map.getZoomController().setVisibility(NEVER);
         map.getController().setCenter(myLocationOverlay.getMyLocation() != null
                 ? myLocationOverlay.getMyLocation()
                 : coordinatesToGeoPoint(AppUtils.getDefaultCoordinates())
         );
+        map.setMultiTouchControls(true);
         setMapDarkOverlay();
     }
 
