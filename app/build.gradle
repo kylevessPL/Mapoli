@@ -73,7 +73,7 @@ dependencies {
     def okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
     def gsonFlattenVersion = "0.8.1"
     def lombokVersion = "1.18.22"
-    def localization = "1.2.10"
+    def localization = "1.2.11"
     def mailDroid = "v0.0.9-release"
 
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
