@@ -70,7 +70,7 @@ dependencies {
     def avatarViewVersion = "0.0.2"
     def shapeOfViewVersion = "1.4.7"
     def glideVersion = "4.13.0"
-    def okHttpLoggingInterceptorVersion = "5.0.0-alpha.3"
+    def okHttpLoggingInterceptorVersion = "5.0.0-alpha.5"
     def gsonFlattenVersion = "0.8.1"
     def lombokVersion = "1.18.22"
     def localization = "1.2.11"
